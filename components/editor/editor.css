@@ -1,0 +1,178 @@
+/* ============================================
+   ESTILOS DEL EDITOR VISUAL
+   ============================================ */
+
+/* Componentes editables */
+.editable-component {
+  position: relative;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+/* Hover sobre componente editable */
+.editable-hover:hover {
+  outline: 2px dashed rgba(59, 130, 246, 0.5);
+  outline-offset: 4px;
+}
+
+/* Componente seleccionado */
+.editable-selected {
+  outline: 2px solid rgb(59, 130, 246);
+  outline-offset: 4px;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+/* Badge de componente seleccionado */
+.editable-selected::before {
+  content: attr(data-component-id);
+  position: absolute;
+  top: -24px;
+  left: 0;
+  background: rgb(59, 130, 246);
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 4px;
+  z-index: 100;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+/* Animaciones */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-from-top {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-out-to-top {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+}
+
+.animate-in {
+  animation: fade-in 0.3s ease;
+}
+
+.fade-in {
+  animation: fade-in 0.3s ease;
+}
+
+.slide-in-from-top {
+  animation: slide-in-from-top 0.3s ease;
+}
+
+.animate-out {
+  animation-fill-mode: forwards;
+}
+
+.fade-out {
+  animation: fade-in 0.3s ease reverse;
+}
+
+.slide-out-to-top {
+  animation: slide-out-to-top 0.3s ease;
+}
+
+/* Scrollbar personalizado para el panel */
+.editor-panel-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.editor-panel-scroll::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.editor-panel-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.editor-panel-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Inputs personalizados */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgb(59, 130, 246);
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgb(59, 130, 246);
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  background: rgb(96, 165, 250);
+  transform: scale(1.1);
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+  background: rgb(96, 165, 250);
+  transform: scale(1.1);
+}
+
+/* Color picker personalizado */
+.react-colorful {
+  width: 100% !important;
+  height: 150px !important;
+}
+
+.react-colorful__saturation {
+  border-radius: 8px 8px 0 0;
+}
+
+.react-colorful__hue {
+  border-radius: 0 0 8px 8px;
+  height: 20px;
+}
+
+.react-colorful__pointer {
+  width: 20px;
+  height: 20px;
+}
+
