@@ -2,12 +2,19 @@
 
 import { InteractiveCubeHero } from "@/components/interactive-cube-hero";
 import { LandingContentLoader, getContentWithHtml, RenderContent } from "@/components/landing-content-loader";
+import { FloatingParticles } from "@/components/floating-particles";
 import QRCode from "react-qr-code";
 import { useState, useEffect } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 export default function LandingPage() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [scrolled, setScrolled] = useState(false);
+
+  // Framer Motion scroll hooks para parallax
+  const { scrollYProgress } = useScroll();
+  const cubeScale = useTransform(scrollYProgress, [0, 0.3], [1, 0.5]);
+  const cubeOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,9 +40,8 @@ export default function LandingPage() {
     <LandingContentLoader>
       {({ content }) => (
         <main className="relative overflow-x-hidden">
-          {/* Video de fondo con overlay oscuro */}
-          <div className="fixed inset-0 z-0">
-            {/* Video de fondo */}
+          {/* Video de fondo sin overlay - completamente visible */}
+          <div className="fixed inset-0" style={{ zIndex: -1 }}>
             <video
               autoPlay
               loop
@@ -46,17 +52,8 @@ export default function LandingPage() {
               <source src="/fondo-landing.mp4" type="video/mp4" />
             </video>
 
-            {/* Overlay oscuro con gradiente INTEGRATE para mantener legibilidad */}
-            <div className="absolute inset-0"
-                 style={{
-                   background: `
-                     radial-gradient(ellipse 800px 600px at 50% 100%, rgba(184, 98, 27, 0.4) 0%, transparent 50%),
-                     radial-gradient(ellipse 700px 500px at 0% 100%, rgba(74, 27, 61, 0.5) 0%, transparent 50%),
-                     radial-gradient(ellipse 900px 700px at 100% 50%, rgba(44, 27, 71, 0.4) 0%, transparent 50%),
-                     linear-gradient(180deg, rgba(10, 10, 31, 0.7) 0%, rgba(26, 26, 46, 0.8) 100%)
-                   `
-                 }}
-            />
+            {/* Partículas flotantes sobre el video */}
+            <FloatingParticles count={40} />
           </div>
 
           {/* Contenedor con altura mínima para scroll - REDUCIDO */}
@@ -101,55 +98,95 @@ export default function LandingPage() {
                 transition: 'opacity 0.6s ease-out, transform 0.6s ease-out',
               }}
             >
-              {/* Efecto de brillo de fondo */}
-              <div
+              {/* Efecto de brillo de fondo animado con Framer Motion */}
+              <motion.div
                 className="absolute inset-0 pointer-events-none overflow-hidden"
-                style={{
-                  opacity: scrollProgress * 0.5,
-                }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: scrollProgress * 0.5 }}
+                transition={{ duration: 0.5 }}
               >
-                <div
+                <motion.div
                   className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full"
                   style={{
                     background: 'radial-gradient(circle, rgba(142, 35, 93, 0.3) 0%, transparent 70%)',
                     filter: 'blur(60px)',
                   }}
+                  animate={{
+                    scale: [1, 1.2, 1],
+                    opacity: [0.3, 0.6, 0.3],
+                  }}
+                  transition={{
+                    duration: 8,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
                 />
-              </div>
+              </motion.div>
 
-              {/* Título principal con animación escalonada */}
-              <h1
+              {/* Título principal con animación Framer Motion */}
+              <motion.h1
                 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white text-center mb-6 max-w-4xl leading-tight mt-8"
-                style={{
-                  opacity: Math.max(0, (scrollProgress - 0.2) * 2),
-                  transform: `translateY(${Math.max(0, (1 - scrollProgress) * 30)}px)`,
-                  transition: 'all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s',
+                initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{
+                  duration: 0.8,
+                  delay: 0.2,
+                  ease: [0.25, 0.46, 0.45, 0.94],
                 }}
               >
                 <RenderContent {...getContentWithHtml(content, "01_Portada.Hero Principal.titulo", "Descubre las áreas sensibles de tu organización")} />
-              </h1>
+              </motion.h1>
 
-              {/* Subtítulo/Descripción con animación */}
-              <p
+              {/* Subtítulo/Descripción con animación Framer Motion */}
+              <motion.p
                 className="text-base md:text-lg text-white/70 text-center mb-12 max-w-3xl leading-relaxed px-4"
-                style={{
-                  opacity: Math.max(0, (scrollProgress - 0.3) * 2),
-                  transform: `translateY(${Math.max(0, (1 - scrollProgress) * 20)}px)`,
-                  transition: 'all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s',
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{
+                  duration: 0.8,
+                  delay: 0.4,
+                  ease: [0.25, 0.46, 0.45, 0.94],
                 }}
               >
                 <RenderContent {...getContentWithHtml(content, "01_Portada.Hero Principal.subtitulo", "Diagnóstico organizativo basado en el modelo INTEGRATE 2.0. Identifica fortalezas y oportunidades de mejora en 6 dimensiones clave.")} />
-              </p>
+              </motion.p>
 
-              {/* QR Code con animación de zoom */}
-              <div
-                className="transition-all duration-500 transform hover:scale-110 relative group"
-                style={{
-                  opacity: Math.max(0, (scrollProgress - 0.4) * 2),
-                  transform: `scale(${0.8 + Math.min(scrollProgress, 1) * 0.2}) rotateZ(${(1 - scrollProgress) * 10}deg)`,
-                  transition: 'all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s',
+              {/* QR Code con animación Framer Motion mejorada */}
+              <motion.div
+                className="relative group"
+                initial={{ opacity: 0, scale: 0.5, rotate: -10 }}
+                whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{
+                  duration: 0.9,
+                  delay: 0.6,
+                  ease: [0.34, 1.56, 0.64, 1], // Bounce effect
                 }}
+                whileHover={{
+                  scale: 1.1,
+                  rotate: 5,
+                  transition: { duration: 0.3 }
+                }}
+                whileTap={{ scale: 0.95 }}
               >
+                {/* Glow effect animado */}
+                <motion.div
+                  className="absolute inset-0 rounded-2xl blur-xl opacity-0 group-hover:opacity-100"
+                  style={{
+                    background: 'radial-gradient(circle, rgba(44, 36, 142, 0.6) 0%, transparent 70%)',
+                  }}
+                  animate={{
+                    scale: [1, 1.2, 1],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                />
+
                 <QRCode
                   value="https://integrate.fgarola.es/codigo"
                   size={160}
@@ -159,50 +196,103 @@ export default function LandingPage() {
                   className="relative z-10"
                 />
 
-                {/* Borde animado */}
-                <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-[#2C248E]/30 transition-all duration-500" />
-              </div>
+                {/* Borde animado con gradiente */}
+                <motion.div
+                  className="absolute inset-0 rounded-2xl border-2 border-transparent"
+                  whileHover={{
+                    borderColor: 'rgba(44, 36, 142, 0.5)',
+                    boxShadow: '0 0 20px rgba(44, 36, 142, 0.3)',
+                  }}
+                  transition={{ duration: 0.3 }}
+                />
+              </motion.div>
             </section>
           </div>
 
-          {/* Indicador de scroll mejorado (solo visible en pantalla inicial) */}
-          <div
-            className="fixed bottom-12 left-1/2 transform -translate-x-1/2 z-30"
+          {/* Indicador de scroll mejorado con Framer Motion */}
+          <motion.div
+            className="fixed bottom-12 left-1/2 z-30"
             style={{
-              opacity: 1 - scrollProgress,
-              transform: `translateX(-50%) translateY(${scrollProgress * 50}px)`,
-              transition: 'opacity 0.3s ease-out, transform 0.3s ease-out',
-              pointerEvents: scrolled ? 'none' : 'auto',
+              x: "-50%",
             }}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{
+              opacity: scrolled ? 0 : 1,
+              y: scrolled ? 50 : 0,
+            }}
+            transition={{ duration: 0.5 }}
           >
-            <div className="flex flex-col items-center gap-3">
+            <motion.div
+              className="flex flex-col items-center gap-3"
+              animate={{
+                y: [0, -10, 0],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
               {/* Texto con efecto de brillo */}
-              <p className="text-white/90 text-base font-bold tracking-wide animate-pulse">
+              <motion.p
+                className="text-white/90 text-base font-bold tracking-wide"
+                animate={{
+                  opacity: [0.7, 1, 0.7],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              >
                 Desliza para descubrir
-              </p>
+              </motion.p>
 
               {/* Icono de flecha animado con círculo */}
               <div className="relative">
                 {/* Círculo pulsante de fondo */}
-                <div className="absolute inset-0 bg-white/10 rounded-full animate-ping" />
+                <motion.div
+                  className="absolute inset-0 bg-white/10 rounded-full"
+                  animate={{
+                    scale: [1, 1.5, 1],
+                    opacity: [0.5, 0, 0.5],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeOut"
+                  }}
+                />
 
                 {/* Círculo sólido */}
-                <div className="relative bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-sm rounded-full p-4 border-2 border-white/30">
-                  <svg
-                    className="w-8 h-8 text-white animate-bounce"
+                <motion.div
+                  className="relative bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-sm rounded-full p-4 border-2 border-white/30"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <motion.svg
+                    className="w-8 h-8 text-white"
                     fill="none"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth="3"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
+                    animate={{
+                      y: [0, 5, 0],
+                    }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
                   >
                     <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-                  </svg>
-                </div>
+                  </motion.svg>
+                </motion.div>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Estilos de animación personalizados */}
           <style jsx>{`

@@ -26,46 +26,44 @@ interface CubeFaceProps {
 function CubeFace({ name, icon, color, position, rotation }: CubeFaceProps) {
   return (
     <group position={position} rotation={rotation}>
-      {/* Cara con efecto "liquid glass" ultra-transparente estilo Apple */}
+      {/* Cara de vidrio transparente con efecto frost sutil */}
       <mesh>
         <planeGeometry args={[2.95, 2.95]} />
         <meshPhysicalMaterial
-          color={color}
+          color="#ffffff"
           transparent={true}
           opacity={0.08}
-          metalness={0.05}
-          roughness={0.05}
-          transmission={0.98}
-          thickness={1.2}
-          ior={1.52}
-          emissive={color}
-          emissiveIntensity={0.25}
+          metalness={0.0}
+          roughness={0.1}
+          transmission={0.95}
+          thickness={1.5}
+          ior={1.45}
           clearcoat={1.0}
-          clearcoatRoughness={0.03}
-          reflectivity={0.9}
-          envMapIntensity={1.5}
+          clearcoatRoughness={0.1}
+          reflectivity={0.5}
+          envMapIntensity={1.0}
           side={THREE.DoubleSide}
         />
       </mesh>
 
-      {/* Borde brillante con efecto glow para glassmorphism */}
+      {/* Borde blanco brillante más visible */}
       <lineSegments position={[0, 0, 0.01]}>
         <edgesGeometry args={[new THREE.PlaneGeometry(2.95, 2.95)]} />
         <lineBasicMaterial
-          color={color}
+          color="#ffffff"
           transparent={true}
-          opacity={0.8}
-          linewidth={3}
+          opacity={0.9}
+          linewidth={2}
         />
       </lineSegments>
 
-      {/* Segundo borde con glow más suave */}
+      {/* Segundo borde con glow */}
       <lineSegments position={[0, 0, 0.02]}>
         <edgesGeometry args={[new THREE.PlaneGeometry(3.0, 3.0)]} />
         <lineBasicMaterial
           color="#ffffff"
           transparent={true}
-          opacity={0.3}
+          opacity={0.4}
           linewidth={1}
         />
       </lineSegments>
