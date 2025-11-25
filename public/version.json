@@ -1,15 +1,14 @@
 {
-  "version": "4.0.0",
-  "releaseDate": "2025-01-25",
+  "version": "4.1.0",
+  "releaseDate": "2025-11-25",
   "releaseNotes": {
     "es": {
-      "title": "Nueva versión disponible (v4.0.0)",
+      "title": "Nueva versión disponible (v4.1.0)",
       "message": "Actualitza per a les darreres característiques i millores.",
       "features": [
-        "Página de gracias simplificada",
-        "Optimización móvil completa del test",
-        "Diseño limpio estilo Integrate",
-        "Mejoras de rendimiento"
+        "Nuevas características de prueba",
+        "Mejoras en el sistema de notificaciones",
+        "Correcciones de bugs menores"
       ]
     }
   },
