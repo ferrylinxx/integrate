@@ -60,10 +60,10 @@ export function UpdateNotification() {
   return (
     <div
       className={`fixed z-[99999] max-w-sm w-full mx-4 md:mx-0 animate-slide-up ${
-        isResultsPage ? 'top-24 right-4' : 'bottom-4 left-4'
+        isResultsPage ? 'bottom-4 right-4' : 'bottom-4 left-4'
       }`}
       style={{
-        animation: isResultsPage ? "slideDown 0.3s ease-out" : "slideUp 0.3s ease-out",
+        animation: isResultsPage ? "slideUp 0.3s ease-out" : "slideUp 0.3s ease-out",
       }}
     >
       <div
