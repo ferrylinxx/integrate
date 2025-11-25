@@ -28,26 +28,27 @@ export function AutoSaveIndicator({ lastSaved, isSaving = false }: AutoSaveIndic
 
   if (!lastSaved && !isSaving) {
     return (
-      <div className="flex items-center gap-2 text-sm text-gray-500">
-        <CloudOff className="h-4 w-4" />
-        <span>Sin guardar</span>
+      <div className="flex items-center gap-1 md:gap-2 text-xs md:text-sm text-gray-500">
+        <CloudOff className="h-3 w-3 md:h-4 md:w-4" />
+        <span className="hidden sm:inline">Sin guardar</span>
       </div>
     );
   }
 
   if (isSaving) {
     return (
-      <div className="flex items-center gap-2 text-sm text-blue-600 animate-pulse">
-        <Cloud className="h-4 w-4" />
-        <span>Guardando...</span>
+      <div className="flex items-center gap-1 md:gap-2 text-xs md:text-sm text-blue-600 animate-pulse">
+        <Cloud className="h-3 w-3 md:h-4 md:w-4" />
+        <span className="hidden sm:inline">Guardando...</span>
       </div>
     );
   }
 
   return (
-    <div className="flex items-center gap-2 text-sm text-green-600">
-      <Check className="h-4 w-4" />
-      <span>Guardado {timeSince}</span>
+    <div className="flex items-center gap-1 md:gap-2 text-xs md:text-sm text-green-600">
+      <Check className="h-3 w-3 md:h-4 md:w-4" />
+      <span className="hidden sm:inline">Guardado {timeSince}</span>
+      <span className="sm:hidden">✓</span>
     </div>
   );
 }

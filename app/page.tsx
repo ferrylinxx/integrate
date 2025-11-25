@@ -39,9 +39,9 @@ export default function LandingPage() {
   return (
     <LandingContentLoader>
       {({ content }) => (
-        <main className="relative overflow-x-hidden">
+        <main className="relative overflow-x-hidden overflow-y-auto">
           {/* Video de fondo sin overlay - completamente visible */}
-          <div className="fixed inset-0" style={{ zIndex: -1 }}>
+          <div className="fixed inset-0 overflow-hidden" style={{ zIndex: -1 }}>
             <video
               autoPlay
               loop
@@ -74,7 +74,7 @@ export default function LandingPage() {
 
             {/* CUBO PEQUEÑO - ARRIBA CENTRO (Fade In al hacer scroll) */}
             <div
-              className="fixed top-2 left-1/2 md:top-4 z-50"
+              className="fixed top-2 left-1/2 md:top-4 z-20"
               style={{
                 opacity: scrolled ? 1 : 0,
                 transform: 'translateX(-50%)',
@@ -90,7 +90,7 @@ export default function LandingPage() {
 
             {/* PANTALLA 2: Cubo pequeño + contenido (después del scroll) - REDUCIDO */}
             <section
-              className="relative z-10 flex flex-col items-center justify-start px-4 pt-40 md:pt-48 pb-8"
+              className="relative z-30 flex flex-col items-center justify-start px-4 pt-48 md:pt-56 pb-8"
               style={{
                 marginTop: '80vh',
                 opacity: scrollProgress,
@@ -207,6 +207,18 @@ export default function LandingPage() {
                 />
               </motion.div>
             </section>
+          </div>
+
+          {/* Marca de agua - Desarrollador */}
+          <div className="fixed bottom-4 right-4 z-50">
+            <a
+              href="https://tecnofgb.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/30 text-xs font-light tracking-wide hover:text-white/60 transition-colors duration-300 cursor-pointer"
+            >
+              Desarrollado por Ferran Garola Bonilla
+            </a>
           </div>
 
           {/* Indicador de scroll mejorado con Framer Motion */}

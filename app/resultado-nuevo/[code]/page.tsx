@@ -86,9 +86,18 @@ function DashboardContent({
   const panelInferiorProps = {
     subAreaIndex: selectedSubArea,
     areaIndex: selectedArea,
-    value: submission.answers[selectedSubArea],
+    value: selectedSubArea !== null ? submission.answers[selectedSubArea] : 0,
     answers: submission.answers,
-    onClose: () => setSelectedSubArea(null),
+    onClose: () => {
+      // Si hay sub-área seleccionada, volver a vista de área completa
+      if (selectedSubArea !== null) {
+        setSelectedSubArea(null);
+      } else {
+        // Si no hay sub-área, cerrar todo
+        setSelectedArea(null);
+      }
+    },
+    onSubAreaClick: setSelectedSubArea,
   };
 
   // ========================================
@@ -157,8 +166,8 @@ function DashboardContent({
               <VistaGeneral {...vistaGeneralProps} />
             </div>
 
-            {/* Panel Inferior */}
-            {selectedSubArea !== null && (
+            {/* Panel Inferior - Muestra cuando hay área seleccionada */}
+            {selectedArea !== null && (
               <div
                 style={{
                   position: 'absolute',
@@ -202,8 +211,8 @@ function DashboardContent({
           </div>
         </div>
 
-        {/* Panel Inferior (se despliega cuando se selecciona una sub-área) */}
-        {selectedSubArea !== null && (
+        {/* Panel Inferior (se despliega cuando se selecciona un área o sub-área) */}
+        {selectedArea !== null && (
           <PanelInferior {...panelInferiorProps} />
         )}
       </div>
@@ -259,8 +268,8 @@ function DashboardContent({
           <VistaGeneral {...vistaGeneralProps} />
         </EditorWrapper>
 
-        {/* Panel Inferior */}
-        {selectedSubArea !== null && (
+        {/* Panel Inferior - Muestra cuando hay área seleccionada */}
+        {selectedArea !== null && (
           <EditorWrapper
             componentId="panelInferior"
             path="components.panelInferior.layout"
@@ -304,7 +313,7 @@ export default function ResultadoNuevoPage() {
   const [submission, setSubmission] = useState<Submission | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedArea, setSelectedArea] = useState<number | null>(null);
-  const [selectedSubArea, setSelectedSubArea] = useState<number | null>(null);
+  const [selectedSubArea, setSelectedSubArea] = useState<number | null>(null); // Ya está en null ✅
   const [filterLevel, setFilterLevel] = useState<FilterLevel>(null);
   const [groupName, setGroupName] = useState<string>("");
   const [userName, setUserName] = useState<string>("");

@@ -9,6 +9,14 @@ export interface NivelContenido {
   oportunidadesDeMejora: string[];
 }
 
+export interface NivelAreaContenido {
+  rango: string;
+  visionGeneral: string;
+  propositoArea: string;
+  proximosPasos: string[];
+  rutaFormativaDescripcion: string;
+}
+
 export interface SubAreaContenido {
   id: number;
   nombre: string;
@@ -16,9 +24,9 @@ export interface SubAreaContenido {
   definicion: string;
   niveles: {
     critico: NivelContenido;
-    vulnerable: NivelContenido;
-    estable: NivelContenido;
-    maduro: NivelContenido;
+    desarrollo: NivelContenido;
+    solido: NivelContenido;
+    ejemplar: NivelContenido;
   };
 }
 
@@ -26,15 +34,21 @@ export interface AreaContenido {
   area: string;
   rutaFormativa: string;
   proposito: string;
+  niveles?: {
+    critico: NivelAreaContenido;
+    desarrollo: NivelAreaContenido;
+    solido: NivelAreaContenido;
+    ejemplar: NivelAreaContenido;
+  };
   subAreas: SubAreaContenido[];
 }
 
 // Función helper para obtener el nivel según el valor
-export function getNivelKey(value: number): 'critico' | 'vulnerable' | 'estable' | 'maduro' {
-  if (value < 1.5) return 'critico';
-  if (value < 2.5) return 'vulnerable';
-  if (value < 3.5) return 'estable';
-  return 'maduro';
+export function getNivelKey(value: number): 'critico' | 'desarrollo' | 'solido' | 'ejemplar' {
+  if (value < 1.5) return 'critico';      // 1.0-1.49
+  if (value < 2.5) return 'desarrollo';   // 1.5-2.49
+  if (value < 3.5) return 'solido';       // 2.5-3.49
+  return 'ejemplar';                      // 3.5-4.0
 }
 
 // Contenido del Área 1: Estrategia
@@ -42,6 +56,56 @@ export const CONTENIDO_ESTRATEGIA: AreaContenido = {
   area: "Estrategia",
   rutaFormativa: "Visión & Impacto Real",
   proposito: "Conectar propósito, dirección y decisiones para generar sentido compartido y resultados tangibles.",
+  niveles: {
+    critico: {
+      rango: "1.0-1.49",
+      visionGeneral: "El área de Estrategia muestra un punto de partida inicial. El porcentaje obtenido refleja que las personas conocen elementos básicos del propósito, pero todavía no existe un marco común que oriente decisiones, prioridades y proyectos. Se observan esfuerzos individuales valiosos, aunque sin una dirección clara que unifique los criterios y reduzca la dispersión en el trabajo diario.\n\nEste nivel indica que la organización necesita construir un lenguaje compartido que proporcione claridad y facilite la comprensión del rumbo a seguir.",
+      propositoArea: "Establecer una base común sobre qué queremos conseguir, por qué y cómo lo vamos a hacer. La Estrategia da dirección, ordena esfuerzos y genera seguridad colectiva.",
+      proximosPasos: [
+        "Acordar un mensaje claro y comprensible sobre misión, valores y prioridades estratégicas.",
+        "Facilitar espacios breves donde los equipos puedan preguntar y aclarar criterios.",
+        "Crear un mapa sencillo de proyectos que muestre hacia dónde quiere avanzar la organización.",
+        "Conectar decisiones operativas con la dirección estratégica para reducir incertidumbre."
+      ],
+      rutaFormativaDescripcion: "Ruta centrada en construir los fundamentos estratégicos:\n• Ayuda a entender qué representa la estrategia en el día a día.\n• Proporciona un marco común para tomar decisiones con coherencia.\n• Conecta propósito, prioridades y acciones de forma clara.\n• Facilita que todas las personas puedan identificar cómo contribuyen al impacto global."
+    },
+    desarrollo: {
+      rango: "1.5-2.49",
+      visionGeneral: "El área de Estrategia presenta una base reconocida, pero todavía en consolidación. El porcentaje refleja que hay una dirección conocida y valores visibles, aunque su aplicación real varía entre equipos. Se percibe intención de avanzar, pero aún falta consistencia para traducir la estrategia en prácticas regulares y compartidas.\n\nEste nivel muestra que la organización ya ha iniciado el camino, pero necesita reforzar la conexión entre propósito, decisiones y proyectos.",
+      propositoArea: "Convertir la estrategia en una guía práctica y comprensible que ayude a priorizar, decidir y coordinar con coherencia.",
+      proximosPasos: [
+        "Revisar cómo se aplican misión y valores en distintos equipos para ganar coherencia.",
+        "Definir prioridades estratégicas de manera más visible y accesible.",
+        "Unificar criterios de calidad y seguimiento de proyectos estratégicos.",
+        "Compartir ejemplos reales que muestren cómo se traduce la estrategia en decisiones."
+      ],
+      rutaFormativaDescripcion: "Ruta orientada a consolidar la estrategia aplicada:\n• Conecta visión y tareas reales para facilitar coherencia.\n• Ayuda a convertir la intención estratégica en hábitos.\n• Aporta herramientas para alinear proyectos con prioridades.\n• Fortalece el criterio colectivo para tomar decisiones con sentido."
+    },
+    solido: {
+      rango: "2.5-3.49",
+      visionGeneral: "El porcentaje obtenido refleja que la Estrategia se aplica de forma coherente y habitual. Las personas conocen la dirección general, los valores se integran en decisiones relevantes y los proyectos mantienen alineación con las prioridades organizativas.\n\nEste nivel muestra una base sólida desde la que avanzar hacia prácticas más estratégicas, revisión periódica y anticipación ante cambios.",
+      propositoArea: "Mantener viva la estrategia para que siga orientando decisiones, aprendizaje y evolución organizativa.",
+      proximosPasos: [
+        "Revisar anualmente la dirección estratégica para asegurar su vigencia.",
+        "Conectar los proyectos con indicadores de impacto sostenido.",
+        "Compartir aprendizajes estratégicos entre áreas.",
+        "Introducir espacios de reflexión sobre cómo evoluciona el propósito."
+      ],
+      rutaFormativaDescripcion: "Ruta enfocada en profundizar en la práctica estratégica:\n• Permite vincular resultados, calidad y propósito.\n• Facilita la lectura de indicadores para decidir con rigor.\n• Refuerza la coherencia entre estrategia y bienestar organizativo.\n• Introduce herramientas de revisión continua y proyección futura."
+    },
+    ejemplar: {
+      rango: "3.5-4.0",
+      visionGeneral: "El porcentaje refleja un nivel elevado de coherencia estratégica. El propósito está interiorizado, las decisiones se alinean naturalmente con la misión y los proyectos reflejan claramente las prioridades colectivas. La estrategia funciona como un sistema vivo que conecta dirección, aprendizaje y resultados.\n\nEste nivel indica madurez organizativa y una base sólida para avanzar hacia innovación, anticipación y creación de valor sostenido.",
+      propositoArea: "Proteger y proyectar la coherencia estratégica, manteniéndola viva y conectada con los retos internos y externos.",
+      proximosPasos: [
+        "Transferir aprendizajes estratégicos hacia otras áreas.",
+        "Integrar mecanismos de anticipación y análisis de escenarios.",
+        "Impulsar proyectos innovadores vinculados al propósito.",
+        "Mantener práctica reflexiva para sostener la coherencia en el tiempo."
+      ],
+      rutaFormativaDescripcion: "Ruta orientada a la excelencia estratégica:\n• Consolida la coherencia entre visión, decisiones e impacto.\n• Sostiene la madurez estratégica en contextos de cambio.\n• Ayuda a liderar la estrategia con mirada sistémica y anticipatoria.\n• Permite proyectar la identidad organizativa hacia entornos externos."
+    }
+  },
   subAreas: [
     // SUB-ÁREA 0: Visión / Misión / Valores
     {
@@ -62,7 +126,7 @@ export const CONTENIDO_ESTRATEGIA: AreaContenido = {
             "Incorporar la visión, misión y valores en los procesos de onboarding y formación continua"
           ]
         },
-        vulnerable: {
+        desarrollo: {
           rango: "1.5-2.49",
           queSeObserva: "La visión, misión y valores existen y están documentados, pero no son ampliamente conocidos ni utilizados de forma consistente en la toma de decisiones. Algunas personas los conocen, pero no se perciben como herramientas prácticas para el día a día.",
           comoInterpretarlo: "La organización ha dado el primer paso al definir su identidad estratégica, pero aún no ha logrado que se convierta en parte de la cultura organizacional. Existe una brecha entre lo declarado y lo vivido, lo que puede generar desconexión entre el discurso y la práctica.",
@@ -74,7 +138,7 @@ export const CONTENIDO_ESTRATEGIA: AreaContenido = {
             "Reconocer y celebrar públicamente las acciones que reflejan los valores organizacionales"
           ]
         },
-        estable: {
+        solido: {
           rango: "2.5-3.49",
           queSeObserva: "La visión, misión y valores son conocidos por la mayoría del equipo y se utilizan con cierta frecuencia como referencia en la toma de decisiones. Sin embargo, su aplicación no es sistemática y puede variar según las áreas o personas.",
           comoInterpretarlo: "La organización ha logrado que su identidad estratégica sea parte del lenguaje común, pero aún falta consolidar su uso como criterio central en todas las decisiones. Existe una base sólida que puede fortalecerse para lograr mayor coherencia y alineación organizacional.",
@@ -86,7 +150,7 @@ export const CONTENIDO_ESTRATEGIA: AreaContenido = {
             "Establecer espacios de reflexión periódica sobre la coherencia entre lo que se declara y lo que se hace"
           ]
         },
-        maduro: {
+        ejemplar: {
           rango: "3.5-4.0",
           queSeObserva: "La visión, misión y valores son ampliamente conocidos, comprendidos y utilizados de forma sistemática como criterio central en la toma de decisiones estratégicas y operativas. Existe una cultura organizacional coherente y alineada con estos elementos.",
           comoInterpretarlo: "La organización ha logrado que su identidad estratégica sea parte integral de su ADN cultural. Las decisiones se toman con un marco de referencia claro y compartido, lo que genera coherencia, confianza y sentido de pertenencia en todo el equipo.",
@@ -119,7 +183,7 @@ export const CONTENIDO_ESTRATEGIA: AreaContenido = {
             "Crear un registro simple de feedback recibido y acciones tomadas en respuesta"
           ]
         },
-        vulnerable: {
+        desarrollo: {
           rango: "1.5-2.49",
           queSeObserva: "Se recoge feedback de los grupos de interés de forma ocasional o reactiva, generalmente cuando surgen problemas o al final de los proyectos. La información recopilada no siempre se analiza ni se incorpora de forma sistemática a la mejora de los procesos o proyectos.",
           comoInterpretarlo: "La organización reconoce la importancia de escuchar a sus grupos de interés, pero aún no ha establecido procesos proactivos y sistemáticos para hacerlo. El feedback se percibe más como un requisito que como una fuente valiosa de aprendizaje y mejora continua.",
@@ -131,7 +195,7 @@ export const CONTENIDO_ESTRATEGIA: AreaContenido = {
             "Comunicar a los grupos de interés cómo su feedback ha sido utilizado y qué cambios se han implementado"
           ]
         },
-        estable: {
+        solido: {
           rango: "2.5-3.49",
           queSeObserva: "Existe un proceso establecido para recoger feedback de los grupos de interés en momentos clave de los proyectos. La información se analiza y se incorpora a la mejora de procesos, aunque la sistematicidad y profundidad del análisis puede variar según el proyecto o área.",
           comoInterpretarlo: "La organización ha institucionalizado la escucha a sus grupos de interés como parte de su forma de trabajar. Existe una base sólida que puede fortalecerse para lograr mayor profundidad en el análisis, mayor agilidad en la respuesta y mayor impacto en la mejora continua.",
@@ -143,7 +207,7 @@ export const CONTENIDO_ESTRATEGIA: AreaContenido = {
             "Crear espacios de diálogo regular con grupos de interés clave para construir relaciones de confianza y colaboración"
           ]
         },
-        maduro: {
+        ejemplar: {
           rango: "3.5-4.0",
           queSeObserva: "La organización tiene procesos sistemáticos y diversos para recoger feedback de todos sus grupos de interés de forma continua. El feedback se analiza en profundidad, se incorpora ágilmente a la mejora de proyectos y procesos, y se comunica de forma transparente cómo se ha utilizado.",
           comoInterpretarlo: "La organización ha desarrollado una cultura de escucha activa y co-creación con sus grupos de interés. El feedback no solo se recoge, sino que se convierte en motor de innovación y mejora continua, fortaleciendo las relaciones y generando valor compartido.",
@@ -176,7 +240,7 @@ export const CONTENIDO_ESTRATEGIA: AreaContenido = {
             "Establecer un proceso simple de revisión de calidad antes de finalizar entregas importantes"
           ]
         },
-        vulnerable: {
+        desarrollo: {
           rango: "1.5-2.49",
           queSeObserva: "Existen algunos criterios de calidad definidos, pero no son ampliamente conocidos ni utilizados de forma consistente. La aplicación de estos criterios depende más de la iniciativa de personas o áreas específicas que de un sistema organizacional.",
           comoInterpretarlo: "La organización ha dado el primer paso al definir algunos estándares de calidad, pero aún no ha logrado que se conviertan en parte de la cultura de trabajo. Existe una brecha entre lo definido y lo aplicado, lo que puede generar inconsistencias y frustración.",
@@ -188,7 +252,7 @@ export const CONTENIDO_ESTRATEGIA: AreaContenido = {
             "Establecer espacios de feedback donde se pueda reflexionar sobre cómo mejorar la aplicación de los criterios"
           ]
         },
-        estable: {
+        solido: {
           rango: "2.5-3.49",
           queSeObserva: "Los criterios de calidad están definidos, son conocidos por la mayoría del equipo y se utilizan con cierta frecuencia para orientar el trabajo y evaluar resultados. Sin embargo, su aplicación no es sistemática y puede variar según las áreas o proyectos.",
           comoInterpretarlo: "La organización ha logrado que los criterios de calidad sean parte del lenguaje común y se utilicen como referencia habitual. Existe una base sólida que puede fortalecerse para lograr mayor sistematicidad, mayor rigor en la evaluación y mayor impacto en la mejora continua.",
@@ -200,7 +264,7 @@ export const CONTENIDO_ESTRATEGIA: AreaContenido = {
             "Documentar buenas prácticas y lecciones aprendidas sobre cómo aplicar los criterios en diferentes contextos"
           ]
         },
-        maduro: {
+        ejemplar: {
           rango: "3.5-4.0",
           queSeObserva: "Los criterios de calidad están claramente definidos, son ampliamente conocidos y se utilizan de forma sistemática en todos los procesos de trabajo. Existe una cultura de mejora continua donde la calidad es responsabilidad compartida y se evalúa de forma rigurosa y constructiva.",
           comoInterpretarlo: "La organización ha desarrollado una cultura de excelencia donde los criterios de calidad son parte integral de la forma de trabajar. La calidad no se percibe como un control externo, sino como un compromiso compartido que genera orgullo, aprendizaje y mejora continua.",
@@ -233,7 +297,7 @@ export const CONTENIDO_ESTRATEGIA: AreaContenido = {
             "Desarrollar una cultura de 'decir no' a proyectos que no estén alineados con las prioridades estratégicas"
           ]
         },
-        vulnerable: {
+        desarrollo: {
           rango: "1.5-2.49",
           queSeObserva: "Existe cierta conexión entre los proyectos y la visión estratégica, pero no es sistemática ni explícita. Las revisiones de proyectos se realizan de forma ocasional y se centran más en el cumplimiento de actividades que en el análisis de resultados e impacto.",
           comoInterpretarlo: "La organización reconoce la importancia de alinear proyectos con la estrategia, pero aún no ha establecido procesos claros para asegurar esta alineación y para aprender de los resultados. Existe el riesgo de trabajar mucho sin generar el impacto esperado.",
@@ -245,7 +309,7 @@ export const CONTENIDO_ESTRATEGIA: AreaContenido = {
             "Desarrollar una cultura de aprendizaje donde los 'errores' se vean como oportunidades de mejora"
           ]
         },
-        estable: {
+        solido: {
           rango: "2.5-3.49",
           queSeObserva: "Los proyectos están generalmente alineados con la visión y prioridades estratégicas, y se revisan periódicamente. Sin embargo, la profundidad del análisis de resultados y la agilidad en los ajustes puede variar según los proyectos o áreas.",
           comoInterpretarlo: "La organización ha logrado establecer una conexión clara entre estrategia y acción, y ha institucionalizado procesos de seguimiento y revisión. Existe una base sólida que puede fortalecerse para lograr mayor rigor en el análisis, mayor agilidad en los ajustes y mayor impacto en el aprendizaje organizacional.",
@@ -257,7 +321,7 @@ export const CONTENIDO_ESTRATEGIA: AreaContenido = {
             "Establecer procesos de cierre de proyectos que documenten aprendizajes y alimenten la planificación futura"
           ]
         },
-        maduro: {
+        ejemplar: {
           rango: "3.5-4.0",
           queSeObserva: "Todos los proyectos están claramente alineados con la visión y prioridades estratégicas, y se revisan de forma sistemática y rigurosa basándose en resultados e impacto. Existe una cultura de aprendizaje continuo donde los proyectos se ajustan ágilmente y los aprendizajes se incorporan a la mejora organizacional.",
           comoInterpretarlo: "La organización ha desarrollado una capacidad estratégica madura donde la planificación, ejecución, evaluación y aprendizaje están integrados en un ciclo continuo. Los proyectos no solo generan resultados, sino que también generan conocimiento que fortalece la capacidad organizacional.",
@@ -279,6 +343,56 @@ export const CONTENIDO_ESTRUCTURA: AreaContenido = {
   area: "Estructura",
   rutaFormativa: "Liderar con Claridad",
   proposito: "Clarificar roles, procesos y liderazgos para favorecer la coherencia organizativa y la fluidez colectiva.",
+  niveles: {
+    critico: {
+      rango: "1.0-1.49",
+      visionGeneral: "El resultado indica que la estructura no está ofreciendo aún la claridad necesaria para sostener el trabajo diario de manera fluida. Se observan dudas sobre cómo se toman las decisiones, quién asume cada responsabilidad y cómo se coordinan las tareas entre áreas o equipos. Esta falta de marco compartido genera variaciones en la manera de trabajar, dependencia del criterio individual y dificultades para anticipar o resolver situaciones operativas con confianza.",
+      propositoArea: "Proporcionar un sistema estructural claro y accesible que permita coordinar, priorizar y liderar con coherencia, reduciendo fricciones y facilitando la colaboración.",
+      proximosPasos: [
+        "Revisar cómo se toman decisiones y qué criterios utiliza cada equipo.",
+        "Clarificar roles y responsabilidades en formato simple y compartido.",
+        "Identificar los procesos esenciales que necesitan estructura o actualización.",
+        "Establecer un espacio breve y regular para alinear prioridades entre áreas."
+      ],
+      rutaFormativaDescripcion: "Ruta centrada en crear marcos de coordinación estables, mejorar la comprensión de roles y fortalecer liderazgos coherentes y accesibles. Aporta claridad y predictibilidad al funcionamiento interno."
+    },
+    desarrollo: {
+      rango: "1.5-2.49",
+      visionGeneral: "El resultado muestra una estructura reconocible y con elementos de coordinación, aunque aún se observan variaciones relevantes entre equipos. Los liderazgos, los roles y los procesos están definidos, pero su aplicación es desigual, lo que genera pequeñas incoherencias o ajustes constantes para que el sistema funcione. Existe una base clara, pero se necesita homogeneizar criterios para avanzar hacia una estructura más predecible y fluida.",
+      propositoArea: "Consolidar un sistema estructural coherente que reduzca variaciones, mejore la coordinación y facilite decisiones más consistentes entre áreas.",
+      proximosPasos: [
+        "Revisar en equipo cómo se interpretan roles y responsabilidades.",
+        "Alinear criterios de toma de decisiones entre niveles de liderazgo.",
+        "Determinar qué procesos deben actualizarse para mejorar la fluidez.",
+        "Establecer canales regulares de comunicación para evitar duplicidades."
+      ],
+      rutaFormativaDescripcion: "Ruta dirigida a reforzar la estructura organizativa con herramientas simples y prácticas que facilitan el alineamiento entre liderazgos, roles y procesos, mejorando la coherencia colectiva."
+    },
+    solido: {
+      rango: "2.5-3.49",
+      visionGeneral: "El resultado refleja una estructura sólida, comprensible y funcional. Los roles están claros, la coordinación es efectiva y los liderazgos actúan de manera coherente con la cultura organizativa. Aunque aún pueden existir pequeños ajustes o actualizaciones necesarias en algunos procesos, la estructura sostiene bien el trabajo diario y genera seguridad, ritmo y previsibilidad.",
+      propositoArea: "Mantener la claridad estructural, reforzando mecanismos que conecten la colaboración diaria con la toma de decisiones estratégicas de manera fluida y sostenible.",
+      proximosPasos: [
+        "Revisar periódicamente roles y procesos para asegurar su vigencia.",
+        "Facilitar espacios donde mandos y equipos alineen prioridades.",
+        "Garantizar que la comunicación estructural llegue a todos los niveles.",
+        "Vincular procesos y roles al aprendizaje organizativo y la mejora continua."
+      ],
+      rutaFormativaDescripcion: "Ruta que fortalece la consolidación estructural con herramientas de liderazgo compartido, revisión operativa y claridad de roles para mantener la coherencia en entornos cambiantes."
+    },
+    ejemplar: {
+      rango: "3.5-4.0",
+      visionGeneral: "El resultado muestra una estructura madura, coherente y equilibrada. Los liderazgos son accesibles y consistentes, los roles están bien interiorizados, y los procesos se revisan y adaptan de forma ágil y colaborativa. La organización funciona con fluidez estructural: la claridad reduce fricciones, la coordinación es natural y la toma de decisiones es predecible y coherente con la cultura interna.",
+      propositoArea: "Mantener una estructura viva, adaptable y visible que promueva autonomía, aprendizaje organizativo y coherencia sistémica.",
+      proximosPasos: [
+        "Documentar prácticas estructurales que funcionen como referencia colectiva.",
+        "Integrar nuevas necesidades operativas sin perder claridad.",
+        "Fortalecer el liderazgo distribuido para sostener la autonomía de los equipos.",
+        "Revisar la estructura desde una mirada estratégica y anticipatoria."
+      ],
+      rutaFormativaDescripcion: "Ruta que consolida la madurez estructural promoviendo estructuras ágiles, toma de decisiones compartida y modelos de liderazgo coherentes con la identidad y propósito de la organización."
+    }
+  },
   subAreas: [
     // SUB-ÁREA 4: Liderazgo
     {
@@ -299,7 +413,7 @@ export const CONTENIDO_ESTRUCTURA: AreaContenido = {
             "Desarrollar capacidades básicas de liderazgo en las personas que ocupan roles de coordinación o referencia"
           ]
         },
-        vulnerable: {
+        desarrollo: {
           rango: "1.5-2.49",
           queSeObserva: "Existen liderazgos identificados, pero su ejercicio no es consistente. Las decisiones se toman, pero no siempre se comunican con claridad ni se perciben como coherentes con los valores o prioridades organizacionales. La confianza en el liderazgo es frágil.",
           comoInterpretarlo: "La organización ha dado el primer paso al identificar liderazgos, pero aún no ha logrado que se ejerzan de forma coherente y confiable. Existe una brecha entre el rol formal y la práctica real, lo que puede generar desconfianza y resistencia.",
@@ -311,7 +425,7 @@ export const CONTENIDO_ESTRUCTURA: AreaContenido = {
             "Implementar mecanismos de feedback 360° que permitan a los liderazgos conocer cómo se percibe su ejercicio"
           ]
         },
-        estable: {
+        solido: {
           rango: "2.5-3.49",
           queSeObserva: "Los liderazgos son visibles y generalmente coherentes. Las decisiones se toman con criterios claros y se comunican de forma adecuada. Sin embargo, la confianza en el liderazgo puede variar según las áreas o situaciones, y no siempre se fomenta la autonomía del equipo.",
           comoInterpretarlo: "La organización ha logrado establecer liderazgos que funcionan de forma razonablemente efectiva. Existe una base sólida que puede fortalecerse para lograr mayor coherencia, mayor capacidad de inspirar confianza y mayor desarrollo de liderazgo distribuido.",
@@ -323,7 +437,7 @@ export const CONTENIDO_ESTRUCTURA: AreaContenido = {
             "Establecer procesos de mentoría donde liderazgos experimentados acompañen el desarrollo de nuevos liderazgos"
           ]
         },
-        maduro: {
+        ejemplar: {
           rango: "3.5-4.0",
           queSeObserva: "Los liderazgos son visibles, coherentes y generan alta confianza. Las decisiones se toman con criterios claros, se comunican de forma transparente y se perciben como alineadas con los valores y prioridades. Existe un modelo de liderazgo distribuido donde múltiples personas ejercen liderazgo en sus ámbitos.",
           comoInterpretarlo: "La organización ha desarrollado una cultura de liderazgo madura donde el liderazgo no se concentra en pocas personas, sino que se distribuye de forma inteligente. Los liderazgos inspiran confianza, empoderan al equipo y generan entornos de alta autonomía y responsabilidad compartida.",
@@ -356,7 +470,7 @@ export const CONTENIDO_ESTRUCTURA: AreaContenido = {
             "Establecer espacios de diálogo donde las personas puedan clarificar expectativas sobre sus roles"
           ]
         },
-        vulnerable: {
+        desarrollo: {
           rango: "1.5-2.49",
           queSeObserva: "Los roles están definidos de forma básica, pero las descripciones son genéricas o están desactualizadas. Las personas tienen cierta claridad sobre sus tareas, pero no siempre entienden cómo su trabajo se conecta con el resultado global ni cómo coordinar con otros roles.",
           comoInterpretarlo: "La organización ha dado el primer paso al definir roles, pero aún no ha logrado que sean herramientas efectivas para la coordinación y la autonomía. Existe una brecha entre la descripción formal y la práctica real, lo que puede generar confusión y falta de alineación.",
@@ -368,7 +482,7 @@ export const CONTENIDO_ESTRUCTURA: AreaContenido = {
             "Establecer espacios regulares de clarificación de roles y expectativas entre personas que colaboran"
           ]
         },
-        estable: {
+        solido: {
           rango: "2.5-3.49",
           queSeObserva: "Los roles están claramente definidos y las personas comprenden sus responsabilidades y su contribución al resultado global. Sin embargo, la claridad puede variar según las áreas, y no siempre se revisan los roles cuando cambian las necesidades organizacionales.",
           comoInterpretarlo: "La organización ha logrado establecer una estructura de roles que funciona de forma efectiva. Existe una base sólida que puede fortalecerse para lograr mayor flexibilidad, mayor capacidad de adaptación y mayor desarrollo de las personas en sus roles.",
@@ -380,7 +494,7 @@ export const CONTENIDO_ESTRUCTURA: AreaContenido = {
             "Implementar sistemas de feedback continuo que permitan ajustar roles según la experiencia práctica"
           ]
         },
-        maduro: {
+        ejemplar: {
           rango: "3.5-4.0",
           queSeObserva: "Los roles están claramente definidos, son ampliamente comprendidos y se revisan periódicamente. Cada persona entiende no solo sus responsabilidades, sino también cómo su trabajo contribuye al resultado global y cómo coordinar efectivamente con otros roles. Existe flexibilidad para ajustar roles según las necesidades.",
           comoInterpretarlo: "La organización ha desarrollado una estructura de roles madura que combina claridad con flexibilidad. Los roles no son camisas de fuerza, sino marcos que facilitan la coordinación, la autonomía y el desarrollo continuo de las personas.",
@@ -413,7 +527,7 @@ export const CONTENIDO_ESTRUCTURA: AreaContenido = {
             "Establecer un repositorio accesible donde se puedan consultar los procesos documentados"
           ]
         },
-        vulnerable: {
+        desarrollo: {
           rango: "1.5-2.49",
           queSeObserva: "Algunos procesos están documentados, pero la documentación está desactualizada, es poco accesible o no se utiliza en la práctica. Las personas conocen algunos procesos, pero no existe una cultura de seguimiento ni de mejora continua de los mismos.",
           comoInterpretarlo: "La organización ha dado el primer paso al documentar algunos procesos, pero aún no ha logrado que se conviertan en herramientas vivas y útiles para el trabajo diario. Existe una brecha entre lo documentado y lo practicado, lo que puede generar confusión y desperdicio de esfuerzos.",
@@ -425,7 +539,7 @@ export const CONTENIDO_ESTRUCTURA: AreaContenido = {
             "Establecer mecanismos para que las personas puedan proponer mejoras a los procesos documentados"
           ]
         },
-        estable: {
+        solido: {
           rango: "2.5-3.49",
           queSeObserva: "Los procesos de trabajo están documentados, son conocidos por la mayoría del equipo y se utilizan con cierta frecuencia. Sin embargo, la actualización de los procesos no es sistemática y la coordinación entre áreas puede mejorar.",
           comoInterpretarlo: "La organización ha logrado establecer procesos documentados que funcionan de forma razonablemente efectiva. Existe una base sólida que puede fortalecerse para lograr mayor agilidad en la actualización, mayor coordinación entre áreas y mayor capacidad de innovación en los procesos.",
@@ -437,7 +551,7 @@ export const CONTENIDO_ESTRUCTURA: AreaContenido = {
             "Desarrollar una cultura de innovación en procesos donde se experimenten nuevas formas de trabajar"
           ]
         },
-        maduro: {
+        ejemplar: {
           rango: "3.5-4.0",
           queSeObserva: "Los procesos de trabajo están claramente documentados, actualizados y son ampliamente utilizados. Facilitan la coordinación entre áreas y se revisan periódicamente para incorporar mejoras. Existe una cultura de mejora continua de procesos.",
           comoInterpretarlo: "La organización ha desarrollado una capacidad madura de gestión de procesos donde la documentación es una herramienta viva que facilita la eficiencia, la calidad y la innovación. Los procesos no son rígidos, sino que se adaptan de forma inteligente a las necesidades cambiantes.",
@@ -470,7 +584,7 @@ export const CONTENIDO_ESTRUCTURA: AreaContenido = {
             "Desarrollar planes de contingencia básicos para los riesgos más críticos"
           ]
         },
-        vulnerable: {
+        desarrollo: {
           rango: "1.5-2.49",
           queSeObserva: "Existen algunos mecanismos de gestión de riesgos, pero son informales, poco sistemáticos o se activan solo cuando los problemas ya están cerca de materializarse. La gestión de riesgos se percibe más como una carga que como una herramienta de prevención.",
           comoInterpretarlo: "La organización reconoce la importancia de gestionar riesgos, pero aún no ha establecido procesos proactivos y sistemáticos. La gestión de riesgos es reactiva y fragmentada, lo que limita su efectividad y genera una falsa sensación de control.",
@@ -482,7 +596,7 @@ export const CONTENIDO_ESTRUCTURA: AreaContenido = {
             "Incorporar la gestión de riesgos en la planificación de proyectos y en las reuniones de seguimiento"
           ]
         },
-        estable: {
+        solido: {
           rango: "2.5-3.49",
           queSeObserva: "Existen mecanismos establecidos para identificar y gestionar riesgos. Se realizan evaluaciones periódicas y se toman medidas preventivas. Sin embargo, la gestión de riesgos puede ser más reactiva que proactiva, y no siempre se aprende de los imprevistos pasados.",
           comoInterpretarlo: "La organización ha logrado establecer procesos de gestión de riesgos que funcionan de forma razonablemente efectiva. Existe una base sólida que puede fortalecerse para lograr mayor capacidad de anticipación, mayor agilidad en la respuesta y mayor aprendizaje organizacional.",
@@ -494,7 +608,7 @@ export const CONTENIDO_ESTRUCTURA: AreaContenido = {
             "Desarrollar planes de continuidad de negocio para asegurar la operación ante crisis mayores"
           ]
         },
-        maduro: {
+        ejemplar: {
           rango: "3.5-4.0",
           queSeObserva: "La organización tiene mecanismos sistemáticos y ágiles para anticipar, evaluar y gestionar riesgos de forma colaborativa. Los imprevistos se afrontan con calma y se convierten en oportunidades de aprendizaje. Existe una cultura de prevención y resiliencia.",
           comoInterpretarlo: "La organización ha desarrollado una capacidad madura de gestión de riesgos donde la anticipación, la prevención y el aprendizaje están integrados en la forma de trabajar. Los riesgos no se perciben como amenazas paralizantes, sino como parte natural del entorno que se puede gestionar de forma inteligente.",
@@ -519,6 +633,56 @@ export const CONTENIDO_RESULTADOS: AreaContenido = {
   area: "Orientación a Resultados",
   rutaFormativa: "Del KPI al Impacto",
   proposito: "Convertir datos e indicadores en decisiones que generen mejora real, aprendizaje continuo y sentido compartido.",
+  niveles: {
+    critico: {
+      rango: "1.0-1.49",
+      visionGeneral: "El área muestra una desconexión entre lo que se hace, lo que se mide y el impacto que finalmente perciben los equipos. Los datos existen pero se usan poco; las políticas pueden sentirse formales; y el compromiso no siempre se ve reflejado en los resultados. Esto genera dudas sobre la utilidad real de la medición y dificultad para identificar el impacto del trabajo colectivo.",
+      propositoArea: "Alinear resultados, indicadores y políticas con el propósito organizativo para que el impacto sea visible, comprensible y compartido.",
+      proximosPasos: [
+        "Revisar qué indicadores aportan valor real.",
+        "Hacer visibles los logros, incluso los pequeños.",
+        "Conectar políticas, prácticas y resultados.",
+        "Crear espacios breves para compartir avances y aprendizajes."
+      ],
+      rutaFormativaDescripcion: "Ruta orientada a transformar la medición en una práctica útil y participativa que conecta datos, propósito y decisiones."
+    },
+    desarrollo: {
+      rango: "1.5-2.49",
+      visionGeneral: "La organización tiene una base sólida pero todavía irregular. Las políticas están definidas, pero su aplicación varía; los indicadores se revisan, aunque su lectura aún no es transversal; y el compromiso existe, pero con fluctuaciones. La estructura funciona, pero necesita más coherencia y participación en la lectura del impacto.",
+      propositoArea: "Consolidar una cultura de resultados significativa, accesible y alineada con valores y prioridades.",
+      proximosPasos: [
+        "Compartir lecturas de indicadores entre áreas.",
+        "Conectar logros y valores de forma más explícita.",
+        "Reforzar coherencia entre políticas y práctica real.",
+        "Crear espacios de reflexión sobre resultados."
+      ],
+      rutaFormativaDescripcion: "Ruta que refuerza la comprensión del impacto, promoviendo medición accesible, criterios compartidos y decisiones informadas."
+    },
+    solido: {
+      rango: "2.5-3.49",
+      visionGeneral: "Los resultados muestran equilibrio: se utilizan indicadores de forma participativa, las políticas acompañan el propósito y el compromiso se refleja en los logros. Es un sistema coherente, donde medir sirve para mejorar y orientar decisiones con criterio. Aún puede fortalecerse la lectura transversal y la integración entre áreas.",
+      propositoArea: "Mantener una cultura de resultados clara, transparente y orientada a la mejora continua.",
+      proximosPasos: [
+        "Revisar periódicamente la vigencia e impacto de las políticas.",
+        "Conectar indicadores con bienestar y propósito.",
+        "Compartir aprendizajes derivados de los datos.",
+        "Fortalecer la narrativa común sobre impacto."
+      ],
+      rutaFormativaDescripcion: "Ruta que profundiza en análisis sistémico, lectura compartida de datos y coherencia entre resultados, cultura y propósito."
+    },
+    ejemplar: {
+      rango: "3.5-4.0",
+      visionGeneral: "La cultura de impacto es madura. Los indicadores se interpretan con sentido; las políticas son herramientas reales de coherencia; y el compromiso de los equipos se transforma en resultados visibles. La organización mide para aprender, decide con información relevante y comunica su impacto con autenticidad.",
+      propositoArea: "Sostener una cultura orientada al impacto real, donde datos, políticas y compromiso colectivo actúan como motores de innovación y aprendizaje.",
+      proximosPasos: [
+        "Documentar prácticas de medición y análisis como referencia.",
+        "Fomentar lectura anticipatoria de los indicadores.",
+        "Integrar bienestar, aprendizaje e impacto en el sistema de evaluación.",
+        "Difundir relatos de impacto que refuercen coherencia cultural."
+      ],
+      rutaFormativaDescripcion: "Ruta orientada a consolidar una gobernanza sólida de indicadores, toma de decisiones basada en datos y conexión entre impacto y propósito."
+    }
+  },
   subAreas: [
     // SUB-ÁREA 8: COMPROMISO
     {
@@ -538,7 +702,7 @@ export const CONTENIDO_RESULTADOS: AreaContenido = {
             "Alinear la comunicación interna con los logros alcanzados"
           ]
         },
-        vulnerable: {
+        desarrollo: {
           rango: "1.5-2.49",
           queSeObserva: "Las personas muestran buena disposición, aunque la energía de compromiso fluctúa. Se percibe implicación, pero sin una conexión constante con los resultados.",
           comoInterpretarlo: "Este nivel refleja un compromiso latente que necesita renovarse con prácticas de reconocimiento y participación activa.",
@@ -549,7 +713,7 @@ export const CONTENIDO_RESULTADOS: AreaContenido = {
             "Incorporar espacios donde los equipos propongan mejoras"
           ]
         },
-        estable: {
+        solido: {
           rango: "2.5-3.49",
           queSeObserva: "Los equipos muestran una implicación sostenida. Los objetivos se alcanzan de forma regular y se perciben como relevantes.",
           comoInterpretarlo: "El compromiso se ha convertido en parte del día a día. Mantenerlo requiere cuidar la comunicación y la retroalimentación continua.",
@@ -560,7 +724,7 @@ export const CONTENIDO_RESULTADOS: AreaContenido = {
             "Establecer indicadores de compromiso y participación"
           ]
         },
-        maduro: {
+        ejemplar: {
           rango: "3.5-4.0",
           queSeObserva: "El compromiso forma parte de la cultura organizativa. Las personas actúan con entusiasmo, responsabilidad y orgullo de pertenencia.",
           comoInterpretarlo: "La organización funciona con coherencia interna y confianza colectiva. La motivación se retroalimenta del sentido y los resultados.",
@@ -592,7 +756,7 @@ export const CONTENIDO_RESULTADOS: AreaContenido = {
             "Comunicar los motivos y beneficios de cada norma"
           ]
         },
-        vulnerable: {
+        desarrollo: {
           rango: "1.5-2.49",
           queSeObserva: "Las políticas están bien definidas, pero su aplicación no siempre es uniforme. Las personas las cumplen, aunque a veces sin comprender plenamente su propósito.",
           comoInterpretarlo: "La estructura está consolidada, pero necesita más comunicación y participación para reforzar la confianza.",
@@ -603,7 +767,7 @@ export const CONTENIDO_RESULTADOS: AreaContenido = {
             "Conectar cada política con el valor que busca proteger o potenciar"
           ]
         },
-        estable: {
+        solido: {
           rango: "2.5-3.49",
           queSeObserva: "Las políticas reflejan los valores y orientan la acción con coherencia. Las personas confían en su utilidad.",
           comoInterpretarlo: "Las prácticas institucionales generan credibilidad y estabilidad. La organización gestiona las normas como una forma de cuidado y coherencia.",
@@ -614,7 +778,7 @@ export const CONTENIDO_RESULTADOS: AreaContenido = {
             "Difundir casos de éxito donde las normas hayan fortalecido la confianza"
           ]
         },
-        maduro: {
+        ejemplar: {
           rango: "3.5-4.0",
           queSeObserva: "Las políticas son coherentes con la cultura y promueven decisiones responsables.",
           comoInterpretarlo: "La organización ha transformado las normas en herramientas de coherencia y bienestar colectivo.",
@@ -647,7 +811,7 @@ export const CONTENIDO_RESULTADOS: AreaContenido = {
             "Promover una comunicación más participativa y veraz"
           ]
         },
-        vulnerable: {
+        desarrollo: {
           rango: "1.5-2.49",
           queSeObserva: "La comunicación externa es positiva, pero aún puede reforzar su conexión con la realidad organizativa.",
           comoInterpretarlo: "El relato corporativo tiene solidez, pero necesita nutrirse de historias reales y cotidianas.",
@@ -658,7 +822,7 @@ export const CONTENIDO_RESULTADOS: AreaContenido = {
             "Promover la escucha activa sobre cómo se percibe la organización"
           ]
         },
-        estable: {
+        solido: {
           rango: "2.5-3.49",
           queSeObserva: "La imagen externa coincide con la experiencia interna. Las personas reconocen la autenticidad del mensaje institucional.",
           comoInterpretarlo: "La transparencia se ha convertido en un valor organizativo. La comunicación es coherente y genera credibilidad.",
@@ -669,7 +833,7 @@ export const CONTENIDO_RESULTADOS: AreaContenido = {
             "Dar continuidad a la narrativa basada en hechos y aprendizajes"
           ]
         },
-        maduro: {
+        ejemplar: {
           rango: "3.5-4.0",
           queSeObserva: "La identidad comunicada y la vivida están completamente alineadas. La marca transmite autenticidad, coherencia y orgullo colectivo.",
           comoInterpretarlo: "La organización proyecta confianza porque su cultura es visible y coherente. La comunicación se ha convertido en un reflejo fiel del propósito.",
@@ -701,7 +865,7 @@ export const CONTENIDO_RESULTADOS: AreaContenido = {
             "Usar los datos como punto de partida para nuevas mejoras"
           ]
         },
-        vulnerable: {
+        desarrollo: {
           rango: "1.5-2.49",
           queSeObserva: "Los datos se analizan con regularidad, pero la interpretación se limita a algunos niveles de la organización.",
           comoInterpretarlo: "La información existe, pero no fluye entre áreas. Compartirla favorece la transparencia y la coherencia.",
@@ -712,7 +876,7 @@ export const CONTENIDO_RESULTADOS: AreaContenido = {
             "Fomentar la reflexión sobre el sentido de los datos"
           ]
         },
-        estable: {
+        solido: {
           rango: "2.5-3.49",
           queSeObserva: "Los indicadores guían las decisiones y se revisan de forma participativa.",
           comoInterpretarlo: "La organización mide para aprender, no solo para evaluar. Se percibe una cultura de análisis constructivo.",
@@ -723,7 +887,7 @@ export const CONTENIDO_RESULTADOS: AreaContenido = {
             "Comunicar los aprendizajes derivados de la medición"
           ]
         },
-        maduro: {
+        ejemplar: {
           rango: "3.5-4.0",
           queSeObserva: "La medición es parte natural del trabajo. Los indicadores se interpretan con mirada crítica y constructiva.",
           comoInterpretarlo: "La organización usa los datos para anticipar, aprender y mejorar. La cultura de la medición es madura y equilibrada.",
@@ -747,6 +911,56 @@ export const CONTENIDO_EFICACIA: AreaContenido = {
   area: "Eficacia",
   rutaFormativa: "Equipos de Alto Rendimiento",
   proposito: "Potenciar la confianza, la innovación y la capacidad de resolver problemas para lograr resultados sostenibles.",
+  niveles: {
+    critico: {
+      rango: "1.0-1.49",
+      visionGeneral: "El resultado muestra que el funcionamiento diario requiere mayor claridad y soporte. Existen esfuerzos individuales significativos, pero la coordinación depende demasiado de la iniciativa personal. Algunas rutinas no están del todo consolidadas y esto genera sensación de carga, variabilidad en la comunicación o dificultades para mantener un ritmo operativo estable.",
+      propositoArea: "Esta área permite entender hasta qué punto los equipos pueden trabajar con fluidez, anticipar necesidades y sostener un ritmo equilibrado. No se trata solo de cumplir tareas, sino de construir un sistema que facilite avanzar con claridad, confianza y coherencia.",
+      proximosPasos: [
+        "Establecer rutinas breves de coordinación semanal para ordenar prioridades.",
+        "Revisar conjuntamente dónde aparecen bloqueos y qué los provoca.",
+        "Simplificar prácticas de comunicación para asegurar que la información llegue a tiempo.",
+        "Crear espacios seguros para comentar dificultades y extraer aprendizajes reales."
+      ],
+      rutaFormativaDescripcion: "En este punto, la ruta ayuda a construir una base común de funcionamiento: clarificar acuerdos, fortalecer la comunicación entre áreas y desarrollar hábitos que aporten estabilidad. Proporciona herramientas para transformar la energía individual en un sistema de trabajo más fluido y sostenible."
+    },
+    desarrollo: {
+      rango: "1.5-2.49",
+      visionGeneral: "El sistema funciona y avanza, pero con variaciones según proyectos, momentos o equipos. La implicación es evidente, aunque a veces cuesta mantener consistencia en la coordinación, en el seguimiento o en la comunicación. La organización se mueve en un punto donde las cosas salen, pero requieren más esfuerzo del deseado.",
+      propositoArea: "Este nivel permite identificar qué prácticas deben consolidarse para que la eficacia no dependa del contexto, sino del sistema. El objetivo es reforzar la estabilidad operativa, manteniendo la motivación y reduciendo la variabilidad en procesos clave.",
+      proximosPasos: [
+        "Consolidar mecanismos de seguimiento de objetivos y acuerdos.",
+        "Revisar cómo se coordinan las áreas en momentos de presión o cambio.",
+        "Integrar espacios de retroalimentación regular entre equipos.",
+        "Alinear las rutinas operativas con las prioridades estratégicas."
+      ],
+      rutaFormativaDescripcion: "La ruta ayuda a convertir la buena base existente en un modelo más estable. Facilita prácticas para equilibrar ritmo, coordinación y comunicación, de forma que la eficacia no dependa tanto del esfuerzo individual y sea un resultado del sistema."
+    },
+    solido: {
+      rango: "2.5-3.49",
+      visionGeneral: "Los equipos trabajan con claridad, confianza y coordinación. Las rutinas de seguimiento funcionan y la información llega de forma oportuna. Hay una base sólida que sostiene la eficacia, aunque siguen apareciendo oportunidades para reforzar la agilidad, compartir aprendizajes entre áreas y afinar algunos procesos.",
+      propositoArea: "Este nivel permite profundizar en cómo mantener y ampliar esta estabilidad, introduciendo mejoras que ayuden a anticipar necesidades y responder con mayor flexibilidad a los retos operativos.",
+      proximosPasos: [
+        "Revisar de forma periódica los procesos para asegurar su actualización.",
+        "Compartir buenas prácticas entre áreas para amplificar lo que ya funciona.",
+        "Evaluar el impacto real de las rutinas de coordinación y seguimiento.",
+        "Conectar las mejoras operativas con decisiones estratégicas."
+      ],
+      rutaFormativaDescripcion: "La ruta aporta herramientas para fortalecer la madurez existente: metodologías para anticipar escenarios, dinámicas de coordinación avanzada y estructuras que permiten mantener un funcionamiento fluido incluso en momentos de cambio."
+    },
+    ejemplar: {
+      rango: "3.5-4.0",
+      visionGeneral: "La organización muestra un funcionamiento coordinado, confiable y ágil. Los equipos actúan con autonomía y claridad, resuelven dificultades con serenidad y comparten aprendizajes que fortalecen la eficacia global. La comunicación es fluida y permite sostener un clima operativo estable.",
+      propositoArea: "En este punto, el foco es mantener esta madurez, reforzar la capacidad de anticipación y seguir articulando aprendizajes que permitan evolucionar sin perder equilibrio ni coherencia interna.",
+      proximosPasos: [
+        "Documentar prácticas eficaces para inspirar a otras áreas.",
+        "Anticipar escenarios futuros y preparar mecanismos de adaptación.",
+        "Introducir análisis de impacto para afinar decisiones.",
+        "Mantener espacios de aprendizaje colectivo que eviten la inercia."
+      ],
+      rutaFormativaDescripcion: "La ruta consolida este nivel aportando prácticas de alto rendimiento que mantienen la estabilidad, fortalecen la anticipación y permiten evolucionar de forma coherente ante nuevos retos organizativos."
+    }
+  },
   subAreas: [
     // SUB-ÁREA 12: PRODUCTIVIDAD
     {
@@ -766,7 +980,7 @@ export const CONTENIDO_EFICACIA: AreaContenido = {
             "Promover pausas activas y espacios de revisión del ritmo laboral."
           ]
         },
-        vulnerable: {
+        desarrollo: {
           rango: "1.5 – 2.49",
           queSeObserva: "Se alcanzan los resultados, aunque con esfuerzo elevado y poca anticipación. La eficiencia depende del compromiso personal más que del sistema.",
           comoInterpretarlo: "La productividad está en fase de ajuste: los resultados se logran, pero requieren demasiada energía individual.",
@@ -777,7 +991,7 @@ export const CONTENIDO_EFICACIA: AreaContenido = {
             "Planificar reuniones más breves y enfocadas."
           ]
         },
-        estable: {
+        solido: {
           rango: "2.5 – 3.49",
           queSeObserva: "Los equipos gestionan bien el tiempo y los objetivos. Las rutinas son claras y los recursos se aprovechan de forma eficiente.",
           comoInterpretarlo: "Existe una estructura funcional que favorece la productividad sostenible.",
@@ -788,7 +1002,7 @@ export const CONTENIDO_EFICACIA: AreaContenido = {
             "Compartir aprendizajes sobre gestión eficaz del tiempo."
           ]
         },
-        maduro: {
+        ejemplar: {
           rango: "3.5 – 4.0",
           queSeObserva: "La productividad es equilibrada, fluida y colaborativa. Los equipos alcanzan sus metas sin sobrecarga ni pérdida de calidad.",
           comoInterpretarlo: "La organización funciona con madurez operativa: combina eficacia, bienestar y propósito.",
@@ -819,7 +1033,7 @@ export const CONTENIDO_EFICACIA: AreaContenido = {
             "Reconocer públicamente las innovaciones implementadas."
           ]
         },
-        vulnerable: {
+        desarrollo: {
           rango: "1.5 – 2.49",
           queSeObserva: "Existen ideas y propuestas, pero la implementación es desigual. Falta tiempo o estructura para convertirlas en proyectos.",
           comoInterpretarlo: "La creatividad está presente, pero necesita canalizarse para generar impacto tangible.",
@@ -830,7 +1044,7 @@ export const CONTENIDO_EFICACIA: AreaContenido = {
             "Incorporar métricas de aprendizaje y mejora."
           ]
         },
-        estable: {
+        solido: {
           rango: "2.5 – 3.49",
           queSeObserva: "La innovación forma parte del trabajo habitual. Se analizan los resultados y se incorporan aprendizajes.",
           comoInterpretarlo: "El sistema innova de forma constante y consciente, conectando creatividad y utilidad.",
@@ -841,7 +1055,7 @@ export const CONTENIDO_EFICACIA: AreaContenido = {
             "Fomentar el trabajo transversal entre departamentos."
           ]
         },
-        maduro: {
+        ejemplar: {
           rango: "3.5 – 4.0",
           queSeObserva: "La innovación es un hábito colectivo. Las personas experimentan, aprenden y mejoran de forma continua.",
           comoInterpretarlo: "La organización es creativa, flexible y coherente. La innovación surge del aprendizaje cotidiano.",
@@ -872,7 +1086,7 @@ export const CONTENIDO_EFICACIA: AreaContenido = {
             "Establecer ciclos breves de planificación."
           ]
         },
-        vulnerable: {
+        desarrollo: {
           rango: "1.5 – 2.49",
           queSeObserva: "Se logra responder a los cambios, aunque con esfuerzo. Falta previsión y alineación transversal.",
           comoInterpretarlo: "La organización tiene capacidad de adaptación, pero aún reacciona más que anticipa.",
@@ -883,7 +1097,7 @@ export const CONTENIDO_EFICACIA: AreaContenido = {
             "Analizar el impacto de los cambios y compartir aprendizajes."
           ]
         },
-        estable: {
+        solido: {
           rango: "2.5 – 3.49",
           queSeObserva: "La organización responde de forma coordinada ante los cambios. Los equipos muestran flexibilidad y confianza.",
           comoInterpretarlo: "La agilidad está integrada en la práctica y favorece la estabilidad dinámica del sistema.",
@@ -894,7 +1108,7 @@ export const CONTENIDO_EFICACIA: AreaContenido = {
             "Formar equipos interdepartamentales de resolución ágil."
           ]
         },
-        maduro: {
+        ejemplar: {
           rango: "3.5 – 4.0",
           queSeObserva: "La agilidad es parte natural del funcionamiento. Los equipos se anticipan y se reorganizan con fluidez ante nuevos retos.",
           comoInterpretarlo: "La organización aprende del cambio y lo convierte en motor de innovación.",
@@ -925,7 +1139,7 @@ export const CONTENIDO_EFICACIA: AreaContenido = {
             "Fomentar la comunicación interdepartamental ante incidencias."
           ]
         },
-        vulnerable: {
+        desarrollo: {
           rango: "1.5 – 2.49",
           queSeObserva: "Los equipos resuelven con compromiso, pero de manera reactiva. Se aprende de los errores, aunque sin sistematizar.",
           comoInterpretarlo: "El aprendizaje existe, pero no se consolida como práctica.",
@@ -936,7 +1150,7 @@ export const CONTENIDO_EFICACIA: AreaContenido = {
             "Compartir soluciones entre equipos."
           ]
         },
-        estable: {
+        solido: {
           rango: "2.5 – 3.49",
           queSeObserva: "Los problemas se abordan con serenidad y análisis. Se buscan soluciones conjuntas y se aprenden lecciones útiles.",
           comoInterpretarlo: "La cultura del aprendizaje está presente y favorece la confianza colectiva.",
@@ -947,7 +1161,7 @@ export const CONTENIDO_EFICACIA: AreaContenido = {
             "Reconocer públicamente la gestión constructiva de errores."
           ]
         },
-        maduro: {
+        ejemplar: {
           rango: "3.5 – 4.0",
           queSeObserva: "Los equipos resuelven con agilidad y reflexión. Los problemas se convierten en aprendizaje compartido.",
           comoInterpretarlo: "La organización funciona con plasticidad: aprende de la experiencia y ajusta sus decisiones con coherencia.",
@@ -971,6 +1185,56 @@ export const CONTENIDO_RECURSOS: AreaContenido = {
   area: "Recursos",
   rutaFormativa: "Activa tu Sistema Operativo",
   proposito: "Optimizar el uso de herramientas, tiempo y conocimiento para potenciar la autonomía, la colaboración y la sostenibilidad del sistema organizativo.",
+  niveles: {
+    critico: {
+      rango: "1.0-1.49",
+      visionGeneral: "El resultado refleja que la gestión de recursos —herramientas, conocimiento, información y entorno— todavía no ofrece el soporte necesario para facilitar el trabajo diario. Las personas hacen un esfuerzo significativo para compensar limitaciones operativas, tecnológicas o comunicativas, lo que se traduce en fricción, tiempos alargados y dependencia del esfuerzo individual.",
+      propositoArea: "Esta área ayuda a comprender cómo los recursos sostienen (o dificultan) la eficacia colectiva. No se trata solo de disponer de herramientas o información, sino de que operen de manera coherente, accesible y alineada con las tareas reales del día a día.",
+      proximosPasos: [
+        "Revisar qué herramientas se utilizan, para qué y con qué criterios.",
+        "Detectar puntos de fricción en el acceso a información relevante.",
+        "Valorar qué conocimientos clave no están circulando entre equipos.",
+        "Analizar si el entorno físico y digital favorece la concentración y la colaboración."
+      ],
+      rutaFormativaDescripcion: "La ruta ayuda a ordenar y simplificar el ecosistema de trabajo: clarifica qué herramientas aportan valor, estructura cómo compartir conocimiento y facilita hábitos que permiten trabajar con más claridad, menos esfuerzo y mayor estabilidad operativa."
+    },
+    desarrollo: {
+      rango: "1.5-2.49",
+      visionGeneral: "Los recursos están disponibles y se usan de forma activa, pero no siempre con coherencia entre áreas. Algunas herramientas funcionan bien, mientras que otras generan duplicidades. El conocimiento circula, aunque de forma irregular, y la comunicación interna muestra avances, pero aún con variaciones según equipos o proyectos.",
+      propositoArea: "Este nivel permite identificar qué prácticas deben fortalecerse para que los recursos se conviertan en un apoyo real al rendimiento diario. El objetivo es mejorar la coordinación, reducir la fricción y asegurar que todos disponen de lo que necesitan en el momento adecuado.",
+      proximosPasos: [
+        "Consolidar criterios comunes de uso de herramientas.",
+        "Revisar el flujo de información entre áreas para asegurar continuidad.",
+        "Crear espacios regulares de intercambio de conocimiento.",
+        "Evaluar si el entorno físico y digital se adapta a las nuevas formas de trabajo."
+      ],
+      rutaFormativaDescripcion: "La ruta permite alinear herramientas, comunicación y conocimiento, generando un sistema operativo compartido. Ayuda a que las mejoras no dependan del estilo individual, sino de acuerdos colectivos que faciliten la eficiencia compartida."
+    },
+    solido: {
+      rango: "2.5-3.49",
+      visionGeneral: "Los recursos funcionan con coherencia. Las herramientas están bien seleccionadas, la información circula de forma regular y el conocimiento se comparte en distintos espacios. El entorno físico y digital favorece la colaboración y la organización opera con claridad, aunque aún existen oportunidades para anticipar necesidades y optimizar la coordinación.",
+      propositoArea: "Este nivel permite reforzar la estructura existente y seguir profesionalizando el uso de recursos. La intención es mantener la estabilidad operativa, evitando que la rutina limite la capacidad de actualización o mejora.",
+      proximosPasos: [
+        "Revisar periódicamente la utilidad y coherencia del ecosistema de herramientas.",
+        "Ampliar la documentación de buenas prácticas internas.",
+        "Conectar la comunicación interna con los objetivos estratégicos.",
+        "Evaluar el impacto del entorno en el bienestar y la eficiencia cognitiva."
+      ],
+      rutaFormativaDescripcion: "La ruta aporta metodologías para sistematizar mejoras, fortalecer la transferencia de conocimiento y asegurar que los recursos evolucionan al ritmo de las necesidades reales del trabajo. Facilita anticipación, orden y sostenibilidad operativa."
+    },
+    ejemplar: {
+      rango: "3.5-4.0",
+      visionGeneral: "La organización gestiona sus recursos con madurez y coherencia. Las herramientas se utilizan con sentido, el conocimiento fluye sin esfuerzo, la comunicación es clara y oportuna y el entorno físico-digital refleja una cultura de cuidado y eficacia. Los equipos trabajan con autonomía, equilibrio y continuidad.",
+      propositoArea: "En este punto, el foco está en preservar y nutrir esta madurez: mantener la actualización, anticipar necesidades futuras y seguir fortaleciendo la coherencia entre recursos, bienestar y rendimiento.",
+      proximosPasos: [
+        "Documentar estrategias exitosas de gestión de recursos para inspirar nuevas prácticas.",
+        "Anticipar demandas tecnológicas o de conocimiento que puedan aparecer.",
+        "Profundizar en indicadores que conecten recursos, bienestar y productividad sostenible.",
+        "Integrar innovaciones digitales y organizativas de forma gradual y coherente."
+      ],
+      rutaFormativaDescripcion: "La ruta consolida esta madurez conectando herramientas, comunicación, conocimiento y entorno como un sistema operativo único. Permite evolucionar sin perder estabilidad, integrando la mejora continua en la arquitectura del trabajo diario."
+    }
+  },
   subAreas: [
     // SUB-ÁREA 16: HERRAMIENTAS
     {
@@ -990,7 +1254,7 @@ export const CONTENIDO_RECURSOS: AreaContenido = {
             "Diseñar formaciones breves y prácticas sobre herramientas clave."
           ]
         },
-        vulnerable: {
+        desarrollo: {
           rango: "1.5 – 2.49",
           queSeObserva: "Las herramientas se utilizan de forma activa, aunque sin coherencia plena entre equipos. Algunas prácticas eficaces no se comparten.",
           comoInterpretarlo: "La organización está en fase de transición digital y necesita mejorar la transferencia de conocimiento tecnológico.",
@@ -1001,7 +1265,7 @@ export const CONTENIDO_RECURSOS: AreaContenido = {
             "Revisar licencias, accesos y duplicidades para optimizar costes."
           ]
         },
-        estable: {
+        solido: {
           rango: "2.5 – 3.49",
           queSeObserva: "Las herramientas están bien seleccionadas y su uso es generalizado. Los equipos se apoyan en ellas de manera eficaz.",
           comoInterpretarlo: "La tecnología se ha convertido en soporte funcional y operativo, favoreciendo la coordinación.",
@@ -1012,7 +1276,7 @@ export const CONTENIDO_RECURSOS: AreaContenido = {
             "Crear espacios para explorar nuevas aplicaciones o integraciones."
           ]
         },
-        maduro: {
+        ejemplar: {
           rango: "3.5 – 4.0",
           queSeObserva: "Las herramientas se usan con naturalidad, eficiencia y propósito. Los equipos son autónomos en su gestión y aprendizaje digital.",
           comoInterpretarlo: "La tecnología actúa como un facilitador real de la colaboración, la innovación y la eficiencia.",
@@ -1043,7 +1307,7 @@ export const CONTENIDO_RECURSOS: AreaContenido = {
             "Registrar buenas prácticas y casos de éxito en repositorios accesibles."
           ]
         },
-        vulnerable: {
+        desarrollo: {
           rango: "1.5 – 2.49",
           queSeObserva: "Existen prácticas de comunicación interna, pero el conocimiento no siempre se traduce en aprendizaje compartido.",
           comoInterpretarlo: "La organización aprende, pero necesita sistematizarlo. Consolidar una memoria colectiva evita la pérdida de saberes clave.",
@@ -1054,7 +1318,7 @@ export const CONTENIDO_RECURSOS: AreaContenido = {
             "Favorecer la mentoría entre perfiles sénior y júnior."
           ]
         },
-        estable: {
+        solido: {
           rango: "2.5 – 3.49",
           queSeObserva: "El conocimiento circula de manera regular y se comparte en distintos espacios. Los equipos aprenden entre sí.",
           comoInterpretarlo: "La organización ha establecido una cultura de aprendizaje colaborativo.",
@@ -1065,7 +1329,7 @@ export const CONTENIDO_RECURSOS: AreaContenido = {
             "Evaluar cómo el aprendizaje impacta en la mejora de resultados."
           ]
         },
-        maduro: {
+        ejemplar: {
           rango: "3.5 – 4.0",
           queSeObserva: "El conocimiento se gestiona de forma colectiva y abierta. La organización aprende, enseña y evoluciona de manera continua.",
           comoInterpretarlo: "La inteligencia organizativa se convierte en una ventaja sostenible.",
@@ -1096,7 +1360,7 @@ export const CONTENIDO_RECURSOS: AreaContenido = {
             "Promover reuniones breves de alineación semanal."
           ]
         },
-        vulnerable: {
+        desarrollo: {
           rango: "1.5 – 2.49",
           queSeObserva: "Existen canales definidos, pero su uso no siempre es coherente. Se percibe voluntad de mejorar la escucha y la coordinación.",
           comoInterpretarlo: "La comunicación está presente, pero necesita consolidarse como práctica estructural.",
@@ -1107,7 +1371,7 @@ export const CONTENIDO_RECURSOS: AreaContenido = {
             "Incorporar herramientas colaborativas que integren la información."
           ]
         },
-        estable: {
+        solido: {
           rango: "2.5 – 3.49",
           queSeObserva: "La información fluye con regularidad y los mensajes son claros. Los equipos se coordinan con confianza.",
           comoInterpretarlo: "La comunicación se ha convertido en soporte de cohesión y eficiencia.",
@@ -1118,7 +1382,7 @@ export const CONTENIDO_RECURSOS: AreaContenido = {
             "Difundir buenas prácticas comunicativas entre áreas."
           ]
         },
-        maduro: {
+        ejemplar: {
           rango: "3.5 – 4.0",
           queSeObserva: "La comunicación es fluida, bidireccional y participativa. Las personas se sienten informadas y escuchadas.",
           comoInterpretarlo: "La organización comunica con sentido: une, inspira y orienta.",
@@ -1149,7 +1413,7 @@ export const CONTENIDO_RECURSOS: AreaContenido = {
             "Promover pausas y hábitos saludables en entornos digitales."
           ]
         },
-        vulnerable: {
+        desarrollo: {
           rango: "1.5 – 2.49",
           queSeObserva: "Existen entornos adecuados, aunque no siempre se aprovechan de forma óptima.",
           comoInterpretarlo: "La infraestructura está disponible, pero requiere ajustes y hábitos que favorezcan la concentración y la colaboración.",
@@ -1160,7 +1424,7 @@ export const CONTENIDO_RECURSOS: AreaContenido = {
             "Formar en ergonomía y gestión de la atención."
           ]
         },
-        estable: {
+        solido: {
           rango: "2.5 – 3.49",
           queSeObserva: "Los entornos son funcionales, cómodos y favorecen la colaboración.",
           comoInterpretarlo: "El contexto físico y digital está alineado con la cultura del bienestar y la eficiencia.",
@@ -1171,7 +1435,7 @@ export const CONTENIDO_RECURSOS: AreaContenido = {
             "Integrar espacios de creatividad y pausa consciente."
           ]
         },
-        maduro: {
+        ejemplar: {
           rango: "3.5 – 4.0",
           queSeObserva: "Los espacios y entornos digitales son dinámicos, accesibles y coherentes con la identidad organizativa.",
           comoInterpretarlo: "La organización ha integrado el bienestar ambiental y digital como valor estratégico.",
@@ -1195,6 +1459,56 @@ export const CONTENIDO_PERSONAS: AreaContenido = {
   area: "Personas",
   rutaFormativa: "Talento, Emoción y Desarrollo",
   proposito: "Cuidar el crecimiento, la motivación y la coherencia entre bienestar, propósito y rendimiento para construir organizaciones sostenibles.",
+  niveles: {
+    critico: {
+      rango: "1.0-1.49",
+      visionGeneral: "El resultado indica que las condiciones actuales no facilitan la motivación, el bienestar ni el desarrollo de las personas. Se observa esfuerzo y compromiso, pero también señales de desgaste, baja visibilidad del valor aportado o falta de oportunidades reales de crecimiento. El sistema depende en exceso de la voluntad individual y las personas pueden sentirse desconectadas del propósito o sin margen para evolucionar.",
+      propositoArea: "El área de Personas permite entender hasta qué punto la organización cuida la experiencia humana del trabajo: aprendizaje, clima, reconocimiento, equilibrio y sentido. Su objetivo es asegurar que las personas trabajan con energía saludable, pertenecen al proyecto y perciben que su trabajo tiene impacto.",
+      proximosPasos: [
+        "Detectar necesidades reales de desarrollo, escucha y bienestar.",
+        "Revisar la carga, el ritmo y la coherencia entre expectativas y recursos.",
+        "Crear espacios seguros de conversación para comprender qué preocupa y qué motiva.",
+        "Dar visibilidad al esfuerzo, a la mejora y al valor que aportan las personas."
+      ],
+      rutaFormativaDescripcion: "La ruta ofrece herramientas para fortalecer la motivación, equilibrar el ritmo laboral y construir itinerarios reales de crecimiento. Ayuda a crear entornos donde las personas puedan evolucionar con claridad, sentirse cuidadas y conectar su talento con el propósito colectivo."
+    },
+    desarrollo: {
+      rango: "1.5-2.49",
+      visionGeneral: "La organización muestra sensibilidad hacia el bienestar, el reconocimiento y el desarrollo, pero de forma irregular. Existen buenas prácticas, aunque dependen del estilo de liderazgo o del área. Las personas se implican, pero su motivación fluctúa; hay medidas positivas, pero sin la continuidad o coherencia necesarias para consolidarlas como parte de la cultura.",
+      propositoArea: "Este nivel permite identificar qué prácticas deben hacerse más estables para sostener el crecimiento y la motivación. El objetivo es transformar las buenas intenciones en mecanismos consistentes que refuercen la confianza y el equilibrio emocional y profesional.",
+      proximosPasos: [
+        "Integrar rutinas de reconocimiento claras y visibles.",
+        "Sistematizar acciones de bienestar y revisarlas con regularidad.",
+        "Conectar el desarrollo profesional con los retos reales del entorno.",
+        "Hacer más transparente la comunicación sobre oportunidades y expectativas."
+      ],
+      rutaFormativaDescripcion: "La ruta ayuda a dar continuidad a lo que ya funciona: establece criterios comunes, promueve conversaciones sobre bienestar y ofrece herramientas para gestionar la motivación, el feedback y el crecimiento con coherencia entre áreas."
+    },
+    solido: {
+      rango: "2.5-3.49",
+      visionGeneral: "El sistema cuida de forma equilibrada el desarrollo, el bienestar y el reconocimiento. Las personas se sienten escuchadas y encuentran oportunidades de aprendizaje. El clima es positivo y existe un enfoque preventivo ante la carga y el estrés. Aun así, hay margen para anticipar necesidades futuras y reforzar la conexión entre desarrollo profesional, propósito y bienestar cognitivo.",
+      propositoArea: "Este nivel invita a consolidar lo logrado y seguir fortaleciendo la relación entre bienestar, motivación y rendimiento sostenible. El objetivo es que la experiencia de trabajar en la organización mantenga coherencia, continuidad y sentido.",
+      proximosPasos: [
+        "Evaluar el impacto real de las acciones de bienestar y desarrollo.",
+        "Establecer itinerarios de crecimiento más personalizados.",
+        "Reforzar la cultura del feedback constructivo y el reconocimiento transversal.",
+        "Incorporar mediciones periódicas sobre satisfacción, clima y motivación."
+      ],
+      rutaFormativaDescripcion: "La ruta ofrece metodologías para profesionalizar el desarrollo, conectar el bienestar con el propósito y mantener una motivación estable que impulse la evolución individual y colectiva."
+    },
+    ejemplar: {
+      rango: "3.5-4.0",
+      visionGeneral: "La organización demuestra un alto nivel de madurez humana: cuida el bienestar, reconoce el valor de las personas y ofrece oportunidades de crecimiento claras y sostenibles. Se percibe equilibrio, pertenencia y orgullo. El talento se desarrolla desde la autonomía, el acompañamiento y una cultura de confianza sólida.",
+      propositoArea: "En este punto, el área de Personas se convierte en un motor estratégico. La organización trabaja desde una visión integrada del bienestar, la motivación y el desarrollo, asegurando que las personas crezcan, se sientan valoradas y encuentren sentido en su contribución.",
+      proximosPasos: [
+        "Documentar buenas prácticas de bienestar, reconocimiento y desarrollo.",
+        "Anticipar nuevas necesidades de competencias y acompañamiento.",
+        "Integrar el bienestar emocional en la planificación estratégica.",
+        "Fortalecer programas de mentoring, carrera y participación transversal."
+      ],
+      rutaFormativaDescripcion: "La ruta consolida esta madurez ofreciendo un marco que mantiene vivas las prácticas de cuidado, desarrollo y reconocimiento. Ayuda a preparar el futuro desde un talento que evoluciona con propósito, estabilidad y coherencia cultural."
+    }
+  },
   subAreas: [
     // SUB-ÁREA 20: DESARROLLO PROFESIONAL
     {
@@ -1214,7 +1528,7 @@ export const CONTENIDO_PERSONAS: AreaContenido = {
             "Fomentar el aprendizaje entre iguales como parte del día a día."
           ]
         },
-        vulnerable: {
+        desarrollo: {
           rango: "1.5 – 2.49",
           queSeObserva: "Existen iniciativas formativas regulares, pero su impacto no siempre se mide ni se traduce en nuevas prácticas.",
           comoInterpretarlo: "La formación tiene buena intención, pero necesita un enfoque más práctico y evaluativo.",
@@ -1225,7 +1539,7 @@ export const CONTENIDO_PERSONAS: AreaContenido = {
             "Incorporar objetivos de aprendizaje en los planes de desarrollo."
           ]
         },
-        estable: {
+        solido: {
           rango: "2.5 – 3.49",
           queSeObserva: "El aprendizaje está integrado en la rutina organizativa. Las personas se forman y aplican lo aprendido en su puesto.",
           comoInterpretarlo: "La organización aprende de forma estructurada y muestra coherencia entre aprendizaje y desempeño.",
@@ -1236,7 +1550,7 @@ export const CONTENIDO_PERSONAS: AreaContenido = {
             "Vincular la formación con indicadores de impacto y bienestar."
           ]
         },
-        maduro: {
+        ejemplar: {
           rango: "3.5 – 4.0",
           queSeObserva: "El desarrollo profesional es continuo, intencional y compartido. Las personas se sienten acompañadas en su evolución.",
           comoInterpretarlo: "La organización ha construido una cultura de aprendizaje vivo y sostenible.",
@@ -1267,7 +1581,7 @@ export const CONTENIDO_PERSONAS: AreaContenido = {
             "Promover conversaciones sobre bienestar en los equipos."
           ]
         },
-        vulnerable: {
+        desarrollo: {
           rango: "1.5 – 2.49",
           queSeObserva: "Se valora el bienestar, pero las acciones dependen de la iniciativa individual o de momentos puntuales.",
           comoInterpretarlo: "Existe conciencia, pero falta un enfoque sistémico que asegure continuidad.",
@@ -1278,7 +1592,7 @@ export const CONTENIDO_PERSONAS: AreaContenido = {
             "Fomentar la desconexión digital responsable."
           ]
         },
-        estable: {
+        solido: {
           rango: "2.5 – 3.49",
           queSeObserva: "La organización promueve la conciliación y dispone de medidas preventivas de estrés.",
           comoInterpretarlo: "El bienestar está integrado en la gestión, y las personas lo perciben como parte de la cultura.",
@@ -1289,7 +1603,7 @@ export const CONTENIDO_PERSONAS: AreaContenido = {
             "Compartir testimonios de buenas prácticas de autocuidado."
           ]
         },
-        maduro: {
+        ejemplar: {
           rango: "3.5 – 4.0",
           queSeObserva: "El bienestar forma parte natural de la cultura. Las personas trabajan con energía serena y clima positivo.",
           comoInterpretarlo: "La organización ha integrado el bienestar como valor central de su sistema operativo.",
@@ -1320,7 +1634,7 @@ export const CONTENIDO_PERSONAS: AreaContenido = {
             "Fomentar mensajes de agradecimiento entre iguales."
           ]
         },
-        vulnerable: {
+        desarrollo: {
           rango: "1.5 – 2.49",
           queSeObserva: "Existen gestos de reconocimiento, pero dependen del estilo de liderazgo o del contexto.",
           comoInterpretarlo: "El valor se percibe, aunque necesita mayor visibilidad y coherencia.",
@@ -1331,7 +1645,7 @@ export const CONTENIDO_PERSONAS: AreaContenido = {
             "Promover espacios de agradecimiento interdepartamental."
           ]
         },
-        estable: {
+        solido: {
           rango: "2.5 – 3.49",
           queSeObserva: "El reconocimiento está integrado en la práctica directiva y se percibe en el clima organizativo.",
           comoInterpretarlo: "Las personas sienten que su trabajo tiene impacto y que su esfuerzo se valora.",
@@ -1342,7 +1656,7 @@ export const CONTENIDO_PERSONAS: AreaContenido = {
             "Promover la cultura del agradecimiento transversal."
           ]
         },
-        maduro: {
+        ejemplar: {
           rango: "3.5 – 4.0",
           queSeObserva: "El reconocimiento es espontáneo, constante y coherente con los valores.",
           comoInterpretarlo: "La organización ha integrado la gratitud y el aprecio como parte de su identidad.",
@@ -1373,7 +1687,7 @@ export const CONTENIDO_PERSONAS: AreaContenido = {
             "Evaluar la percepción de satisfacción y pertenencia."
           ]
         },
-        vulnerable: {
+        desarrollo: {
           rango: "1.5 – 2.49",
           queSeObserva: "Se perciben gestos de cuidado y medidas de conciliación, pero sin coherencia entre áreas.",
           comoInterpretarlo: "El compromiso emocional está en proceso de fortalecimiento.",
@@ -1384,7 +1698,7 @@ export const CONTENIDO_PERSONAS: AreaContenido = {
             "Escuchar activamente las necesidades del personal."
           ]
         },
-        estable: {
+        solido: {
           rango: "2.5 – 3.49",
           queSeObserva: "El ambiente es positivo, colaborativo y flexible. Las personas valoran el clima y las oportunidades de participación.",
           comoInterpretarlo: "El salario emocional se ha convertido en un factor de fidelización y motivación real.",
@@ -1395,7 +1709,7 @@ export const CONTENIDO_PERSONAS: AreaContenido = {
             "Promover la cohesión entre bienestar individual y propósito común."
           ]
         },
-        maduro: {
+        ejemplar: {
           rango: "3.5 – 4.0",
           queSeObserva: "La organización cuida integralmente a las personas y promueve relaciones basadas en confianza y orgullo compartido.",
           comoInterpretarlo: "El salario emocional está completamente integrado en la cultura. Las personas se sienten valoradas y comprometidas.",

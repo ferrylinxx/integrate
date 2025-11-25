@@ -2,8 +2,8 @@ import { AreaData, AnswerValue } from "./types";
 
 // Colores oficiales de Integrate para cada área
 export const INTEGRATE_COLORS = {
-  estrategia: '#2C248E',      // Azul oscuro - Área 1
-  estructura: '#412761',      // Morado oscuro - Área 2
+  estrategia: '#4D4DFF',      // Azul brillante - Área 1
+  estructura: '#763AD6',      // Morado oscuro - Área 2
   orientacio: '#8E235D',      // Magenta oscuro - Área 3
   eficacia: '#E65B3E',        // Naranja rojizo - Área 4
   recursos: '#F08726',        // Naranja - Área 5

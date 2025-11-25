@@ -9,8 +9,8 @@
  * IMPORTANTE: Actualizar esta versión antes de hacer build de Docker
  */
 
-export const APP_VERSION = "2.7.0";
-export const APP_VERSION_LABEL = "v2.7.0 · Estable";
+export const APP_VERSION = "4.0.0";
+export const APP_VERSION_LABEL = "v4.0.0";
 export const APP_BUILD_DATE = new Date().toISOString();
 
 /**

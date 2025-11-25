@@ -11,10 +11,11 @@ interface VistaGlobalPanelProps {
   answers: AnswerValue[];
 }
 
+// CRÍTICO: 0-25% | DESARROLLO: 25-50% | SÓLIDO: 50-75% | EJEMPLAR: 75-100%
 const getLevel = (percentage: number): { label: string; color: string; key: 'critico' | 'desarrollo' | 'solido' | 'ejemplar' } => {
-  if (percentage < 25) return { label: 'CRÍTICO', color: '#DC2626', key: 'critico' };
-  if (percentage < 50) return { label: 'DESARROLLO', color: '#F59E0B', key: 'desarrollo' };
-  if (percentage < 75) return { label: 'SÓLIDO', color: '#10B981', key: 'solido' };
+  if (percentage <= 25) return { label: 'CRÍTICO', color: '#DC2626', key: 'critico' };
+  if (percentage <= 50) return { label: 'DESARROLLO', color: '#F59E0B', key: 'desarrollo' };
+  if (percentage <= 75) return { label: 'SÓLIDO', color: '#10B981', key: 'solido' };
   return { label: 'EJEMPLAR', color: '#3B82F6', key: 'ejemplar' };
 };
 

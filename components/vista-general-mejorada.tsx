@@ -11,11 +11,12 @@ interface VistaGeneralMejoradaProps {
 }
 
 // Función para calcular el nivel según el valor individual (0-4)
+// CRÍTICO: 0-25% | DESARROLLO: 25-50% | SÓLIDO: 50-75% | EJEMPLAR: 75-100%
 const getLevel = (value: number): 'critico' | 'desarrollo' | 'solido' | 'ejemplar' => {
   const percentage = (value / 4) * 100;
-  if (percentage < 25) return 'critico';
-  if (percentage < 50) return 'desarrollo';
-  if (percentage < 75) return 'solido';
+  if (percentage <= 25) return 'critico';
+  if (percentage <= 50) return 'desarrollo';
+  if (percentage <= 75) return 'solido';
   return 'ejemplar';
 };
 
@@ -137,39 +138,53 @@ export function VistaGeneralMejorada({ answers, selectedFilter, onFilterChange, 
         <h2 className="text-white text-lg font-bold uppercase">VISTA GENERAL</h2>
 
         {/* Filtros */}
-        <div className="flex gap-1.5">
+        <div className="flex gap-3 items-center">
           {/* Botón GLOBAL (casa) */}
           <button
             onClick={() => onFilterChange(null)}
-            className={`px-3 py-1.5 rounded-full text-[10px] font-bold transition-all flex items-center gap-1 ${
+            className={`px-4 py-1.5 rounded-full text-[10px] font-bold transition-all flex items-center gap-1.5 ${
               selectedFilter === null
                 ? 'bg-white/20 text-white border border-white/40'
                 : 'bg-white/5 text-white/60 border border-white/10 hover:bg-white/10'
             }`}
             title="Ver todas las áreas"
           >
-            <span className="text-sm">🏠</span>
+            {/* Icono de casa SVG */}
+            <svg
+              className="w-3 h-3"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+            </svg>
+            <span>GLOBAL</span>
           </button>
 
+          {/* Línea separadora vertical */}
+          <div className="h-6 w-px bg-white/30"></div>
+
           {/* Filtros de nivel */}
-          {[
-            { key: 'critico' as const, label: 'CRÍTICO' },
-            { key: 'desarrollo' as const, label: 'DESARROLLO' },
-            { key: 'solido' as const, label: 'SÓLIDO' },
-            { key: 'ejemplar' as const, label: 'EJEMPLAR' },
-          ].map(({ key, label }) => (
-            <button
-              key={key}
-              onClick={() => onFilterChange(key)}
-              className={`px-3 py-1.5 rounded-full text-[10px] font-bold transition-all ${
-                selectedFilter === key
-                  ? 'bg-white/20 text-white border border-white/40'
-                  : 'bg-white/5 text-white/60 border border-white/10 hover:bg-white/10'
-              }`}
-            >
-              {label}
-            </button>
-          ))}
+          <div className="flex gap-1.5">
+            {[
+              { key: 'critico' as const, label: 'CRÍTICO' },
+              { key: 'desarrollo' as const, label: 'DESARROLLO' },
+              { key: 'solido' as const, label: 'SÓLIDO' },
+              { key: 'ejemplar' as const, label: 'EJEMPLAR' },
+            ].map(({ key, label }) => (
+              <button
+                key={key}
+                onClick={() => onFilterChange(key)}
+                className={`px-3 py-1.5 rounded-full text-[10px] font-bold transition-all ${
+                  selectedFilter === key
+                    ? 'bg-white/20 text-white border border-white/40'
+                    : 'bg-white/5 text-white/60 border border-white/10 hover:bg-white/10'
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -177,15 +192,24 @@ export function VistaGeneralMejorada({ answers, selectedFilter, onFilterChange, 
       <div className="flex gap-6">
         {/* Cubo desplegado - Más hacia la izquierda */}
         <div className="flex-1" style={{ maxWidth: needsTwoColumns ? '55%' : '65%' }}>
-          <div className="relative mx-auto" style={{ height: `${cellSize * 6 + areaGap * 2}px`, width: `${cellSize * 8 + areaGap * 3}px` }}>
+          <div className="relative mx-auto" style={{ height: `${cellSize * 6 + areaGap * 2 + 20}px`, width: `${cellSize * 8 + areaGap * 3}px` }}>
             {areaGroups.map((group) => {
               const { areaIndex, position, subAreas } = group;
               const areaColor = AREA_COLORS[areaIndex];
 
               // Calcular posición del contenedor del área (2x2)
-              const areaTop = position.row * cellSize + Math.floor(position.row / 2) * areaGap;
+              const areaTop = position.row * cellSize + Math.floor(position.row / 2) * areaGap + 20; // +20px para espacio del título
               const areaLeft = position.col * cellSize + Math.floor(position.col / 2) * areaGap;
               const areaSize = cellSize * 2 + cellGap;
+
+              // No mostrar nombre para ESTRATEGIA (área central, índice 0)
+              const showLabel = areaIndex !== 0;
+
+              // EFICACIA (índice 3) va abajo, el resto arriba
+              const labelPosition = areaIndex === 3 ? 'bottom' : 'top';
+
+              // Obtener nombre del área sin "Área X: "
+              const areaName = AREA_NAMES[areaIndex].replace(/^Área\s+\d+:\s+/i, '');
 
               return (
                 <div
@@ -201,6 +225,23 @@ export function VistaGeneralMejorada({ answers, selectedFilter, onFilterChange, 
                     borderRadius: '2px',
                   }}
                 >
+                  {/* Nombre del área - SOLO SI NO ES ESTRATEGIA */}
+                  {showLabel && (
+                    <div
+                      className="absolute left-0 right-0 text-center"
+                      style={{
+                        [labelPosition === 'bottom' ? 'bottom' : 'top']: '-18px',
+                        fontSize: '8px',
+                        fontWeight: 400,
+                        color: 'rgba(255, 255, 255, 0.5)',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.3px',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      {areaName}
+                    </div>
+                  )}
                   {/* Renderizar las 4 sub-celdas dentro del área */}
                   {subAreas.map(({ subAreaIndex, localRow, localCol }) => {
                     const value = answers[subAreaIndex];
@@ -228,11 +269,9 @@ export function VistaGeneralMejorada({ answers, selectedFilter, onFilterChange, 
                       >
                         {/* NÚMERO SUTIL ABAJO - SOLO SI ESTÁ ACTIVA */}
                         {isFiltered && (
-                          <div className="absolute bottom-0.5 right-0.5 z-20">
-                            <span className="text-[10px] font-bold text-white/80 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
-                              {numeroSubarea}
-                            </span>
-                          </div>
+                          <span className="absolute bottom-0.5 right-0.5 text-[10px] font-bold text-white/80">
+                            {numeroSubarea}
+                          </span>
                         )}
                       </div>
                     );

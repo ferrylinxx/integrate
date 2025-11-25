@@ -19,7 +19,6 @@ import { DraftRecoveryModal } from "@/components/draft-recovery-modal";
 import { TestPageHeader } from "@/components/test-page-header";
 import { EnhancedProgressBar } from "@/components/enhanced-progress-bar";
 import { ConfirmModal } from "@/components/confirm-modal";
-import { Navbar } from "@/components/navbar";
 import { VersionBadge } from "@/components/version-badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -143,8 +142,8 @@ export default function TestPage() {
       sessionStorage.removeItem("currentGroupCode");
       sessionStorage.removeItem("currentUserName");
 
-      // Redirigir a la página de resultados con el código del participante
-      router.push(`/resultado/${data.participant_code}`);
+      // Redirigir a la página de gracias con el código del participante
+      router.push(`/gracias/${data.participant_code}`);
     } catch (error) {
       console.error("Error al guardar:", error);
       setSubmitError(error instanceof Error ? error.message : "Error desconocido");
@@ -187,16 +186,15 @@ export default function TestPage() {
     <TestContentLoader>
       {({ content }) => (
         <>
-          <Navbar showHomeButton={false} transparent={false} />
           {/* Version Badge - Top Right */}
           <VersionBadge position="top-right" size="sm" />
           <main
-            className="min-h-screen pb-6 md:pb-12"
+            className="min-h-screen pb-20 md:pb-12"
             style={{
               background: 'linear-gradient(135deg, rgba(44, 36, 142, 0.03) 0%, rgba(65, 39, 97, 0.05) 20%, rgba(142, 35, 93, 0.03) 40%, rgba(230, 91, 62, 0.02) 60%, rgba(240, 135, 38, 0.03) 80%, rgba(217, 29, 92, 0.02) 100%)'
             }}
           >
-            <div className="max-w-6xl mx-auto space-y-4 md:space-y-6">
+            <div className="max-w-6xl mx-auto space-y-3 md:space-y-6">
               {/* Header simplificado */}
               <TestPageHeader
                 groupCode={groupCode}
@@ -208,7 +206,7 @@ export default function TestPage() {
               />
 
           {/* Barra de progreso mejorada con colores INTEGRATE */}
-          <div className="px-3 md:px-0">
+          <div className="px-2 md:px-0">
             <Card
               className="border-2 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
               style={{
@@ -216,15 +214,15 @@ export default function TestPage() {
                 borderImageSlice: 1
               }}
             >
-              <CardContent className="pt-6 pb-5 md:pt-8 md:pb-6">
+              <CardContent className="pt-4 pb-4 md:pt-8 md:pb-6 px-3 md:px-6">
                 <EnhancedProgressBar answers={answers} />
               </CardContent>
             </Card>
           </div>
 
           {/* Vista de Lista (única opción) */}
-          <div className="px-3 md:px-0">
-            <div className="space-y-4 md:space-y-5">
+          <div className="px-2 md:px-0">
+            <div className="space-y-3 md:space-y-5">
               {AREAS.map((area) => (
                 <AreaSection
                   key={area.areaNumber}
@@ -236,58 +234,60 @@ export default function TestPage() {
             </div>
           </div>
 
-          {/* Botón de guardar con diseño INTEGRATE - Optimizado para móvil */}
-          <div className="px-3 md:px-0">
+          {/* Botón de guardar - Sticky en móvil */}
+          <div className="px-2 md:px-0">
             <Card
-              className="border-2 shadow-lg sticky bottom-4 md:static"
+              className="border-2 shadow-xl sticky bottom-2 md:static"
               style={{
                 borderImage: 'linear-gradient(135deg, #2C248E 0%, #8E235D 50%, #D91D5C 100%) 1',
                 borderImageSlice: 1
               }}
             >
-              <CardContent className="pt-5 pb-5 md:pt-6 space-y-3 md:space-y-4">
+              <CardContent className="pt-3 pb-3 md:pt-6 md:pb-6 px-3 md:px-6 space-y-2 md:space-y-4">
                 <Button
                   onClick={handleSaveClick}
                   disabled={isSubmitting || groupCodeValid === false}
-                  className="w-full text-white font-bold shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all transform hover:scale-[1.02] active:scale-[0.98]"
+                  className="w-full text-white font-bold shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all transform active:scale-95"
                   style={{
                     background: 'linear-gradient(135deg, #2C248E 0%, #412761 20%, #8E235D 50%, #E65B3E 80%, #F08726 100%)',
-                    minHeight: '52px',
-                    fontSize: '16px'
+                    minHeight: '48px',
+                    fontSize: '15px'
                   }}
                   size="lg"
                 >
                   {isSubmitting ? (
                     <>
-                      <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
-                      <span>Guardando...</span>
+                      <div className="h-4 w-4 md:h-5 md:w-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+                      <span className="text-sm md:text-base">Guardando...</span>
                     </>
                   ) : (
                     <span className="flex items-center justify-center gap-2">
-                      <span>Guardar Respuestas</span>
+                      <span className="text-sm md:text-base">Guardar Respuestas</span>
                       {answeredCount === TOTAL_QUESTIONS && <span>✓</span>}
                     </span>
                   )}
                 </Button>
 
                 {/* Contador de progreso */}
-                <div className="flex items-center justify-between px-2">
-                  <p className="text-sm md:text-base text-gray-700 font-medium">
+                <div className="flex items-center justify-between">
+                  <p className="text-xs md:text-base text-gray-700 font-medium">
                     {answeredCount < TOTAL_QUESTIONS ? (
                       <>
                         <span className="text-orange-600 font-bold">{answeredCount}</span>
-                        <span className="text-gray-500"> de </span>
+                        <span className="text-gray-500 hidden sm:inline"> de </span>
+                        <span className="text-gray-500 sm:hidden">/</span>
                         <span className="font-bold">{TOTAL_QUESTIONS}</span>
-                        <span className="text-gray-500"> preguntas</span>
+                        <span className="text-gray-500 hidden sm:inline"> preguntas</span>
                       </>
                     ) : (
-                      <span className="text-green-600 font-bold">
-                        ✓ Todas las preguntas completadas
+                      <span className="text-green-600 font-bold text-xs md:text-base">
+                        ✓ <span className="hidden sm:inline">Todas completadas</span>
+                        <span className="sm:hidden">Completo</span>
                       </span>
                     )}
                   </p>
                   <span
-                    className="text-lg md:text-xl font-bold"
+                    className="text-base md:text-xl font-bold"
                     style={{
                       background: 'linear-gradient(135deg, #2C248E 0%, #8E235D 50%, #E65B3E 100%)',
                       WebkitBackgroundClip: 'text',
@@ -301,9 +301,9 @@ export default function TestPage() {
 
                 {/* Mensaje de error */}
                 {submitError && (
-                  <div className="bg-red-50 border-2 border-red-300 rounded-lg p-3 md:p-4 animate-shake">
-                    <p className="text-sm text-red-700 text-center font-medium">
-                      ⚠️ Error: {submitError}
+                  <div className="bg-red-50 border-2 border-red-300 rounded-lg p-2 md:p-4 animate-shake">
+                    <p className="text-xs md:text-sm text-red-700 text-center font-medium">
+                      ⚠️ {submitError}
                     </p>
                   </div>
                 )}

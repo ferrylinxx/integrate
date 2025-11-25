@@ -15,6 +15,7 @@ interface Cube3DProps {
   onOrbitChange?: () => void;
   onFaceClick?: (areaIndex: number) => void;
   onCellClick?: (areaIndex: number, subAreaIndex: number) => void;
+  onMostVisibleFaceChange?: (areaIndex: number) => void;
 }
 
 // Componente de partículas que emergen al hacer clic
@@ -68,6 +69,7 @@ export interface FacePosition {
   y: number;
   visible: boolean;
   areaIndex: number;
+  dotProduct: number; // Qué tan de frente está la cara (1 = totalmente de frente, 0 = perpendicular, -1 = de espaldas)
 }
 
 export interface Cube3DRef {
@@ -125,34 +127,34 @@ function createGradientTexture(areaColor: string, value: number): THREE.CanvasTe
   const translucentStop = (100 - percentage) / 100;
 
   if (percentage < 100) {
-    // Crear un degradado MÁS AGRESIVO y visible
-    // Parte superior: MUY translúcido (representa lo "no cumplido")
-    gradient.addColorStop(0, `rgba(${saturatedRgb.r}, ${saturatedRgb.g}, ${saturatedRgb.b}, 0.05)`);
+    // Crear un degradado MUCHO MÁS AGRESIVO y visible
+    // Parte superior: CASI TRANSPARENTE (representa lo "no cumplido")
+    gradient.addColorStop(0, `rgba(${saturatedRgb.r}, ${saturatedRgb.g}, ${saturatedRgb.b}, 0.02)`);
 
-    // Transición MÁS AGRESIVA para que el degradado sea muy visible
-    const blendZone = 0.35; // Zona de transición más amplia para efecto más dramático
+    // Transición MUCHO MÁS AGRESIVA para que el degradado sea extremadamente visible
+    const blendZone = 0.25; // Zona de transición más corta para efecto más dramático
     const blendStart = Math.max(0, translucentStop - blendZone / 2);
     const blendEnd = Math.min(1, translucentStop + blendZone / 2);
 
     // Inicio de la transición: muy translúcido
     if (blendStart > 0) {
-      gradient.addColorStop(blendStart, `rgba(${saturatedRgb.r}, ${saturatedRgb.g}, ${saturatedRgb.b}, 0.1)`);
+      gradient.addColorStop(blendStart, `rgba(${saturatedRgb.r}, ${saturatedRgb.g}, ${saturatedRgb.b}, 0.08)`);
     }
 
-    // Punto medio de la transición: opacidad media
-    gradient.addColorStop(translucentStop, `rgba(${saturatedRgb.r}, ${saturatedRgb.g}, ${saturatedRgb.b}, 0.5)`);
+    // Punto medio de la transición: opacidad media-baja
+    gradient.addColorStop(translucentStop, `rgba(${saturatedRgb.r}, ${saturatedRgb.g}, ${saturatedRgb.b}, 0.4)`);
 
     // Fin de la transición: opacidad alta
     if (blendEnd < 1) {
-      gradient.addColorStop(blendEnd, `rgba(${saturatedRgb.r}, ${saturatedRgb.g}, ${saturatedRgb.b}, 0.85)`);
+      gradient.addColorStop(blendEnd, `rgba(${saturatedRgb.r}, ${saturatedRgb.g}, ${saturatedRgb.b}, 0.9)`);
     }
 
     // Parte inferior: color del área saturado y MUY OPACO (representa lo "cumplido")
-    gradient.addColorStop(1, `rgba(${saturatedRgb.r}, ${saturatedRgb.g}, ${saturatedRgb.b}, 0.98)`);
+    gradient.addColorStop(1, `rgba(${saturatedRgb.r}, ${saturatedRgb.g}, ${saturatedRgb.b}, 1.0)`);
   } else {
-    // 100% cumplimiento: todo el color del área saturado y muy opaco
-    gradient.addColorStop(0, `rgba(${saturatedRgb.r}, ${saturatedRgb.g}, ${saturatedRgb.b}, 0.98)`);
-    gradient.addColorStop(1, `rgba(${saturatedRgb.r}, ${saturatedRgb.g}, ${saturatedRgb.b}, 0.98)`);
+    // 100% cumplimiento: todo el color del área saturado y completamente opaco
+    gradient.addColorStop(0, `rgba(${saturatedRgb.r}, ${saturatedRgb.g}, ${saturatedRgb.b}, 1.0)`);
+    gradient.addColorStop(1, `rgba(${saturatedRgb.r}, ${saturatedRgb.g}, ${saturatedRgb.b}, 1.0)`);
   }
 
   // Aplicar gradiente
@@ -268,21 +270,45 @@ function CubeFace({
         />
       </mesh>
 
-      {/* Etiqueta del área */}
+      {/* Contorno blanco extremadamente sutil */}
+      <lineSegments position={[0, 0, 0.005]}>
+        <edgesGeometry args={[new THREE.PlaneGeometry(1, 1)]} />
+        <lineBasicMaterial
+          color="#ffffff"
+          transparent
+          opacity={0.08}
+          linewidth={1}
+        />
+      </lineSegments>
+
+      {/* Etiqueta del área - Nombre - MAYÚSCULAS POPPINS SIN CONTORNO */}
       <Suspense fallback={null}>
         <Text
-          position={[0, 0, 0.01]}
-          fontSize={0.08}
+          position={[0, 0.05, 0.01]}
+          fontSize={0.07}
           color="#ffffff"
           anchorX="center"
           anchorY="middle"
-          outlineWidth={0.01}
-          outlineColor="#000000"
-          outlineOpacity={0.9}
+          font="/fonts/Poppins-Bold.ttf"
+          letterSpacing={0.05}
           maxWidth={0.9}
           textAlign="center"
         >
-          {areaName.replace('Área 1: ', '').replace('Área 2: ', '').replace('Área 3: ', '').replace('Área 4: ', '').replace('Área 5: ', '').replace('Área 6: ', '')}
+          {areaName.replace('Área 1: ', '').replace('Área 2: ', '').replace('Área 3: ', '').replace('Área 4: ', '').replace('Área 5: ', '').replace('Área 6: ', '').toUpperCase()}
+        </Text>
+
+        {/* Etiqueta del área - Porcentaje - POPPINS SIN CONTORNO */}
+        <Text
+          position={[0, -0.05, 0.01]}
+          fontSize={0.055}
+          color="#ffffff"
+          anchorX="center"
+          anchorY="middle"
+          font="/fonts/Poppins-Bold.ttf"
+          maxWidth={0.9}
+          textAlign="center"
+        >
+          {`${Math.round((averageValue / 4) * 100)}%`}
         </Text>
       </Suspense>
     </group>
@@ -466,7 +492,8 @@ function Cube({
           x,
           y,
           visible,
-          areaIndex: index
+          areaIndex: index,
+          dotProduct
         });
       });
 
@@ -585,7 +612,7 @@ function CanvasAccessor({ onCanvasReady }: { onCanvasReady: (canvas: HTMLCanvasE
   return null;
 }
 
-export const Cube3D = forwardRef<Cube3DRef, Cube3DProps>(({ data, autoRotate = true, onAutoRotateChange, onOrbitChange, onFaceClick, onCellClick }, ref) => {
+export const Cube3D = forwardRef<Cube3DRef, Cube3DProps>(({ data, autoRotate = true, onAutoRotateChange, onOrbitChange, onFaceClick, onCellClick, onMostVisibleFaceChange }, ref) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const facePositionsRef = useRef<FacePosition[]>([]);
   const targetRotationRef = useRef<THREE.Euler | null>(null);
@@ -658,6 +685,30 @@ export const Cube3D = forwardRef<Cube3DRef, Cube3DProps>(({ data, autoRotate = t
 
   const handleFacePositionsUpdate = (positions: FacePosition[]) => {
     facePositionsRef.current = positions;
+
+    // Encontrar la cara más visible (la que está más de frente a la cámara)
+    // Usamos el dotProduct: cuanto más cercano a 1, más de frente está la cara
+    if (onMostVisibleFaceChange && positions.length > 0) {
+      const visibleFaces = positions.filter(p => p.visible);
+      if (visibleFaces.length > 0) {
+        // Encontrar la cara con el mayor dotProduct (más de frente a la cámara)
+        let mostVisibleFace = visibleFaces[0];
+        let maxDotProduct = visibleFaces[0].dotProduct;
+
+        visibleFaces.forEach(face => {
+          if (face.dotProduct > maxDotProduct) {
+            maxDotProduct = face.dotProduct;
+            mostVisibleFace = face;
+          }
+        });
+
+        // Solo actualizar si el dotProduct es significativo (> 0.3 para evitar cambios erráticos)
+        if (maxDotProduct > 0.3) {
+          onMostVisibleFaceChange(mostVisibleFace.areaIndex);
+          // console.log('👁️ Cara más visible:', mostVisibleFace.areaIndex, 'dotProduct:', maxDotProduct.toFixed(3));
+        }
+      }
+    }
   };
 
   return (

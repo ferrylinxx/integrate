@@ -131,6 +131,14 @@ export default function ResultadoPage() {
     <>
       {/* Version Badge - Top Right */}
       <VersionBadge position="top-right" size="sm" />
+
+      {/* Marca de agua - Programa en Desarrollo */}
+      <div className="fixed bottom-4 left-4 z-[10000]">
+        <p className="text-white text-xs font-light tracking-wide">
+          Programa en Desarrollo (Versión 4.0.0)
+        </p>
+      </div>
+
       <main className="min-h-screen bg-[#0a0a0f] relative overflow-hidden">
         {/* Patrón de cuadrícula sutil en el fondo */}
         <div className="absolute inset-0 opacity-10" style={{

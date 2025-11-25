@@ -30,11 +30,12 @@ const hexToRgb = (hex: string): { r: number; g: number; b: number } => {
 };
 
 // Función para calcular el nivel según el valor individual (0-4)
+// CRÍTICO: 0-25% | DESARROLLO: 25-50% | SÓLIDO: 50-75% | EJEMPLAR: 75-100%
 const getLevel = (value: number): 'critico' | 'desarrollo' | 'solido' | 'ejemplar' => {
   const percentage = (value / 4) * 100;
-  if (percentage < 25) return 'critico';
-  if (percentage < 50) return 'desarrollo';
-  if (percentage < 75) return 'solido';
+  if (percentage <= 25) return 'critico';
+  if (percentage <= 50) return 'desarrollo';
+  if (percentage <= 75) return 'solido';
   return 'ejemplar';
 };
 
@@ -234,13 +235,6 @@ export function MapaDeSituacion({
                       : 'hover:bg-white/5'
                   }`}
                 >
-                  {/* Bola de color con gradiente -90deg */}
-                  <div
-                    className="w-3 h-3 rounded-full transition-transform duration-300 hover:scale-110"
-                    style={{
-                      background: `linear-gradient(-90deg, rgba(${rgb.r},${rgb.g},${rgb.b},0.5) 0%, rgba(${rgb.r},${rgb.g},${rgb.b},1) 86%)`,
-                    }}
-                  />
                   <span
                     className="text-xs text-white/80 whitespace-nowrap"
                     style={{
@@ -249,8 +243,15 @@ export function MapaDeSituacion({
                       fontSize: '11px',
                     }}
                   >
-                    {areaName}
+                    TEST {areaName}
                   </span>
+                  {/* Bola de color con gradiente -90deg - AHORA DESPUÉS DEL TEXTO */}
+                  <div
+                    className="w-3 h-3 rounded-full transition-transform duration-300 hover:scale-110"
+                    style={{
+                      background: `linear-gradient(-90deg, rgba(${rgb.r},${rgb.g},${rgb.b},0.5) 0%, rgba(${rgb.r},${rgb.g},${rgb.b},1) 86%)`,
+                    }}
+                  />
                 </button>
               );
             })}

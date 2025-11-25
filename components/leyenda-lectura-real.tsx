@@ -9,11 +9,12 @@ interface LeyendaLecturaRealProps {
 }
 
 // Función para calcular el nivel según el valor individual (0-4)
+// CRÍTICO: 0-25% | DESARROLLO: 25-50% | SÓLIDO: 50-75% | EJEMPLAR: 75-100%
 const getLevel = (value: number): 'critico' | 'desarrollo' | 'solido' | 'ejemplar' => {
   const percentage = (value / 4) * 100;
-  if (percentage < 25) return 'critico';
-  if (percentage < 50) return 'desarrollo';
-  if (percentage < 75) return 'solido';
+  if (percentage <= 25) return 'critico';
+  if (percentage <= 50) return 'desarrollo';
+  if (percentage <= 75) return 'solido';
   return 'ejemplar';
 };
 

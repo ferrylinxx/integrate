@@ -48,13 +48,13 @@ export function EnhancedProgressBar({ answers }: EnhancedProgressBarProps) {
   );
 
   return (
-    <div className="space-y-4 md:space-y-5">
-      {/* Barra de progreso principal con gradiente INTEGRATE */}
-      <div className="space-y-3">
+    <div className="space-y-3 md:space-y-5">
+      {/* Barra de progreso principal - Versión móvil compacta */}
+      <div className="space-y-2 md:space-y-3">
         <div className="flex items-center justify-between">
-          <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-2">
+          <div className="flex flex-col gap-0.5">
             <h3
-              className="text-base md:text-lg font-bold"
+              className="text-sm md:text-lg font-bold"
               style={{
                 background: 'linear-gradient(135deg, #2C248E 0%, #8E235D 50%, #E65B3E 100%)',
                 WebkitBackgroundClip: 'text',
@@ -62,14 +62,14 @@ export function EnhancedProgressBar({ answers }: EnhancedProgressBarProps) {
                 backgroundClip: 'text'
               }}
             >
-              Progreso General
+              Progreso
             </h3>
-            <span className="text-xs md:text-sm text-gray-600 font-medium">
-              {answeredCount} de {answers.length} preguntas
+            <span className="text-[10px] md:text-sm text-gray-600 font-medium">
+              {answeredCount}/{answers.length}
             </span>
           </div>
           <span
-            className="text-2xl md:text-3xl font-bold"
+            className="text-xl md:text-3xl font-bold"
             style={{
               background: 'linear-gradient(135deg, #2C248E 0%, #8E235D 50%, #E65B3E 100%)',
               WebkitBackgroundClip: 'text',
@@ -83,7 +83,7 @@ export function EnhancedProgressBar({ answers }: EnhancedProgressBarProps) {
 
         {/* Barra de progreso con gradiente */}
         <div className="relative">
-          <div className="w-full bg-gray-200 rounded-full h-4 md:h-5 overflow-hidden shadow-inner">
+          <div className="w-full bg-gray-200 rounded-full h-3 md:h-5 overflow-hidden shadow-inner">
             <div
               className="h-full transition-all duration-700 ease-out relative overflow-hidden"
               style={{
@@ -106,33 +106,33 @@ export function EnhancedProgressBar({ answers }: EnhancedProgressBarProps) {
         </div>
       </div>
 
-      {/* Mini indicadores por área con colores INTEGRATE */}
-      <div className="grid grid-cols-3 md:grid-cols-6 gap-3 md:gap-2">
+      {/* Mini indicadores por área - Optimizado para móvil */}
+      <div className="grid grid-cols-6 gap-2 md:gap-2">
         {areaProgress.map((area, index) => (
           <div
             key={index}
-            className="flex flex-col items-center gap-1.5 md:gap-1 group cursor-pointer"
+            className="flex flex-col items-center gap-1 group"
           >
             <div className="relative">
               {area.completed ? (
                 <div
-                  className="w-8 h-8 md:w-7 md:h-7 rounded-full flex items-center justify-center shadow-lg transition-transform group-hover:scale-110"
+                  className="w-7 h-7 md:w-7 md:h-7 rounded-full flex items-center justify-center shadow-md transition-transform group-hover:scale-110"
                   style={{ background: area.color }}
                 >
-                  <CheckCircle2 className="h-5 w-5 md:h-4 md:w-4 text-white" />
+                  <CheckCircle2 className="h-4 w-4 text-white" />
                 </div>
               ) : (
                 <div className="relative">
                   <div
-                    className="w-8 h-8 md:w-7 md:h-7 rounded-full border-3 flex items-center justify-center transition-all group-hover:scale-110"
+                    className="w-7 h-7 md:w-7 md:h-7 rounded-full border-2 flex items-center justify-center transition-all group-hover:scale-110"
                     style={{
                       borderColor: area.count > 0 ? area.color : '#d1d5db',
-                      borderWidth: '3px'
+                      borderWidth: '2px'
                     }}
                   >
                     {area.count > 0 && (
                       <span
-                        className="text-sm md:text-xs font-bold"
+                        className="text-[10px] md:text-xs font-bold"
                         style={{ color: area.color }}
                       >
                         {area.count}
@@ -142,10 +142,10 @@ export function EnhancedProgressBar({ answers }: EnhancedProgressBarProps) {
                 </div>
               )}
             </div>
-            <span className="text-xs md:text-[10px] font-semibold text-gray-700 text-center">
-              Área {index + 1}
+            <span className="text-[9px] md:text-[10px] font-semibold text-gray-700 text-center">
+              A{index + 1}
             </span>
-            <div className="w-full bg-gray-200 rounded-full h-1.5 md:h-1 overflow-hidden">
+            <div className="w-full bg-gray-200 rounded-full h-1 overflow-hidden">
               <div
                 className="h-full transition-all duration-500"
                 style={{
@@ -158,49 +158,49 @@ export function EnhancedProgressBar({ answers }: EnhancedProgressBarProps) {
         ))}
       </div>
 
-      {/* Mensaje motivacional con colores INTEGRATE */}
+      {/* Mensaje motivacional - Compacto en móvil */}
       {totalProgress === 100 ? (
         <div
-          className="border-2 rounded-xl p-3 md:p-4 text-center shadow-lg animate-pulse"
+          className="border-2 rounded-lg md:rounded-xl p-2 md:p-4 text-center shadow-lg animate-pulse"
           style={{
             background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%)',
             borderColor: '#10b981'
           }}
         >
-          <p className="text-sm md:text-base font-bold text-green-700 flex items-center justify-center gap-2">
-            <Sparkles className="h-5 w-5" />
-            <span>¡Excelente! Has completado todas las preguntas</span>
-            <Sparkles className="h-5 w-5" />
+          <p className="text-xs md:text-base font-bold text-green-700 flex items-center justify-center gap-1 md:gap-2">
+            <Sparkles className="h-3 w-3 md:h-5 md:w-5" />
+            <span>¡Completado!</span>
+            <Sparkles className="h-3 w-3 md:h-5 md:w-5" />
           </p>
         </div>
       ) : totalProgress >= 50 ? (
         <div
-          className="border-2 rounded-xl p-3 md:p-4 text-center shadow-md"
+          className="border-2 rounded-lg md:rounded-xl p-2 md:p-4 text-center shadow-md"
           style={{
             background: 'linear-gradient(135deg, rgba(44, 36, 142, 0.1) 0%, rgba(142, 35, 93, 0.05) 100%)',
             borderColor: '#8E235D'
           }}
         >
           <p
-            className="text-sm md:text-base font-bold"
+            className="text-xs md:text-base font-bold"
             style={{ color: '#8E235D' }}
           >
-            💪 ¡Vas muy bien! Ya completaste más de la mitad
+            💪 ¡Vas muy bien!
           </p>
         </div>
       ) : totalProgress > 0 ? (
         <div
-          className="border-2 rounded-xl p-3 md:p-4 text-center shadow-md"
+          className="border-2 rounded-lg md:rounded-xl p-2 md:p-4 text-center shadow-md"
           style={{
             background: 'linear-gradient(135deg, rgba(240, 135, 38, 0.1) 0%, rgba(230, 91, 62, 0.05) 100%)',
             borderColor: '#F08726'
           }}
         >
           <p
-            className="text-sm md:text-base font-bold"
+            className="text-xs md:text-base font-bold"
             style={{ color: '#E65B3E' }}
           >
-            🚀 ¡Buen comienzo! Continúa respondiendo
+            🚀 ¡Buen comienzo!
           </p>
         </div>
       ) : null}

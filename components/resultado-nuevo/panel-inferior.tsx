@@ -5,6 +5,7 @@ import { AREA_COLORS, AREA_NAMES, SUB_AREA_NAMES } from "@/lib/constants";
 import { AnswerValue } from "@/lib/types";
 import { useEditable, useEditableStyles } from "@/lib/editor/hooks";
 import { EditableText } from "@/components/editor/EditableText";
+import { CONTENIDO_ESTRATEGIA, getNivelKey } from "@/lib/contenido-interpretativo";
 
 interface PanelInferiorProps {
   subAreaIndex: number | null;
@@ -12,6 +13,7 @@ interface PanelInferiorProps {
   value: number;
   answers: AnswerValue[];
   onClose: () => void;
+  onSubAreaClick?: (subAreaIndex: number) => void;
 }
 
 // Función para convertir HEX a RGB
@@ -25,11 +27,12 @@ const hexToRgb = (hex: string): { r: number; g: number; b: number } => {
 };
 
 // Función para calcular el nivel según el valor individual (0-4)
+// CRÍTICO: 0-25% | DESARROLLO: 25-50% | SÓLIDO: 50-75% | EJEMPLAR: 75-100%
 const getLevel = (value: number): 'critico' | 'desarrollo' | 'solido' | 'ejemplar' => {
   const percentage = (value / 4) * 100;
-  if (percentage < 25) return 'critico';
-  if (percentage < 50) return 'desarrollo';
-  if (percentage < 75) return 'solido';
+  if (percentage <= 25) return 'critico';
+  if (percentage <= 50) return 'desarrollo';
+  if (percentage <= 75) return 'solido';
   return 'ejemplar';
 };
 
@@ -80,7 +83,7 @@ const getLevelColor = (level: string): string => {
   }
 };
 
-export function PanelInferior({ subAreaIndex, areaIndex, value, answers, onClose }: PanelInferiorProps) {
+export function PanelInferior({ subAreaIndex, areaIndex, value, answers, onClose, onSubAreaClick }: PanelInferiorProps) {
   // ==========================================
   // HOOKS DEL EDITOR
   // ==========================================
@@ -117,25 +120,43 @@ export function PanelInferior({ subAreaIndex, areaIndex, value, answers, onClose
   const levelColor = getLevelColor(level);
   const percentage = (displayValue / 4) * 100;
 
+  // Función helper para obtener el contenido del área
+  const getContenidoArea = () => {
+    if (areaIndex === 0) return CONTENIDO_ESTRATEGIA;
+    // TODO: Agregar otras áreas cuando estén disponibles
+    return null;
+  };
+
   // Contenido específico según el nivel y tipo de vista
   const getContentByLevel = () => {
-    if (isAreaView) {
+    if (isAreaView && areaIndex !== null) {
+      // Obtener las 4 sub-áreas del área seleccionada
+      const startIndex = areaIndex * 4;
+      const subAreasDesglose = Array.from({ length: 4 }, (_, i) => {
+        const subIndex = startIndex + i;
+        return {
+          name: SUB_AREA_NAMES[subIndex],
+          value: answers[subIndex],
+          index: subIndex, // Agregar índice para poder hacer click
+        };
+      });
+
+      // Obtener contenido dinámico del área
+      const contenidoArea = getContenidoArea();
+      const nivelKey = getNivelKey(displayValue);
+      const contenidoNivel = contenidoArea?.niveles ? contenidoArea.niveles[nivelKey] : null;
+
       // Contenido para vista de área completa
       return {
-        desglose: [
-          { name: 'Logística', value: 2.5 },
-          { name: 'Comunicación', value: 3.0 },
-          { name: 'Tecnología', value: 2.8 },
-        ],
-        visionGeneral: `El área de ${displayName} presenta un nivel ${levelName.toLowerCase()} con un ${percentage.toFixed(0)}% de cumplimiento promedio. Esta área es fundamental para conectar propósito, dirección y decisiones, generando sentido compartido y resultados tangibles.`,
-        proposito: `Optimizar el uso de herramientas, tiempo y conocimiento para potenciar la autonomía, la colaboración y la sostenibilidad del sistema organizativo.`,
-        proximosPasos: [
+        desglose: subAreasDesglose,
+        visionGeneral: contenidoNivel?.visionGeneral || `El área de ${displayName} presenta un nivel ${levelName.toLowerCase()} con un ${percentage.toFixed(0)}% de cumplimiento promedio.`,
+        proposito: contenidoNivel?.propositoArea || contenidoArea?.proposito || '',
+        proximosPasos: contenidoNivel?.proximosPasos || [
           'Revisar en detalle cada sub-área usando la Vista Específica',
           'Priorizar las sub-áreas con menor puntuación para mejoras',
-          'Explorar las oportunidades de mejora específicas de cada sub-área',
-          'Considerar la ruta formativa "Activa tu Sistema Operativo" para un acompañamiento estructurado',
         ],
-        rutaFormativa: 'Activa tu Sistema Operativo',
+        rutaFormativa: contenidoArea?.rutaFormativa || '',
+        rutaFormativaDescripcion: contenidoNivel?.rutaFormativaDescripcion || '',
       };
     } else {
       // Contenido para vista de sub-área
@@ -286,13 +307,17 @@ export function PanelInferior({ subAreaIndex, areaIndex, value, answers, onClose
             </div>
             <div className="space-y-3">
               {content.desglose.map((item, index) => (
-                <div key={index} className="flex items-center justify-between">
+                <button
+                  key={index}
+                  onClick={() => onSubAreaClick?.(item.index)}
+                  className="w-full flex items-center justify-between hover:bg-white/5 p-2 rounded transition-colors cursor-pointer"
+                >
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full bg-[#F08726]" />
                     <span className="text-sm text-white/70">{item.name}</span>
                   </div>
                   <span className="text-sm font-medium text-white">{item.value.toFixed(1)}</span>
-                </div>
+                </button>
               ))}
             </div>
           </div>
@@ -334,9 +359,11 @@ export function PanelInferior({ subAreaIndex, areaIndex, value, answers, onClose
             <div className="mt-6 p-4 bg-[#F08726]/10 rounded-lg border border-[#F08726]/20">
               <h5 className="text-xs font-bold text-[#F08726] mb-2 flex items-center gap-2">
                 <Rocket className="w-4 h-4" />
-                RUTA FORMATIVA ASOCIADA:
+                RUTA FORMATIVA ASOCIADA — {content.rutaFormativa}
               </h5>
-              <p className="text-sm text-white font-medium">{content.rutaFormativa}</p>
+              <p className="text-sm text-white/70 leading-relaxed whitespace-pre-line">
+                {content.rutaFormativaDescripcion}
+              </p>
             </div>
           </div>
         </div>

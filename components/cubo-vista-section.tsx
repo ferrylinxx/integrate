@@ -51,6 +51,21 @@ export const CuboVistaSection = forwardRef<Cube3DRef, CuboVistaSectionProps>(
     const [groupMembers, setGroupMembers] = useState<Array<{ name: string; answers: AnswerValue[] }>>([]);
     const [selectedMember, setSelectedMember] = useState<string | null>(null);
 
+    // NUEVO: Estado para la cara más visible del cubo 3D
+    const [mostVisibleFaceIndex, setMostVisibleFaceIndex] = useState<number>(0);
+    const lastFaceChangeRef = useRef<number>(0);
+
+    // Función mejorada para cambiar la cara visible con debounce
+    const handleMostVisibleFaceChange = (newFaceIndex: number) => {
+      const now = Date.now();
+      // Solo cambiar si ha pasado al menos 200ms desde el último cambio (debounce)
+      if (now - lastFaceChangeRef.current > 200 && newFaceIndex !== mostVisibleFaceIndex) {
+        setMostVisibleFaceIndex(newFaceIndex);
+        lastFaceChangeRef.current = now;
+        console.log('🎨 Leyenda: Cambiando color a área', newFaceIndex, '- Color:', AREA_COLORS[newFaceIndex]);
+      }
+    };
+
 
 
     const cubeContainerRef = useRef<HTMLDivElement>(null);
@@ -142,7 +157,7 @@ export const CuboVistaSection = forwardRef<Cube3DRef, CuboVistaSectionProps>(
 
       // 2. Seleccionar el área clickeada
       setSelectedAreaIndex(areaIndex);
-      setSelectedSubAreaIndex(0); // Primera sub-área por defecto
+      setSelectedSubAreaIndex(null); // ✅ CAMBIO: null para mostrar vista de área completa
 
       // 3. Cambiar a tab "Vista Específica"
       setActiveTab('especifica');
@@ -247,7 +262,7 @@ export const CuboVistaSection = forwardRef<Cube3DRef, CuboVistaSectionProps>(
             </div>
 
             {/* Selector de Vista: EQUIPO + Miembros Individuales */}
-            <div className="flex flex-wrap items-start gap-2 mb-2">
+            <div className="flex flex-wrap items-start gap-2 mb-2 mt-4">
               {/* Botón EQUIPO - Píldora alargada */}
               <div className="flex flex-col items-center gap-1">
                 <button
@@ -257,14 +272,14 @@ export const CuboVistaSection = forwardRef<Cube3DRef, CuboVistaSectionProps>(
                   }}
                   className={`px-8 py-1.5 rounded-full transition-all duration-300 backdrop-blur-xl border ${
                     !selectedMember && viewMode === 'equipo'
-                      ? 'text-white shadow-2xl border-white/20'
-                      : 'text-white/70 hover:bg-white/10 border-white/15'
+                      ? 'text-white shadow-2xl border-white/40 scale-105'
+                      : 'text-white/70 hover:bg-white/10 border-white/15 hover:scale-102'
                   }`}
                   title="Vista de Equipo (Promedio)"
                   style={{
                     minWidth: '140px',
                     background: !selectedMember && viewMode === 'equipo'
-                      ? 'linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.1) 100%)'
+                      ? 'linear-gradient(135deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0.15) 100%)'
                       : 'rgba(255,255,255,0.05)'
                   }}
                 >
@@ -283,20 +298,24 @@ export const CuboVistaSection = forwardRef<Cube3DRef, CuboVistaSectionProps>(
                     }}
                     className={`w-11 h-11 rounded-full transition-all duration-300 flex items-center justify-center backdrop-blur-md ${
                       selectedMember === member.name
-                        ? 'bg-white/15 border-2 border-white/40 shadow-xl'
-                        : 'bg-transparent border-2 border-white/25 hover:bg-white/10 hover:border-white/35'
+                        ? 'bg-white/20 border-2 border-white/50 shadow-xl scale-105'
+                        : 'bg-transparent border-2 border-white/25 hover:bg-white/10 hover:border-white/35 hover:scale-105'
                     }`}
                     title={`Ver resultados de ${member.name}`}
                   >
                     {/* Icono de usuario simple */}
-                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                    <svg className={`w-5 h-5 transition-all duration-300 ${
+                      selectedMember === member.name ? 'text-white' : 'text-white/80'
+                    }`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
                   </button>
 
                   {/* Nombre debajo del círculo - altura fija para alinear todos */}
                   <div className="text-center h-8 flex items-start justify-center">
-                    <p className="text-white text-[10px] font-normal leading-tight max-w-[60px] break-words">
+                    <p className={`text-[10px] font-normal leading-tight max-w-[60px] break-words transition-all duration-300 ${
+                      selectedMember === member.name ? 'text-white font-medium' : 'text-white/80'
+                    }`}>
                       {member.name}
                     </p>
                   </div>
@@ -403,33 +422,33 @@ export const CuboVistaSection = forwardRef<Cube3DRef, CuboVistaSectionProps>(
                     </div>
                   )}
 
-                  {/* Cubo 3D con leyenda de niveles */}
-                  <div className="flex items-end justify-center" style={{ gap: '2px' }}>
-                    {/* Leyenda de niveles - Vertical a la izquierda - alineada abajo */}
-                    <div className="flex flex-col gap-1.5 pb-2">
+                  {/* Cubo 3D con leyenda de niveles - ACTUALIZADO */}
+                  <div className="flex items-center justify-center" style={{ gap: '2px' }}>
+                    {/* Leyenda de niveles - Vertical a la izquierda - BAJADA 150px - COLOR DINÁMICO */}
+                    <div className="flex flex-col gap-2 self-end" style={{ marginTop: '150px' }}>
                       {[
                         { label: 'EJEMPLAR', percentage: 100 },
                         { label: 'SÓLIDO', percentage: 75 },
                         { label: 'DESARROLLO', percentage: 50 },
                         { label: 'CRÍTICO', percentage: 25 }
                       ].map((level) => {
-                        // Usar el color del área seleccionada o un color por defecto
-                        const areaColor = selectedAreaIndex !== null ? AREA_COLORS[selectedAreaIndex] : AREA_COLORS[0];
+                        // Usar el color de la cara más visible del cubo 3D (dinámico según rotación)
+                        const areaColor = AREA_COLORS[mostVisibleFaceIndex];
                         return (
                           <div key={level.label} className="flex items-center gap-2">
-                            {/* Cuadrado de color con degradado */}
+                            {/* Cuadrado de color con degradado - TRANSICIÓN SUAVE */}
                             <div
-                              className="w-5 h-5 rounded border border-white/30 flex-shrink-0"
+                              className="w-6 h-6 rounded border border-white/30 flex-shrink-0 transition-all duration-500 ease-in-out"
                               style={{
                                 background: getGradientBackground(areaColor, level.percentage)
                               }}
                             ></div>
                             {/* Texto */}
                             <div className="flex flex-col">
-                              <span className="text-[10px] font-bold text-white uppercase leading-tight">
+                              <span className="text-xs font-bold text-white uppercase leading-tight">
                                 {level.label}
                               </span>
-                              <span className="text-[8px] text-white/60 leading-tight">
+                              <span className="text-[10px] text-white/60 leading-tight">
                                 {level.percentage}%
                               </span>
                             </div>
@@ -477,6 +496,7 @@ export const CuboVistaSection = forwardRef<Cube3DRef, CuboVistaSectionProps>(
                             onAutoRotateChange={setAutoRotate}
                             onFaceClick={handleAreaClick}
                             onCellClick={handleCellClick}
+                            onMostVisibleFaceChange={handleMostVisibleFaceChange}
                           />
                         </Suspense>
                       ) : (
@@ -496,37 +516,6 @@ export const CuboVistaSection = forwardRef<Cube3DRef, CuboVistaSectionProps>(
                       )}
                     </div>
                   </div>
-
-                  {/* Leyenda de Áreas */}
-                  <div className="mt-8 space-y-3">
-                    <h4 className="text-white/80 text-sm font-bold uppercase tracking-wide mb-4">ÁREAS</h4>
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-3">
-                        <div className="w-4 h-4 rounded-sm" style={{ backgroundColor: '#E11D48' }}></div>
-                        <span className="text-white/70 text-sm">PERSONAS</span>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <div className="w-4 h-4 rounded-sm" style={{ backgroundColor: '#F97316' }}></div>
-                        <span className="text-white/70 text-sm">RECURSOS</span>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <div className="w-4 h-4 rounded-sm" style={{ backgroundColor: '#3B82F6' }}></div>
-                        <span className="text-white/70 text-sm">ESTRATEGIA</span>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <div className="w-4 h-4 rounded-sm" style={{ backgroundColor: '#8B5CF6' }}></div>
-                        <span className="text-white/70 text-sm">EFICACIA</span>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <div className="w-4 h-4 rounded-sm" style={{ backgroundColor: '#6B7280' }}></div>
-                        <span className="text-white/70 text-sm">ESTRUCTURA</span>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <div className="w-4 h-4 rounded-sm" style={{ backgroundColor: '#A855F7' }}></div>
-                        <span className="text-white/70 text-sm">ORIENTACIÓN A RESULTADOS</span>
-                      </div>
-                    </div>
-                  </div>
                 </>
               )}
             </div>
@@ -540,17 +529,49 @@ export const CuboVistaSection = forwardRef<Cube3DRef, CuboVistaSectionProps>(
               onFilterChange={setSelectedFilter}
               onAreaClick={handleAreaClick}
             />
+
+            {/* Leyenda de Áreas - Solo visible cuando NO hay área seleccionada */}
+            {!areaSelected && (
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: '#D91D5C' }}></div>
+                  <span className="text-gray-400 text-sm font-medium">PERSONAS</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: '#F08726' }}></div>
+                  <span className="text-gray-400 text-sm font-medium">RECURSOS</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: '#2C248E' }}></div>
+                  <span className="text-gray-400 text-sm font-medium">ESTRATEGIA</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: '#E65B3E' }}></div>
+                  <span className="text-gray-400 text-sm font-medium">EFICACIA</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: '#412761' }}></div>
+                  <span className="text-gray-400 text-sm font-medium">ESTRUCTURA</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: '#8E235D' }}></div>
+                  <span className="text-gray-400 text-sm font-medium">ORIENTACIÓN A RESULTADOS</span>
+                </div>
+              </div>
+            )}
           </div>
 
           </div>
 
-          {/* ÁREA COMPLETA - Ocupa todo el ancho debajo de las dos columnas */}
-          {areaSelected && selectedAreaIndex !== null && selectedSubAreaIndex !== null && (
+          {/* ÁREA COMPLETA O SUB-ÁREA - Ocupa todo el ancho debajo de las dos columnas */}
+          {areaSelected && selectedAreaIndex !== null && (
             <AreaCompletaPanel
               areaIndex={selectedAreaIndex}
               subAreaIndex={selectedSubAreaIndex}
               answers={displayAnswers}
               darkMode={true}
+              onSubAreaClick={handleSubAreaClick}
+              onBack={selectedSubAreaIndex !== null ? () => setSelectedSubAreaIndex(null) : handleBackToGeneral}
             />
           )}
 
