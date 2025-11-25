@@ -121,16 +121,15 @@ export function UpdateNotification() {
           {/* Versiones */}
           <div
             className="flex items-center justify-between text-[11px] mb-2.5 drop-shadow-md"
-            style={{ color: isDarkBackground ? "rgba(255, 255, 255, 0.9)" : "#4b5563" }}
           >
-            <span>
+            <span className="bg-gradient-to-r from-[#2C248E] via-[#8E235D] to-[#F08726] bg-clip-text text-transparent font-semibold">
               Actual: <strong
                 className="bg-gradient-to-r from-[#2C248E] via-[#8E235D] to-[#F08726] bg-clip-text text-transparent font-bold"
               >
                 {currentVersion}
               </strong>
             </span>
-            <span>
+            <span className="bg-gradient-to-r from-[#2C248E] via-[#8E235D] to-[#F08726] bg-clip-text text-transparent font-semibold">
               Nueva: <strong
                 className="bg-gradient-to-r from-[#2C248E] via-[#8E235D] to-[#F08726] bg-clip-text text-transparent font-bold"
               >
