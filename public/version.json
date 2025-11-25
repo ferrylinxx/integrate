@@ -1,9 +1,9 @@
 {
-  "version": "4.2.0",
+  "version": "4.3.0",
   "releaseDate": "2025-11-25",
   "releaseNotes": {
     "es": {
-      "title": "Nueva versión disponible (v4.2.0)",
+      "title": "Nueva versión disponible (v4.3.0)",
       "message": "Actualitza per a les darreres característiques i millores.",
       "features": [
         "✅ Corrección: Columna 'CÓMO INTERPRETARLO' ahora muestra contenido correcto",
@@ -13,7 +13,7 @@
       ]
     }
   },
-  "minVersion": "4.1.0",
+  "minVersion": "4.2.0",
   "updateUrl": "https://github.com/ferrylinxx/integrate/releases/latest"
 }
 
