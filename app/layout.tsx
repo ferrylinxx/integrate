@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/lib/auth-context";
+import { UpdateNotification } from "@/components/update-notification";
 import Script from "next/script";
 
 const poppins = Poppins({
@@ -51,7 +52,10 @@ export default function RootLayout({
         </Script>
       </head>
       <body className={poppins.className}>
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          <UpdateNotification />
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );

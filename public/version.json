@@ -1,0 +1,19 @@
+{
+  "version": "4.0.0",
+  "releaseDate": "2025-01-25",
+  "releaseNotes": {
+    "es": {
+      "title": "Nueva versión disponible (v4.0.0)",
+      "message": "Actualitza per a les darreres característiques i millores.",
+      "features": [
+        "Página de gracias simplificada",
+        "Optimización móvil completa del test",
+        "Diseño limpio estilo Integrate",
+        "Mejoras de rendimiento"
+      ]
+    }
+  },
+  "minVersion": "4.0.0",
+  "updateUrl": "https://github.com/ferrylinxx/integrate/releases/latest"
+}
+
