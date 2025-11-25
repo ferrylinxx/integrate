@@ -3,6 +3,7 @@
 import { useVersionCheck, dismissUpdateNotification } from "@/hooks/use-version-check";
 import { X, Download, Sparkles } from "lucide-react";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 /**
  * Componente de notificación de nueva versión
@@ -12,6 +13,10 @@ export function UpdateNotification() {
   const { hasUpdate, currentVersion, latestVersion, releaseNotes, updateUrl } = useVersionCheck();
   const [isVisible, setIsVisible] = useState(true);
   const [isDarkBackground, setIsDarkBackground] = useState(false);
+  const pathname = usePathname();
+
+  // Detectar si estamos en la página de resultados
+  const isResultsPage = pathname?.startsWith('/resultado/');
 
   // Detectar si el fondo es oscuro o claro
   useEffect(() => {
@@ -54,9 +59,11 @@ export function UpdateNotification() {
 
   return (
     <div
-      className="fixed bottom-4 left-4 z-[9999] max-w-sm w-full mx-4 md:mx-0 animate-slide-up"
+      className={`fixed z-[9999] max-w-sm w-full mx-4 md:mx-0 animate-slide-up ${
+        isResultsPage ? 'top-4 right-4' : 'bottom-4 left-4'
+      }`}
       style={{
-        animation: "slideUp 0.3s ease-out",
+        animation: isResultsPage ? "slideDown 0.3s ease-out" : "slideUp 0.3s ease-out",
       }}
     >
       <div
@@ -157,6 +164,16 @@ export function UpdateNotification() {
           from {
             opacity: 0;
             transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        @keyframes slideDown {
+          from {
+            opacity: 0;
+            transform: translateY(-20px);
           }
           to {
             opacity: 1;
