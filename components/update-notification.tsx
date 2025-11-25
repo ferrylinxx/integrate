@@ -59,7 +59,7 @@ export function UpdateNotification() {
 
   return (
     <div
-      className={`fixed z-[9999] max-w-sm w-full mx-4 md:mx-0 animate-slide-up ${
+      className={`fixed z-[99999] max-w-sm w-full mx-4 md:mx-0 animate-slide-up ${
         isResultsPage ? 'top-4 right-4' : 'bottom-4 left-4'
       }`}
       style={{
