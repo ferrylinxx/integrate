@@ -124,10 +124,18 @@ export function UpdateNotification() {
             style={{ color: isDarkBackground ? "rgba(255, 255, 255, 0.9)" : "#4b5563" }}
           >
             <span>
-              Actual: <strong style={{ color: isDarkBackground ? "white" : "#1f2937" }}>{currentVersion}</strong>
+              Actual: <strong
+                className="bg-gradient-to-r from-[#2C248E] via-[#8E235D] to-[#F08726] bg-clip-text text-transparent font-bold"
+              >
+                {currentVersion}
+              </strong>
             </span>
             <span>
-              Nueva: <strong style={{ color: isDarkBackground ? "white" : "#1f2937" }}>{latestVersion}</strong>
+              Nueva: <strong
+                className="bg-gradient-to-r from-[#2C248E] via-[#8E235D] to-[#F08726] bg-clip-text text-transparent font-bold"
+              >
+                {latestVersion}
+              </strong>
             </span>
           </div>
 
