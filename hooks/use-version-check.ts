@@ -112,8 +112,8 @@ export function useVersionCheck(): VersionCheckResult {
     // Verificar al cargar la página
     checkVersion();
 
-    // Verificar cada 30 minutos
-    const interval = setInterval(checkVersion, 30 * 60 * 1000);
+    // Verificar cada 1 minuto (para testing)
+    const interval = setInterval(checkVersion, 1 * 60 * 1000);
 
     return () => clearInterval(interval);
   }, []);
