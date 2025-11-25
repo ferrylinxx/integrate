@@ -1,18 +1,19 @@
 {
-  "version": "4.1.0",
+  "version": "4.2.0",
   "releaseDate": "2025-11-25",
   "releaseNotes": {
     "es": {
-      "title": "Nueva versión disponible (v4.1.0)",
+      "title": "Nueva versión disponible (v4.2.0)",
       "message": "Actualitza per a les darreres característiques i millores.",
       "features": [
-        "Nuevas características de prueba",
-        "Mejoras en el sistema de notificaciones",
-        "Correcciones de bugs menores"
+        "✅ Corrección: Columna 'CÓMO INTERPRETARLO' ahora muestra contenido correcto",
+        "🎯 Corrección: Niveles de diagnóstico ahora calculan correctamente (1.0-4.0)",
+        "📊 Mejora: Vista de sub-áreas con información interpretativa completa",
+        "🔧 Optimización: Alineación perfecta entre niveles y contenido"
       ]
     }
   },
-  "minVersion": "4.0.0",
+  "minVersion": "4.1.0",
   "updateUrl": "https://github.com/ferrylinxx/integrate/releases/latest"
 }
 

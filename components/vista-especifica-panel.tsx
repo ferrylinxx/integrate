@@ -14,11 +14,11 @@ interface VistaEspecificaPanelProps {
   onBack?: () => void; // Nueva prop para botón de volver
 }
 
-// CRÍTICO: 0-25% | DESARROLLO: 25-50% | SÓLIDO: 50-75% | EJEMPLAR: 75-100%
-const getLevel = (percentage: number): { label: string; color: string; key: 'critico' | 'desarrollo' | 'solido' | 'ejemplar' } => {
-  if (percentage <= 25) return { label: 'CRÍTICO', color: '#DC2626', key: 'critico' };
-  if (percentage <= 50) return { label: 'DESARROLLO', color: '#F59E0B', key: 'desarrollo' };
-  if (percentage <= 75) return { label: 'SÓLIDO', color: '#10B981', key: 'solido' };
+// CRÍTICO: 1.0-1.49 | DESARROLLO: 1.5-2.49 | SÓLIDO: 2.5-3.49 | EJEMPLAR: 3.5-4.0
+const getLevel = (value: number): { label: string; color: string; key: 'critico' | 'desarrollo' | 'solido' | 'ejemplar' } => {
+  if (value < 1.5) return { label: 'CRÍTICO', color: '#DC2626', key: 'critico' };
+  if (value < 2.5) return { label: 'DESARROLLO', color: '#F59E0B', key: 'desarrollo' };
+  if (value < 3.5) return { label: 'SÓLIDO', color: '#10B981', key: 'solido' };
   return { label: 'EJEMPLAR', color: '#3B82F6', key: 'ejemplar' };
 };
 
@@ -39,7 +39,7 @@ export function VistaEspecificaPanel({ areaIndex, subAreaIndex, answers, darkMod
   const answerIndex = areaIndex * 4 + subAreaIndex;
   const value = answers[answerIndex];
   const percentage = (value / 4) * 100;
-  const level = getLevel(percentage);
+  const level = getLevel(value);
   const areaName = AREA_NAMES[areaIndex].replace('Área 1: ', '').replace('Área 2: ', '').replace('Área 3: ', '').replace('Área 4: ', '').replace('Área 5: ', '').replace('Área 6: ', '');
   const subAreaName = SUB_AREA_NAMES_BY_AREA[areaIndex][subAreaIndex];
 
@@ -535,18 +535,13 @@ export function AreaCompletaPanel({
                 </li>
               ))}
             </ul>
-          ) : contenido && contenido.oportunidades && contenido.oportunidades.length > 0 ? (
-            <ul className="space-y-1.5">
-              {contenido.oportunidades.map((oportunidad, idx) => (
-                <li key={idx} className={`text-sm flex items-start gap-2 ${darkMode ? 'text-white' : 'text-gray-700'}`}>
-                  <span className="text-xs mt-1">•</span>
-                  <span className="flex-1 leading-relaxed">{oportunidad}</span>
-                </li>
-              ))}
-            </ul>
+          ) : contenido && contenido.comoInterpretarlo ? (
+            <p className={`text-sm leading-relaxed ${darkMode ? 'text-white' : 'text-gray-700'}`}>
+              {contenido.comoInterpretarlo}
+            </p>
           ) : (
             <p className={`text-sm ${darkMode ? 'text-white' : 'text-gray-500'}`}>
-              No hay recomendaciones disponibles para este nivel.
+              No hay información disponible para este nivel.
             </p>
           )}
         </div>
