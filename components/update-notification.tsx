@@ -29,28 +29,29 @@ export function UpdateNotification() {
 
   return (
     <div
-      className="fixed bottom-4 right-4 z-[9999] max-w-sm w-full mx-4 md:mx-0 animate-slide-up"
+      className="fixed bottom-4 left-4 z-[9999] max-w-xs w-full mx-4 md:mx-0 animate-slide-up"
       style={{
         animation: "slideUp 0.3s ease-out",
       }}
     >
       <div
-        className="bg-white border-2 rounded-lg shadow-2xl overflow-hidden"
+        className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-xl shadow-2xl overflow-hidden"
         style={{
-          borderColor: "#2C248E",
+          background: "linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)",
+          boxShadow: "0 8px 32px 0 rgba(44, 36, 142, 0.37), inset 0 1px 1px 0 rgba(255, 255, 255, 0.3)",
         }}
       >
-        {/* Header con gradiente */}
+        {/* Header con gradiente glass */}
         <div
-          className="px-3 py-1.5 flex items-center justify-between"
+          className="px-2.5 py-1 flex items-center justify-between backdrop-blur-sm"
           style={{
-            background: "linear-gradient(135deg, #2C248E 0%, #412761 50%, #8E235D 100%)",
+            background: "linear-gradient(135deg, rgba(44, 36, 142, 0.8) 0%, rgba(65, 39, 97, 0.7) 50%, rgba(142, 35, 93, 0.8) 100%)",
           }}
         >
-          <div className="flex items-center gap-1.5">
-            <Sparkles className="h-3 w-3 text-white" />
-            <span className="text-white font-semibold text-xs">
-              {releaseNotes?.title || "Nueva versión disponible"}
+          <div className="flex items-center gap-1">
+            <Sparkles className="h-2.5 w-2.5 text-white" />
+            <span className="text-white font-semibold text-[10px]">
+              Nueva versión {latestVersion}
             </span>
           </div>
           <button
@@ -58,19 +59,19 @@ export function UpdateNotification() {
             className="text-white hover:bg-white/20 rounded p-0.5 transition-colors"
             aria-label="Cerrar notificación"
           >
-            <X className="h-3 w-3" />
+            <X className="h-2.5 w-2.5" />
           </button>
         </div>
 
         {/* Contenido */}
-        <div className="px-3 py-2 bg-gradient-to-br from-blue-50/50 to-purple-50/50">
-          <p className="text-xs text-gray-700 mb-2">
+        <div className="px-2.5 py-2 backdrop-blur-md">
+          <p className="text-[10px] text-white/90 mb-1.5 font-medium">
             {releaseNotes?.message || "Actualitza per a les darreres característiques i millores."}
           </p>
 
           {/* Características */}
           {releaseNotes?.features && releaseNotes.features.length > 0 && (
-            <ul className="text-[10px] text-gray-600 space-y-0.5 mb-2 ml-3">
+            <ul className="text-[9px] text-white/70 space-y-0.5 mb-1.5 ml-2">
               {releaseNotes.features.slice(0, 2).map((feature, index) => (
                 <li key={index} className="list-disc">
                   {feature}
@@ -80,24 +81,24 @@ export function UpdateNotification() {
           )}
 
           {/* Versiones */}
-          <div className="flex items-center justify-between text-[10px] text-gray-500 mb-2">
+          <div className="flex items-center justify-between text-[9px] text-white/60 mb-1.5">
             <span>
-              Actual: <strong className="text-gray-700">{currentVersion}</strong>
+              Actual: <strong className="text-white/80">{currentVersion}</strong>
             </span>
             <span>
-              Nueva: <strong style={{ color: "#2C248E" }}>{latestVersion}</strong>
+              Nueva: <strong className="text-white">{latestVersion}</strong>
             </span>
           </div>
 
           {/* Botón de actualización */}
           <button
             onClick={handleUpdate}
-            className="w-full text-white font-semibold py-1.5 px-3 rounded-md shadow-md hover:shadow-lg transition-all transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-1.5 text-xs"
+            className="w-full text-white font-semibold py-1 px-2 rounded-md shadow-lg hover:shadow-xl transition-all transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-1 text-[10px] backdrop-blur-sm"
             style={{
-              background: "linear-gradient(135deg, #2C248E 0%, #412761 20%, #8E235D 50%, #E65B3E 80%, #F08726 100%)",
+              background: "linear-gradient(135deg, rgba(44, 36, 142, 0.9) 0%, rgba(65, 39, 97, 0.8) 20%, rgba(142, 35, 93, 0.9) 50%, rgba(230, 91, 62, 0.8) 80%, rgba(240, 135, 38, 0.9) 100%)",
             }}
           >
-            <Download className="h-3 w-3" />
+            <Download className="h-2.5 w-2.5" />
             Ver detalles
           </button>
         </div>
