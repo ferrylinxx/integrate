@@ -135,7 +135,7 @@ export default function ResultadoPage() {
       {/* Marca de agua - Programa en Desarrollo */}
       <div className="fixed bottom-4 left-4 z-[10000]">
         <p className="text-white text-xs font-light tracking-wide">
-          Programa en Desarrollo (Versión 4.0.0)
+          Programa en Desarrollo (Versión 4.1.0)
         </p>
       </div>
 
