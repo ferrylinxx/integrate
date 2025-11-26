@@ -126,7 +126,7 @@ export default function LandingPage() {
 
               {/* Título principal con animación Framer Motion */}
               <motion.h1
-                className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white text-center mb-6 max-w-4xl leading-tight mt-8"
+                className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white text-center mb-6 max-w-4xl leading-tight mt-20"
                 initial={{ opacity: 0, y: 50, scale: 0.9 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true, amount: 0.3 }}
@@ -141,7 +141,7 @@ export default function LandingPage() {
 
               {/* Subtítulo/Descripción con animación Framer Motion */}
               <motion.p
-                className="text-base md:text-lg text-white/70 text-center mb-12 max-w-3xl leading-relaxed px-4"
+                className="text-base md:text-lg text-white/70 text-center mb-16 max-w-3xl leading-relaxed px-4"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
@@ -211,18 +211,6 @@ export default function LandingPage() {
               {/* Acceso directo a resultados por código de grupo */}
               <GroupResultsAccess />
             </section>
-          </div>
-
-          {/* Marca de agua - Desarrollador */}
-          <div className="fixed bottom-4 right-4 z-50">
-            <a
-              href="https://tecnofgb.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white/30 text-xs font-light tracking-wide hover:text-white/60 transition-colors duration-300 cursor-pointer"
-            >
-              Desarrollado por Ferran Garola Bonilla
-            </a>
           </div>
 
           {/* Indicador de scroll mejorado con Framer Motion */}
