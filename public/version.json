@@ -1,9 +1,9 @@
 {
-  "version": "4.5.0",
+  "version": "4.6.0",
   "releaseDate": "2025-01-26",
   "releaseNotes": {
     "es": {
-      "title": "Nueva versión disponible (v4.5.0)",
+      "title": "Nueva versión disponible (v4.6.0)",
       "message": "Actualiza para las últimas características y mejoras.",
       "features": [
         "🔐 Autenticación de administrador para acceso a resultados",
@@ -14,7 +14,7 @@
       ]
     }
   },
-  "minVersion": "4.5.0",
+  "minVersion": "4.6.0",
   "updateUrl": "https://github.com/ferrylinxx/integrate/releases/latest"
 }
 
