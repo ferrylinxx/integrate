@@ -1,19 +1,20 @@
 {
   "version": "4.4.0",
-  "releaseDate": "2025-11-25",
+  "releaseDate": "2025-01-26",
   "releaseNotes": {
     "es": {
       "title": "Nueva versión disponible (v4.4.0)",
-      "message": "Actualitza per a les darreres característiques i millores.",
+      "message": "Actualiza para las últimas características y mejoras.",
       "features": [
-        "🔔 Notificación con posicionamiento inteligente según página",
-        "✅ Corrección: Columna 'CÓMO INTERPRETARLO' muestra contenido correcto",
-        "🎯 Corrección: Niveles de diagnóstico calculan correctamente (1.0-4.0)",
-        "🎨 Notificación bottom-right en página de resultados"
+        "🔗 Página de resultados unificada para participantes y grupos",
+        "💡 Sugerencias de grupos disponibles en acceso a resultados",
+        "🎨 Eliminadas marcas de agua de la aplicación",
+        "📐 Mayor separación entre cubo y título en landing page",
+        "🐛 Manejo mejorado de códigos no encontrados"
       ]
     }
   },
-  "minVersion": "4.3.0",
+  "minVersion": "4.4.0",
   "updateUrl": "https://github.com/ferrylinxx/integrate/releases/latest"
 }
 
