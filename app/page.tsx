@@ -3,6 +3,7 @@
 import { InteractiveCubeHero } from "@/components/interactive-cube-hero";
 import { LandingContentLoader, getContentWithHtml, RenderContent } from "@/components/landing-content-loader";
 import { FloatingParticles } from "@/components/floating-particles";
+import { GroupResultsAccess } from "@/components/group-results-access";
 import QRCode from "react-qr-code";
 import { useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -206,6 +207,9 @@ export default function LandingPage() {
                   transition={{ duration: 0.3 }}
                 />
               </motion.div>
+
+              {/* Acceso directo a resultados por código de grupo */}
+              <GroupResultsAccess />
             </section>
           </div>
 
