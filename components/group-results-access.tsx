@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-import { Search, ArrowRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Search, ArrowRight, Users } from "lucide-react";
+import { getAllGroups } from "@/lib/supabase";
+import { Group } from "@/lib/supabase/types";
 
 /**
  * Componente sutil para acceder a resultados de grupo
@@ -12,7 +14,30 @@ import { Search, ArrowRight } from "lucide-react";
 export function GroupResultsAccess() {
   const [groupCode, setGroupCode] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
+  const [groups, setGroups] = useState<Group[]>([]);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  // Cargar grupos cuando se expande
+  useEffect(() => {
+    if (isExpanded && groups.length === 0) {
+      loadGroups();
+    }
+  }, [isExpanded]);
+
+  const loadGroups = async () => {
+    setLoading(true);
+    try {
+      const { data } = await getAllGroups();
+      if (data) {
+        setGroups(data);
+      }
+    } catch (error) {
+      console.error("Error loading groups:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,6 +45,10 @@ export function GroupResultsAccess() {
       // Redirigir a la página de resultados (funciona para grupo o participante)
       router.push(`/resultado/${groupCode.trim()}`);
     }
+  };
+
+  const handleGroupClick = (code: string) => {
+    router.push(`/resultado/${code}`);
   };
 
   return (
@@ -104,8 +133,50 @@ export function GroupResultsAccess() {
         </motion.form>
       )}
 
+      {/* Sugerencias de grupos */}
+      <AnimatePresence>
+        {isExpanded && groups.length > 0 && (
+          <motion.div
+            className="mt-4 space-y-2"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ delay: 0.2 }}
+          >
+            <p className="text-xs text-white/40 text-center mb-2">
+              Grupos disponibles:
+            </p>
+            <div className="flex flex-wrap gap-2 justify-center max-w-md mx-auto">
+              {groups.map((group) => (
+                <motion.button
+                  key={group.id}
+                  onClick={() => handleGroupClick(group.code)}
+                  className="group flex items-center gap-2 px-3 py-1.5 rounded-full backdrop-blur-md border border-white/10 hover:border-white/30 transition-all duration-300"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%)",
+                  }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.3 + groups.indexOf(group) * 0.05 }}
+                >
+                  <Users className="w-3 h-3 text-white/40 group-hover:text-white/70 transition-colors" />
+                  <span className="text-xs text-white/60 group-hover:text-white/90 transition-colors font-medium">
+                    {group.code}
+                  </span>
+                  <span className="text-xs text-white/30 group-hover:text-white/50 transition-colors">
+                    {group.name}
+                  </span>
+                </motion.button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Texto de ayuda sutil */}
-      {isExpanded && (
+      {isExpanded && groups.length === 0 && !loading && (
         <motion.p
           className="text-xs text-white/30 text-center mt-2"
           initial={{ opacity: 0 }}
