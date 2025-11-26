@@ -1,20 +1,20 @@
 {
-  "version": "4.4.0",
+  "version": "4.5.0",
   "releaseDate": "2025-01-26",
   "releaseNotes": {
     "es": {
-      "title": "Nueva versión disponible (v4.4.0)",
+      "title": "Nueva versión disponible (v4.5.0)",
       "message": "Actualiza para las últimas características y mejoras.",
       "features": [
-        "🔗 Página de resultados unificada para participantes y grupos",
-        "💡 Sugerencias de grupos disponibles en acceso a resultados",
-        "🎨 Eliminadas marcas de agua de la aplicación",
-        "📐 Mayor separación entre cubo y título en landing page",
-        "🐛 Manejo mejorado de códigos no encontrados"
+        "🔐 Autenticación de administrador para acceso a resultados",
+        "🔒 Protección de ruta /resultado/[code] con login obligatorio",
+        "💬 Modal de login en landing page para acceso a resultados",
+        "🛡️ Mejora de seguridad: sin autenticación no se pueden ver resultados",
+        "📋 Análisis completo del sistema con recomendaciones de seguridad"
       ]
     }
   },
-  "minVersion": "4.4.0",
+  "minVersion": "4.5.0",
   "updateUrl": "https://github.com/ferrylinxx/integrate/releases/latest"
 }
 
