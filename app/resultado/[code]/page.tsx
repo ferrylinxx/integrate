@@ -29,9 +29,9 @@ export default function ResultadoPage() {
     const loadSubmission = async () => {
       try {
         // Primero intentar obtener como participante individual
-        const { data: supabaseData, error } = await getSubmissionByCode(code);
+        const { data: supabaseData, error: participantError } = await getSubmissionByCode(code);
 
-        if (supabaseData && !error) {
+        if (supabaseData && !participantError) {
           // Convertir formato de Supabase a formato de la app
           const submission: Submission = {
             groupCode: "",
@@ -91,7 +91,7 @@ export default function ResultadoPage() {
         setSubmission(localData);
         setLoading(false);
       } catch (error) {
-        console.error("Error loading submission:", error);
+        console.error("Error loading data:", error);
 
         // Fallback a localStorage en caso de error
         const localData = getSubmission(code);

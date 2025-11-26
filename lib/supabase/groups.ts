@@ -110,7 +110,13 @@ export async function getGroupByCode(code: string): Promise<{ data: Group | null
       .eq('code', code)
       .single();
 
-    if (error) throw error;
+    // Si el error es "PGRST116" significa que no se encontró el registro (no es un error real)
+    if (error) {
+      if (error.code === 'PGRST116') {
+        return { data: null, error: null };
+      }
+      throw error;
+    }
 
     return { data, error: null };
   } catch (error) {

@@ -107,15 +107,21 @@ export async function getSubmissionByCode(
       .select('*')
       .eq('participant_code', participantCode)
       .single();
-    
-    if (error) throw error;
-    
+
+    // Si el error es "PGRST116" significa que no se encontró el registro (no es un error real)
+    if (error) {
+      if (error.code === 'PGRST116') {
+        return { data: null, error: null };
+      }
+      throw error;
+    }
+
     return { data, error: null };
   } catch (error) {
     console.error('Error fetching submission:', error);
-    return { 
-      data: null, 
-      error: error instanceof Error ? error : new Error('Unknown error') 
+    return {
+      data: null,
+      error: error instanceof Error ? error : new Error('Unknown error')
     };
   }
 }
