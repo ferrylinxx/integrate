@@ -10,11 +10,15 @@ import { CuboVistaSection } from "@/components/cubo-vista-section";
 import { VersionBadge } from "@/components/version-badge";
 import { useWebGLSupport } from "@/lib/hooks/use-webgl-support";
 import { Card, CardContent } from "@/components/ui/card";
+import { useAuth } from "@/lib/auth-context";
+import { Lock, Loader2 } from "lucide-react";
+import { AdminLoginForm } from "@/components/admin/admin-login-form";
 
 export default function ResultadoPage() {
   const params = useParams();
   const router = useRouter();
   const code = params.code as string;
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
 
   const [submission, setSubmission] = useState<Submission | null>(null);
   const [loading, setLoading] = useState(true);
@@ -103,16 +107,67 @@ export default function ResultadoPage() {
     loadSubmission();
   }, [code]);
 
-  if (loading) {
+  // Mostrar loading mientras se verifica autenticación
+  if (authLoading || loading) {
     return (
       <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-white">
         <div className="text-center space-y-6">
           <div className="h-20 w-20 border-4 rounded-full animate-spin mx-auto shadow-lg"
                style={{ borderColor: '#2C248E', borderTopColor: 'transparent' }} />
           <p className="text-2xl font-bold bg-gradient-to-r from-[#2C248E] to-[#8E235D] bg-clip-text text-transparent">
-            Cargando resultados...
+            {authLoading ? "Verificando acceso..." : "Cargando resultados..."}
           </p>
-          <p className="text-sm text-gray-600">Preparando tu diagnóstico organizativo</p>
+          <p className="text-sm text-gray-600">
+            {authLoading ? "Comprobando permisos" : "Preparando tu diagnóstico organizativo"}
+          </p>
+        </div>
+      </main>
+    );
+  }
+
+  // Mostrar pantalla de login si no está autenticado
+  if (!isAuthenticated) {
+    return (
+      <main className="min-h-screen flex items-center justify-center p-4"
+            style={{ background: 'linear-gradient(135deg, #2C248E 0%, #412761 50%, #8E235D 100%)' }}>
+        <VersionBadge position="top-right" size="sm" />
+
+        <div className="w-full max-w-md">
+          <div
+            className="rounded-2xl border border-white/20 p-8 shadow-2xl"
+            style={{
+              background: "linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)",
+              backdropFilter: "blur(10px)",
+            }}
+          >
+            {/* Título */}
+            <div className="text-center mb-6">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/10 mb-4">
+                <Lock className="w-8 h-8 text-white" />
+              </div>
+              <h1 className="text-3xl font-bold text-white mb-2">
+                Acceso Restringido
+              </h1>
+              <p className="text-white/70">
+                Inicia sesión como administrador para ver los resultados
+              </p>
+              <div className="mt-4 p-3 bg-white/10 rounded-lg">
+                <p className="text-sm text-white/60">Código solicitado:</p>
+                <p className="text-lg font-mono font-bold text-white">{code}</p>
+              </div>
+            </div>
+
+            {/* Formulario de login */}
+            <AdminLoginForm onLoginSuccess={() => window.location.reload()} />
+
+            {/* Botón volver */}
+            <button
+              onClick={() => router.push("/")}
+              className="w-full mt-4 text-white/60 hover:text-white text-sm py-2 transition-colors"
+            >
+              ← Volver al inicio
+            </button>
+          </div>
         </div>
       </main>
     );
