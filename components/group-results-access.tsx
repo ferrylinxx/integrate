@@ -17,8 +17,8 @@ export function GroupResultsAccess() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (groupCode.trim()) {
-      // Redirigir a la página pública de resultados del grupo
-      router.push(`/grupo/${groupCode.trim()}`);
+      // Redirigir a la página de resultados (funciona para grupo o participante)
+      router.push(`/resultado/${groupCode.trim()}`);
     }
   };
 

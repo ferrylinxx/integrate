@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Submission } from "@/lib/types";
 import { getSubmission, getMockSubmission } from "@/lib/storage";
-import { getSubmissionByCode, getGroupById } from "@/lib/supabase";
+import { getSubmissionByCode, getGroupById, getGroupByCode, getGroupAverages } from "@/lib/supabase";
 import { Cube3DRef } from "@/components/cube-3d";
 import { CuboVistaSection } from "@/components/cubo-vista-section";
 import { VersionBadge } from "@/components/version-badge";
@@ -28,7 +28,7 @@ export default function ResultadoPage() {
   useEffect(() => {
     const loadSubmission = async () => {
       try {
-        // Primero intentar obtener de Supabase
+        // Primero intentar obtener como participante individual
         const { data: supabaseData, error } = await getSubmissionByCode(code);
 
         if (supabaseData && !error) {
@@ -53,6 +53,31 @@ export default function ResultadoPage() {
 
           setLoading(false);
           return;
+        }
+
+        // Si no es un participante, intentar como código de grupo
+        const { data: groupData, error: groupError } = await getGroupByCode(code);
+
+        if (groupData && !groupError) {
+          // Obtener promedios del grupo
+          const { data: averagesData, error: averagesError } = await getGroupAverages(groupData.id);
+
+          if (averagesData && !averagesError) {
+            // Crear una submission "virtual" con los promedios del grupo
+            const submission: Submission = {
+              groupCode: groupData.code,
+              participantCode: groupData.code,
+              answers: averagesData,
+              timestamp: Date.now(),
+            };
+            setSubmission(submission);
+            setGroupId(groupData.id);
+            setGroupName(groupData.name || "");
+            setUserName(""); // No hay usuario individual en grupo
+
+            setLoading(false);
+            return;
+          }
         }
 
         // Si no está en Supabase, intentar localStorage como fallback
