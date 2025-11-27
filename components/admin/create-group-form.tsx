@@ -106,7 +106,7 @@ export function CreateGroupForm({ onGroupCreated }: CreateGroupFormProps) {
                 setError(null);
               }}
               disabled={isCreating}
-              className="h-12 border border-white/20 focus:border-[#2C248E] text-base bg-white/5 text-white placeholder:text-gray-400"
+              className="h-12 border border-white/20 focus:border-[#2C248E] text-base bg-white/5 text-white placeholder:text-gray-400 rounded-xl"
               style={{ backdropFilter: 'blur(5px)' }}
             />
             <p className="text-sm text-gray-400 font-medium">
