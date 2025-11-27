@@ -27,7 +27,7 @@ export function GroupResultsAccess() {
   const [loading, setLoading] = useState(false);
   const [navigating, setNavigating] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [suggestion, setSuggestion] = useState("");
   const router = useRouter();
   const { isAuthenticated } = useAuth();
 
@@ -54,22 +54,27 @@ export function GroupResultsAccess() {
     }
   }, [loading]);
 
-  // Filtrar grupos en tiempo real mientras el usuario escribe
-  const filteredGroups = useMemo(() => {
-    if (!groupCode.trim()) return groups;
+  // Encontrar la mejor sugerencia basada en lo que escribe el usuario
+  useEffect(() => {
+    if (!groupCode.trim() || !isAuthenticated) {
+      setSuggestion("");
+      return;
+    }
 
     const searchTerm = groupCode.trim().toUpperCase();
-    return groups.filter(
-      (group) =>
-        group.code.toUpperCase().includes(searchTerm) ||
-        group.name?.toUpperCase().includes(searchTerm)
-    );
-  }, [groupCode, groups]);
 
-  // Mostrar sugerencias cuando hay texto y grupos disponibles
-  useEffect(() => {
-    setShowSuggestions(groupCode.trim().length > 0 && filteredGroups.length > 0);
-  }, [groupCode, filteredGroups]);
+    // Buscar el primer grupo que coincida con el inicio del código
+    const match = groups.find((group) =>
+      group.code.toUpperCase().startsWith(searchTerm)
+    );
+
+    if (match && match.code.toUpperCase() !== searchTerm) {
+      // Mostrar solo la parte que falta completar
+      setSuggestion(match.code);
+    } else {
+      setSuggestion("");
+    }
+  }, [groupCode, groups, isAuthenticated]);
 
   const navigateToResult = useCallback((code: string) => {
     if (navigating) return;
@@ -93,12 +98,6 @@ export function GroupResultsAccess() {
     }
   }, [groupCode, navigateToResult]);
 
-  const handleGroupClick = useCallback((e: React.MouseEvent, code: string) => {
-    e.preventDefault();
-    e.stopPropagation();
-    navigateToResult(code);
-  }, [navigateToResult]);
-
   const handleInputFocus = useCallback(() => {
     // Si no está autenticado, mostrar modal de login
     if (!isAuthenticated) {
@@ -111,6 +110,15 @@ export function GroupResultsAccess() {
       loadGroups();
     }
   }, [isAuthenticated, groups.length, loading, loadGroups]);
+
+  // Manejar tecla Tab para autocompletar
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Tab" && suggestion) {
+      e.preventDefault();
+      setGroupCode(suggestion);
+      setSuggestion("");
+    }
+  }, [suggestion]);
 
   const handleLoginSuccess = useCallback(() => {
     setShowLoginModal(false);
@@ -137,7 +145,7 @@ export function GroupResultsAccess() {
           ease: [0.25, 0.46, 0.45, 0.94],
         }}
       >
-        {/* Formulario siempre visible - más pequeño y sutil */}
+        {/* Formulario siempre visible - con autocompletado inline */}
         <motion.form
           onSubmit={handleSubmit}
           className="relative"
@@ -146,17 +154,32 @@ export function GroupResultsAccess() {
           transition={{ duration: 0.4 }}
         >
           <div className="relative">
+            {/* Texto de sugerencia (ghost text) detrás del input */}
+            {suggestion && (
+              <div
+                className="absolute inset-0 px-3 py-2 pr-9 rounded-full pointer-events-none flex items-center text-xs"
+                style={{
+                  color: "rgba(255, 255, 255, 0.2)",
+                }}
+              >
+                <span className="invisible">{groupCode}</span>
+                <span>{suggestion.slice(groupCode.length)}</span>
+              </div>
+            )}
+
             <input
               type="text"
               value={groupCode}
               onChange={(e) => setGroupCode(e.target.value)}
               onFocus={handleInputFocus}
+              onKeyDown={handleKeyDown}
               placeholder={isAuthenticated ? "Código de grupo" : "Ver resultados"}
-              className="w-full px-3 py-2 pr-9 rounded-full backdrop-blur-md border border-white/10 focus:border-white/30 outline-none text-white placeholder-white/30 text-xs transition-all duration-300"
+              className="relative w-full px-3 py-2 pr-9 rounded-full backdrop-blur-md border border-white/10 focus:border-white/30 outline-none text-white placeholder-white/30 text-xs transition-all duration-300 bg-transparent"
               style={{
                 background: "rgba(255, 255, 255, 0.05)",
               }}
               disabled={!isAuthenticated}
+              autoComplete="off"
             />
 
             {/* Icono de búsqueda o loading - más pequeño */}
@@ -179,6 +202,18 @@ export function GroupResultsAccess() {
             />
           </div>
 
+          {/* Hint de Tab para autocompletar */}
+          {suggestion && !navigating && (
+            <motion.p
+              className="absolute -bottom-5 left-0 right-0 text-center text-[9px] text-white/20"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+            >
+              Tab para autocompletar
+            </motion.p>
+          )}
+
           {/* Indicador de navegación - más sutil */}
           {navigating && (
             <motion.div
@@ -194,74 +229,6 @@ export function GroupResultsAccess() {
           )}
         </motion.form>
 
-        {/* Sugerencias filtradas en tiempo real - más pequeñas y sutiles */}
-        <AnimatePresence>
-          {showSuggestions && !navigating && (
-            <motion.div
-              className="mt-2 space-y-1"
-              initial={{ opacity: 0, y: -5 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -5 }}
-              transition={{ duration: 0.15 }}
-            >
-              <p className="text-[10px] text-white/25 text-center mb-1">
-                {filteredGroups.length === 1 ? "1 grupo" : `${filteredGroups.length} grupos`}
-              </p>
-              <div className="flex flex-wrap gap-1.5 justify-center max-w-xs mx-auto max-h-24 overflow-y-auto">
-                {filteredGroups.slice(0, 6).map((group, index) => (
-                  <motion.button
-                    key={group.id}
-                    onClick={(e) => handleGroupClick(e, group.code)}
-                    type="button"
-                    className="group flex items-center gap-1.5 px-2 py-1 rounded-full backdrop-blur-md border border-white/5 hover:border-white/20 transition-all duration-200 cursor-pointer"
-                    style={{
-                      background: "rgba(255, 255, 255, 0.03)",
-                    }}
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: index * 0.02 }}
-                  >
-                    <Users className="w-2.5 h-2.5 text-white/30 group-hover:text-white/50 transition-colors" />
-                    <span className="text-[10px] text-white/50 group-hover:text-white/80 transition-colors font-medium">
-                      {group.code}
-                    </span>
-                    {group.name && (
-                      <span className="text-[10px] text-white/20 group-hover:text-white/40 transition-colors max-w-[80px] truncate">
-                        {group.name}
-                      </span>
-                    )}
-                  </motion.button>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Texto de ayuda cuando no hay sugerencias - más sutil */}
-        {isAuthenticated && !showSuggestions && !loading && groupCode.trim().length > 0 && (
-          <motion.p
-            className="text-[10px] text-white/20 text-center mt-2"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.15 }}
-          >
-            Presiona Enter para buscar
-          </motion.p>
-        )}
-
-        {/* Hint de uso - más sutil */}
-        {isAuthenticated && !groupCode.trim() && groups.length > 0 && (
-          <motion.p
-            className="text-[10px] text-white/20 text-center mt-2"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-          >
-            {groups.length} {groups.length === 1 ? "grupo" : "grupos"}
-          </motion.p>
-        )}
       </motion.div>
 
       {/* Modal de Login */}
