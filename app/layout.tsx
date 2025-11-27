@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/lib/auth-context";
 import { UpdateNotification } from "@/components/update-notification";
+import { GoogleAnalytics } from "@/components/google-analytics";
 import Script from "next/script";
 
 const poppins = Poppins({
@@ -53,6 +54,7 @@ export default function RootLayout({
       </head>
       <body className={poppins.className}>
         <AuthProvider>
+          <GoogleAnalytics />
           <UpdateNotification />
           {children}
         </AuthProvider>
