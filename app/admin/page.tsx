@@ -67,11 +67,12 @@ export default function AdminPage() {
                 <VersionBadge position="navbar" size="md" />
               </div>
 
-              {/* Header mejorado con estilo oscuro */}
-              <Card className="border border-white/10 shadow-2xl hover:shadow-[0_0_30px_rgba(44,36,142,0.3)] transition-all duration-300"
+              {/* Header con Liquid Glass de Apple */}
+              <Card className="border border-white/20 shadow-2xl hover:shadow-[0_0_30px_rgba(44,36,142,0.3)] transition-all duration-300"
                     style={{
-                      background: 'linear-gradient(135deg, rgba(44, 36, 142, 0.15) 0%, rgba(142, 35, 93, 0.1) 100%)',
-                      backdropFilter: 'blur(10px)'
+                      background: 'rgba(44, 36, 142, 0.08)',
+                      backdropFilter: 'blur(30px) saturate(180%)',
+                      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
                     }}>
                 <CardContent className="p-8">
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -85,8 +86,8 @@ export default function AdminPage() {
                   {admin && (
                     <div className="flex items-center gap-2 mt-4 px-4 py-2 rounded-lg border border-white/20 inline-flex"
                          style={{
-                           background: 'linear-gradient(135deg, rgba(44, 36, 142, 0.2) 0%, rgba(142, 35, 93, 0.15) 100%)',
-                           backdropFilter: 'blur(5px)'
+                           background: 'rgba(44, 36, 142, 0.08)',
+                           backdropFilter: 'blur(30px) saturate(180%)'
                          }}>
                       <User className="h-5 w-5 text-[#2C248E]" style={{ filter: 'brightness(1.5)' }} />
                       <span className="text-sm font-semibold text-gray-200">{admin.name} • {admin.email}</span>
@@ -99,8 +100,8 @@ export default function AdminPage() {
                         variant="outline"
                         className="border border-purple-400/30 hover:border-purple-400 text-purple-300 hover:text-purple-200 transition-all duration-300 h-11"
                         style={{
-                          background: 'rgba(142, 35, 93, 0.1)',
-                          backdropFilter: 'blur(5px)'
+                          background: 'rgba(142, 35, 93, 0.08)',
+                          backdropFilter: 'blur(30px) saturate(180%)'
                         }}
                       >
                         <FileText className="h-5 w-5 mr-2" />
@@ -111,8 +112,8 @@ export default function AdminPage() {
                         variant="outline"
                         className="border border-green-400/30 hover:border-green-400 text-green-300 hover:text-green-200 transition-all duration-300 h-11"
                         style={{
-                          background: 'rgba(67, 160, 71, 0.1)',
-                          backdropFilter: 'blur(5px)'
+                          background: 'rgba(67, 160, 71, 0.08)',
+                          backdropFilter: 'blur(30px) saturate(180%)'
                         }}
                       >
                         <FileText className="h-5 w-5 mr-2" />
@@ -123,8 +124,8 @@ export default function AdminPage() {
                         variant="outline"
                         className="border border-white/20 hover:border-[#2C248E] text-gray-300 hover:text-white transition-all duration-300 h-11"
                         style={{
-                          background: 'rgba(44, 36, 142, 0.1)',
-                          backdropFilter: 'blur(5px)'
+                          background: 'rgba(44, 36, 142, 0.08)',
+                          backdropFilter: 'blur(30px) saturate(180%)'
                         }}
                       >
                         <Home className="h-5 w-5 mr-2" />
@@ -135,8 +136,8 @@ export default function AdminPage() {
                         variant="outline"
                         className="border border-red-400/30 hover:border-red-400 text-red-300 hover:text-red-200 transition-all duration-300 h-11"
                         style={{
-                          background: 'rgba(229, 57, 53, 0.1)',
-                          backdropFilter: 'blur(5px)'
+                          background: 'rgba(229, 57, 53, 0.08)',
+                          backdropFilter: 'blur(30px) saturate(180%)'
                         }}
                       >
                         <LogOut className="h-5 w-5 mr-2" />
@@ -147,11 +148,12 @@ export default function AdminPage() {
                 </CardContent>
               </Card>
 
-              {/* Tabs mejorados con estilo oscuro */}
-              <Card className="border border-white/10 shadow-2xl hover:shadow-[0_0_30px_rgba(44,36,142,0.2)] transition-shadow duration-300"
+              {/* Tabs con Liquid Glass de Apple */}
+              <Card className="border border-white/20 shadow-2xl hover:shadow-[0_0_30px_rgba(44,36,142,0.2)] transition-shadow duration-300"
                     style={{
-                      background: 'linear-gradient(135deg, rgba(44, 36, 142, 0.1) 0%, rgba(142, 35, 93, 0.08) 100%)',
-                      backdropFilter: 'blur(10px)'
+                      background: 'rgba(44, 36, 142, 0.08)',
+                      backdropFilter: 'blur(30px) saturate(180%)',
+                      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
                     }}>
                 <div className="flex border-b border-white/10">
                   <button
@@ -163,7 +165,8 @@ export default function AdminPage() {
                     }`}
                     style={activeTab === "groups" ? {
                       borderBottomColor: '#2C248E',
-                      background: 'linear-gradient(135deg, rgba(44, 36, 142, 0.3) 0%, rgba(142, 35, 93, 0.2) 100%)',
+                      background: 'rgba(44, 36, 142, 0.15)',
+                      backdropFilter: 'blur(30px) saturate(180%)',
                       boxShadow: '0 4px 20px rgba(44, 36, 142, 0.3)'
                     } : {}}
                   >
@@ -179,7 +182,8 @@ export default function AdminPage() {
                     }`}
                     style={activeTab === "admins" ? {
                       borderBottomColor: '#8E235D',
-                      background: 'linear-gradient(135deg, rgba(142, 35, 93, 0.3) 0%, rgba(217, 29, 92, 0.2) 100%)',
+                      background: 'rgba(142, 35, 93, 0.15)',
+                      backdropFilter: 'blur(30px) saturate(180%)',
                       boxShadow: '0 4px 20px rgba(142, 35, 93, 0.3)'
                     } : {}}
                   >

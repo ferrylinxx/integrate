@@ -111,10 +111,11 @@ export function GroupsList({ refreshTrigger }: GroupsListProps) {
 
   if (loading) {
     return (
-      <Card className="border border-white/10 shadow-xl"
+      <Card className="border border-white/20 shadow-xl"
             style={{
-              background: 'linear-gradient(135deg, rgba(44, 36, 142, 0.15) 0%, rgba(142, 35, 93, 0.1) 100%)',
-              backdropFilter: 'blur(10px)'
+              background: 'rgba(44, 36, 142, 0.08)',
+              backdropFilter: 'blur(30px) saturate(180%)',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
             }}>
         <CardContent className="pt-16 pb-16">
           <div className="flex flex-col items-center justify-center space-y-5">
@@ -130,8 +131,9 @@ export function GroupsList({ refreshTrigger }: GroupsListProps) {
     return (
       <Card className="border border-red-400/30 shadow-xl"
             style={{
-              background: 'rgba(229, 57, 53, 0.15)',
-              backdropFilter: 'blur(10px)'
+              background: 'rgba(229, 57, 53, 0.08)',
+              backdropFilter: 'blur(30px) saturate(180%)',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
             }}>
         <CardContent className="pt-16 pb-16">
           <div className="flex flex-col items-center justify-center space-y-5">
@@ -153,10 +155,11 @@ export function GroupsList({ refreshTrigger }: GroupsListProps) {
 
   if (groups.length === 0) {
     return (
-      <Card className="border border-white/10 shadow-xl"
+      <Card className="border border-white/20 shadow-xl"
             style={{
-              background: 'linear-gradient(135deg, rgba(44, 36, 142, 0.15) 0%, rgba(142, 35, 93, 0.1) 100%)',
-              backdropFilter: 'blur(10px)'
+              background: 'rgba(44, 36, 142, 0.08)',
+              backdropFilter: 'blur(30px) saturate(180%)',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
             }}>
         <CardContent className="pt-16 pb-16">
           <div className="text-center space-y-5">
@@ -174,10 +177,11 @@ export function GroupsList({ refreshTrigger }: GroupsListProps) {
   }
 
   return (
-    <Card className="border border-white/10 shadow-xl hover:shadow-[0_0_20px_rgba(142,35,93,0.3)] transition-shadow duration-300"
+    <Card className="border border-white/20 shadow-xl hover:shadow-[0_0_20px_rgba(142,35,93,0.3)] transition-shadow duration-300"
           style={{
-            background: 'linear-gradient(135deg, rgba(142, 35, 93, 0.15) 0%, rgba(217, 29, 92, 0.1) 100%)',
-            backdropFilter: 'blur(10px)'
+            background: 'rgba(142, 35, 93, 0.08)',
+            backdropFilter: 'blur(30px) saturate(180%)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
           }}>
       <CardHeader className="border-b border-white/10 py-8 relative overflow-hidden">
         {/* Decoración de fondo */}
@@ -203,8 +207,8 @@ export function GroupsList({ refreshTrigger }: GroupsListProps) {
           </div>
           <div className="hidden md:flex items-center gap-2 px-5 py-2.5 rounded-xl border border-white/20 shadow-lg"
                style={{
-                 background: 'linear-gradient(135deg, rgba(44, 36, 142, 0.2) 0%, rgba(142, 35, 93, 0.15) 100%)',
-                 backdropFilter: 'blur(5px)'
+                 background: 'rgba(44, 36, 142, 0.08)',
+                 backdropFilter: 'blur(30px) saturate(180%)'
                }}>
             <span className="text-sm font-bold text-gray-200">
               {groups.reduce((sum, g) => sum + (g.stats?.totalSubmissions || 0), 0)} respuestas
@@ -219,8 +223,9 @@ export function GroupsList({ refreshTrigger }: GroupsListProps) {
               key={group.id}
               className="border border-white/20 rounded-xl p-6 hover:shadow-[0_0_20px_rgba(44,36,142,0.3)] transition-all duration-300 transform hover:-translate-y-1"
               style={{
-                background: 'linear-gradient(135deg, rgba(44, 36, 142, 0.1) 0%, rgba(142, 35, 93, 0.08) 100%)',
-                backdropFilter: 'blur(10px)'
+                background: 'rgba(44, 36, 142, 0.08)',
+                backdropFilter: 'blur(30px) saturate(180%)',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
               }}
             >
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-5 relative z-10">
@@ -254,8 +259,8 @@ export function GroupsList({ refreshTrigger }: GroupsListProps) {
                     <div className="flex items-center gap-3">
                       <div className="flex items-center gap-3 px-4 py-2 rounded-xl shadow-lg border border-white/20"
                            style={{
-                             background: 'linear-gradient(135deg, rgba(44, 36, 142, 0.2) 0%, rgba(142, 35, 93, 0.15) 100%)',
-                             backdropFilter: 'blur(5px)'
+                             background: 'rgba(44, 36, 142, 0.08)',
+                             backdropFilter: 'blur(30px) saturate(180%)'
                            }}>
                         <span className="text-xs text-gray-400 uppercase font-bold">Código</span>
                         <span className="font-mono text-base font-bold text-white">
@@ -282,8 +287,8 @@ export function GroupsList({ refreshTrigger }: GroupsListProps) {
                   <div className="flex flex-wrap items-center gap-3 text-sm">
                     <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg"
                          style={{
-                           background: 'rgba(33, 150, 243, 0.15)',
-                           backdropFilter: 'blur(5px)'
+                           background: 'rgba(33, 150, 243, 0.08)',
+                           backdropFilter: 'blur(30px) saturate(180%)'
                          }}>
                       <Users className="h-4 w-4 text-blue-400" />
                       <span className="text-gray-200 font-semibold">{group.stats?.totalSubmissions || 0} participantes</span>
@@ -291,8 +296,8 @@ export function GroupsList({ refreshTrigger }: GroupsListProps) {
                     {group.stats && group.stats.totalSubmissions > 0 && (
                       <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg"
                            style={{
-                             background: 'rgba(67, 160, 71, 0.15)',
-                             backdropFilter: 'blur(5px)'
+                             background: 'rgba(67, 160, 71, 0.08)',
+                             backdropFilter: 'blur(30px) saturate(180%)'
                            }}>
                         <TrendingUp className="h-4 w-4 text-green-400" />
                         <span className="text-gray-200 font-semibold">Promedio: {group.stats.averageScore.toFixed(1)}/4</span>
@@ -300,8 +305,8 @@ export function GroupsList({ refreshTrigger }: GroupsListProps) {
                     )}
                     <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg"
                          style={{
-                           background: 'rgba(142, 35, 93, 0.15)',
-                           backdropFilter: 'blur(5px)'
+                           background: 'rgba(142, 35, 93, 0.08)',
+                           backdropFilter: 'blur(30px) saturate(180%)'
                          }}>
                       <Calendar className="h-4 w-4 text-purple-400" />
                       <span className="text-gray-200 font-semibold">

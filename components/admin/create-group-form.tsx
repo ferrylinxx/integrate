@@ -65,8 +65,9 @@ export function CreateGroupForm({ onGroupCreated }: CreateGroupFormProps) {
   return (
     <Card className="border border-white/20 shadow-xl hover:shadow-[0_0_20px_rgba(44,36,142,0.3)] transition-all duration-300 group"
           style={{
-            background: 'linear-gradient(135deg, rgba(44, 36, 142, 0.15) 0%, rgba(142, 35, 93, 0.1) 100%)',
-            backdropFilter: 'blur(10px)'
+            background: 'rgba(44, 36, 142, 0.08)',
+            backdropFilter: 'blur(30px) saturate(180%)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
           }}>
       <CardHeader className="border-b border-white/10 py-8 relative overflow-hidden">
         {/* Decoración de fondo sutil */}
@@ -107,7 +108,7 @@ export function CreateGroupForm({ onGroupCreated }: CreateGroupFormProps) {
               }}
               disabled={isCreating}
               className="h-12 border border-white/20 focus:border-[#2C248E] text-base bg-white/5 text-white placeholder:text-gray-400 rounded-xl"
-              style={{ backdropFilter: 'blur(5px)' }}
+              style={{ backdropFilter: 'blur(30px) saturate(180%)' }}
             />
             <p className="text-sm text-gray-400 font-medium">
               💡 Este nombre te ayudará a identificar el grupo en el panel
@@ -136,8 +137,8 @@ export function CreateGroupForm({ onGroupCreated }: CreateGroupFormProps) {
           {error && (
             <div className="border border-red-400/30 rounded-xl p-4 shadow-lg"
                  style={{
-                   background: 'rgba(229, 57, 53, 0.15)',
-                   backdropFilter: 'blur(10px)'
+                   background: 'rgba(229, 57, 53, 0.08)',
+                   backdropFilter: 'blur(30px) saturate(180%)'
                  }}>
               <div className="flex items-center gap-3">
                 <AlertCircle className="h-5 w-5 text-red-400 flex-shrink-0" />
@@ -149,8 +150,9 @@ export function CreateGroupForm({ onGroupCreated }: CreateGroupFormProps) {
           {success && (
             <div className="border border-green-400/30 rounded-xl p-6 space-y-4 shadow-lg"
                  style={{
-                   background: 'linear-gradient(135deg, rgba(67, 160, 71, 0.2) 0%, rgba(56, 142, 60, 0.15) 100%)',
-                   backdropFilter: 'blur(10px)'
+                   background: 'rgba(67, 160, 71, 0.08)',
+                   backdropFilter: 'blur(30px) saturate(180%)',
+                   boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
                  }}>
               <div className="flex items-center gap-3">
                 <CheckCircle2 className="h-6 w-6 text-green-400" />
@@ -168,8 +170,8 @@ export function CreateGroupForm({ onGroupCreated }: CreateGroupFormProps) {
                     <p className="text-sm text-green-300 font-bold mb-2">Código del grupo:</p>
                     <div className="border border-green-400/40 rounded-xl p-4 shadow-lg"
                          style={{
-                           background: 'rgba(67, 160, 71, 0.1)',
-                           backdropFilter: 'blur(5px)'
+                           background: 'rgba(67, 160, 71, 0.08)',
+                           backdropFilter: 'blur(30px) saturate(180%)'
                          }}>
                       <p className="text-3xl font-mono font-bold text-center text-white">
                         {success.code}
