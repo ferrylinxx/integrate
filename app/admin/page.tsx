@@ -35,13 +35,26 @@ export default function AdminPage() {
       <AdminContentLoader>
         {({ content }) => (
           <main className="min-h-screen bg-[#0a0a0f] relative overflow-hidden pb-16">
+            {/* Video de fondo */}
+            <div className="fixed inset-0 overflow-hidden" style={{ zIndex: -1 }}>
+              <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="absolute inset-0 w-full h-full object-cover opacity-30"
+              >
+                <source src="/fondo-landing.mp4" type="video/mp4" />
+              </video>
+            </div>
+
             {/* Patrón de cuadrícula sutil en el fondo */}
             <div className="absolute inset-0 opacity-10" style={{
               backgroundImage: 'linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)',
               backgroundSize: '50px 50px'
             }}></div>
 
-            <div className="relative max-w-7xl mx-auto px-4 py-10 space-y-10">
+            <div className="relative max-w-[95%] 2xl:max-w-[1800px] mx-auto px-4 py-10 space-y-10">
               {/* Logo y versión */}
               <div className="flex justify-center items-center gap-4 mb-6">
                 <div className="transform hover:scale-105 transition-transform duration-300">
