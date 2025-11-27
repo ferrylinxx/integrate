@@ -34,15 +34,18 @@ export default function AdminPage() {
     <ProtectedRoute>
       <AdminContentLoader>
         {({ content }) => (
-          <main className="min-h-screen bg-[#0a0a0f] relative overflow-hidden pb-16">
+          <main className="min-h-screen relative overflow-hidden pb-16">
+            {/* Fondo negro base */}
+            <div className="fixed inset-0 bg-[#0a0a0f]" style={{ zIndex: 0 }}></div>
+
             {/* Video de fondo */}
-            <div className="fixed inset-0 overflow-hidden" style={{ zIndex: 0 }}>
+            <div className="fixed inset-0 overflow-hidden" style={{ zIndex: 1 }}>
               <video
                 autoPlay
                 loop
                 muted
                 playsInline
-                className="absolute inset-0 w-full h-full object-cover opacity-30"
+                className="absolute inset-0 w-full h-full object-cover opacity-50"
               >
                 <source src="/fondo-landing.mp4" type="video/mp4" />
               </video>
@@ -52,7 +55,7 @@ export default function AdminPage() {
             <div className="fixed inset-0 opacity-10 pointer-events-none" style={{
               backgroundImage: 'linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)',
               backgroundSize: '50px 50px',
-              zIndex: 1
+              zIndex: 2
             }}></div>
 
             <div className="relative max-w-[95%] 2xl:max-w-[1800px] mx-auto px-4 py-10 space-y-10" style={{ zIndex: 10 }}>
