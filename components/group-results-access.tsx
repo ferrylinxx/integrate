@@ -154,12 +154,22 @@ export function GroupResultsAccess() {
           transition={{ duration: 0.4 }}
         >
           <div className="relative">
-            {/* Texto de sugerencia (ghost text) detrás del input */}
+            {/* Input con fondo */}
+            <div
+              className="absolute inset-0 rounded-full backdrop-blur-md"
+              style={{
+                background: "rgba(255, 255, 255, 0.05)",
+                zIndex: 0,
+              }}
+            />
+
+            {/* Texto de sugerencia (ghost text) encima del fondo */}
             {suggestion && (
               <div
                 className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none flex items-center text-xs font-mono"
                 style={{
-                  color: "rgba(255, 255, 255, 0.25)",
+                  color: "rgba(255, 255, 255, 0.3)",
+                  zIndex: 1,
                 }}
               >
                 <span style={{ visibility: "hidden" }}>{groupCode}</span>
@@ -167,6 +177,7 @@ export function GroupResultsAccess() {
               </div>
             )}
 
+            {/* Input transparente encima de todo */}
             <input
               type="text"
               value={groupCode}
@@ -174,16 +185,19 @@ export function GroupResultsAccess() {
               onFocus={handleInputFocus}
               onKeyDown={handleKeyDown}
               placeholder={isAuthenticated ? "Código" : "Resultados"}
-              className="relative w-full px-3 py-2 pr-9 rounded-full backdrop-blur-md border border-white/10 focus:border-white/30 outline-none text-white placeholder-white/30 text-xs transition-all duration-300 font-mono"
+              className="relative w-full px-3 py-2 pr-9 rounded-full border border-white/10 focus:border-white/30 outline-none text-white placeholder-white/30 text-xs transition-all duration-300 font-mono bg-transparent"
               style={{
-                background: "rgba(255, 255, 255, 0.05)",
+                zIndex: 2,
               }}
               disabled={!isAuthenticated}
               autoComplete="off"
             />
 
             {/* Icono de búsqueda o loading - más pequeño */}
-            <div className="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center gap-2">
+            <div
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center gap-2"
+              style={{ zIndex: 3 }}
+            >
               {loading ? (
                 <Loader2 className="w-3.5 h-3.5 text-white/30 animate-spin" />
               ) : !isAuthenticated ? (
