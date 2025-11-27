@@ -36,7 +36,7 @@ export default function AdminPage() {
         {({ content }) => (
           <main className="min-h-screen bg-[#0a0a0f] relative overflow-hidden pb-16">
             {/* Video de fondo */}
-            <div className="fixed inset-0 overflow-hidden" style={{ zIndex: -1 }}>
+            <div className="fixed inset-0 overflow-hidden" style={{ zIndex: 0 }}>
               <video
                 autoPlay
                 loop
@@ -49,12 +49,13 @@ export default function AdminPage() {
             </div>
 
             {/* Patrón de cuadrícula sutil en el fondo */}
-            <div className="absolute inset-0 opacity-10" style={{
+            <div className="fixed inset-0 opacity-10 pointer-events-none" style={{
               backgroundImage: 'linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)',
-              backgroundSize: '50px 50px'
+              backgroundSize: '50px 50px',
+              zIndex: 1
             }}></div>
 
-            <div className="relative max-w-[95%] 2xl:max-w-[1800px] mx-auto px-4 py-10 space-y-10">
+            <div className="relative max-w-[95%] 2xl:max-w-[1800px] mx-auto px-4 py-10 space-y-10" style={{ zIndex: 10 }}>
               {/* Logo y versión */}
               <div className="flex justify-center items-center gap-4 mb-6">
                 <div className="transform hover:scale-105 transition-transform duration-300">
