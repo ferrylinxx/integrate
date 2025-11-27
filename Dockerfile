@@ -1,6 +1,6 @@
 # Dockerfile optimizado para Next.js 15 en producción
 # Basado en las mejores prácticas de Next.js
-# Versión: 2.1.0
+# Versión: 4.9.0
 
 # ============================================
 # Etapa 1: Dependencias
