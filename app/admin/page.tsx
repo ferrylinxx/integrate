@@ -34,8 +34,14 @@ export default function AdminPage() {
     <ProtectedRoute>
       <AdminContentLoader>
         {({ content }) => (
-          <main className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/20 pb-16">
-            <div className="max-w-7xl mx-auto px-4 py-10 space-y-10">
+          <main className="min-h-screen bg-[#0a0a0f] relative overflow-hidden pb-16">
+            {/* Patrón de cuadrícula sutil en el fondo */}
+            <div className="absolute inset-0 opacity-10" style={{
+              backgroundImage: 'linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)',
+              backgroundSize: '50px 50px'
+            }}></div>
+
+            <div className="relative max-w-7xl mx-auto px-4 py-10 space-y-10">
               {/* Logo y versión */}
               <div className="flex justify-center items-center gap-4 mb-6">
                 <div className="transform hover:scale-105 transition-transform duration-300">
@@ -44,22 +50,29 @@ export default function AdminPage() {
                 <VersionBadge position="navbar" size="md" />
               </div>
 
-              {/* Header mejorado */}
-              <Card className="border-2 shadow-xl hover:shadow-2xl transition-all duration-300"
-                    style={{ borderColor: '#2C248E' }}>
+              {/* Header mejorado con estilo oscuro */}
+              <Card className="border border-white/10 shadow-2xl hover:shadow-[0_0_30px_rgba(44,36,142,0.3)] transition-all duration-300"
+                    style={{
+                      background: 'linear-gradient(135deg, rgba(44, 36, 142, 0.15) 0%, rgba(142, 35, 93, 0.1) 100%)',
+                      backdropFilter: 'blur(10px)'
+                    }}>
                 <CardContent className="p-8">
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                     <div>
-                      <h1 className="text-4xl font-bold bg-gradient-to-r from-[#2C248E] to-[#8E235D] bg-clip-text text-transparent">
+                      <h1 className="text-4xl font-bold bg-gradient-to-r from-[#2C248E] via-[#8E235D] to-[#D91D5C] bg-clip-text text-transparent">
                         <RenderContent {...getContentWithHtml(content, "01_Header.Título.principal", "Panel de Administración")} />
                       </h1>
-                      <p className="text-gray-700 mt-2 text-lg font-medium">
+                      <p className="text-gray-300 mt-2 text-lg font-medium">
                         <RenderContent {...getContentWithHtml(content, "01_Header.Título.descripcion", "Gestiona grupos y visualiza resultados del Test de Áreas Sensibles")} />
                       </p>
                   {admin && (
-                    <div className="flex items-center gap-2 mt-4 px-4 py-2 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-200 inline-flex">
-                      <User className="h-5 w-5 text-blue-600" />
-                      <span className="text-sm font-semibold text-gray-800">{admin.name} • {admin.email}</span>
+                    <div className="flex items-center gap-2 mt-4 px-4 py-2 rounded-lg border border-white/20 inline-flex"
+                         style={{
+                           background: 'linear-gradient(135deg, rgba(44, 36, 142, 0.2) 0%, rgba(142, 35, 93, 0.15) 100%)',
+                           backdropFilter: 'blur(5px)'
+                         }}>
+                      <User className="h-5 w-5 text-[#2C248E]" style={{ filter: 'brightness(1.5)' }} />
+                      <span className="text-sm font-semibold text-gray-200">{admin.name} • {admin.email}</span>
                     </div>
                   )}
                 </div>
@@ -67,7 +80,11 @@ export default function AdminPage() {
                       <Button
                         onClick={() => router.push("/admin/cms-multi")}
                         variant="outline"
-                        className="border-2 border-purple-300 hover:border-purple-500 hover:bg-purple-50 text-purple-600 hover:text-purple-700 transition-all duration-300 h-11"
+                        className="border border-purple-400/30 hover:border-purple-400 text-purple-300 hover:text-purple-200 transition-all duration-300 h-11"
+                        style={{
+                          background: 'rgba(142, 35, 93, 0.1)',
+                          backdropFilter: 'blur(5px)'
+                        }}
                       >
                         <FileText className="h-5 w-5 mr-2" />
                         <RenderContent {...getContentWithHtml(content, "02_Botones.Navegación.cms_multi", "CMS Multi-Página")} />
@@ -75,7 +92,11 @@ export default function AdminPage() {
                       <Button
                         onClick={() => router.push("/admin/cms")}
                         variant="outline"
-                        className="border-2 border-green-300 hover:border-green-500 hover:bg-green-50 text-green-600 hover:text-green-700 transition-all duration-300 h-11"
+                        className="border border-green-400/30 hover:border-green-400 text-green-300 hover:text-green-200 transition-all duration-300 h-11"
+                        style={{
+                          background: 'rgba(67, 160, 71, 0.1)',
+                          backdropFilter: 'blur(5px)'
+                        }}
                       >
                         <FileText className="h-5 w-5 mr-2" />
                         <RenderContent {...getContentWithHtml(content, "02_Botones.Navegación.cms_landing", "CMS Landing")} />
@@ -83,7 +104,11 @@ export default function AdminPage() {
                       <Button
                         onClick={() => router.push("/")}
                         variant="outline"
-                        className="border-2 border-gray-300 hover:border-[#2C248E] hover:bg-blue-50 transition-all duration-300 h-11"
+                        className="border border-white/20 hover:border-[#2C248E] text-gray-300 hover:text-white transition-all duration-300 h-11"
+                        style={{
+                          background: 'rgba(44, 36, 142, 0.1)',
+                          backdropFilter: 'blur(5px)'
+                        }}
                       >
                         <Home className="h-5 w-5 mr-2" />
                         <RenderContent {...getContentWithHtml(content, "02_Botones.Navegación.inicio", "Inicio")} />
@@ -91,7 +116,11 @@ export default function AdminPage() {
                       <Button
                         onClick={handleLogout}
                         variant="outline"
-                        className="border-2 border-red-300 hover:border-red-500 hover:bg-red-50 text-red-600 hover:text-red-700 transition-all duration-300 h-11"
+                        className="border border-red-400/30 hover:border-red-400 text-red-300 hover:text-red-200 transition-all duration-300 h-11"
+                        style={{
+                          background: 'rgba(229, 57, 53, 0.1)',
+                          backdropFilter: 'blur(5px)'
+                        }}
                       >
                         <LogOut className="h-5 w-5 mr-2" />
                         <RenderContent {...getContentWithHtml(content, "02_Botones.Navegación.cerrar_sesion", "Cerrar Sesión")} />
@@ -101,20 +130,24 @@ export default function AdminPage() {
                 </CardContent>
               </Card>
 
-              {/* Tabs mejorados */}
-              <Card className="border-2 shadow-lg hover:shadow-xl transition-shadow duration-300"
-                    style={{ borderColor: '#2C248E' }}>
-                <div className="flex border-b-2" style={{ borderBottomColor: '#2C248E' }}>
+              {/* Tabs mejorados con estilo oscuro */}
+              <Card className="border border-white/10 shadow-2xl hover:shadow-[0_0_30px_rgba(44,36,142,0.2)] transition-shadow duration-300"
+                    style={{
+                      background: 'linear-gradient(135deg, rgba(44, 36, 142, 0.1) 0%, rgba(142, 35, 93, 0.08) 100%)',
+                      backdropFilter: 'blur(10px)'
+                    }}>
+                <div className="flex border-b border-white/10">
                   <button
                     onClick={() => setActiveTab("groups")}
                     className={`flex-1 px-8 py-4 font-bold text-base transition-all duration-300 ${
                       activeTab === "groups"
                         ? "border-b-4 text-white"
-                        : "text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+                        : "text-gray-400 hover:text-gray-200"
                     }`}
                     style={activeTab === "groups" ? {
                       borderBottomColor: '#2C248E',
-                      background: 'linear-gradient(135deg, rgba(44, 36, 142, 0.1) 0%, rgba(142, 35, 93, 0.05) 100%)'
+                      background: 'linear-gradient(135deg, rgba(44, 36, 142, 0.3) 0%, rgba(142, 35, 93, 0.2) 100%)',
+                      boxShadow: '0 4px 20px rgba(44, 36, 142, 0.3)'
                     } : {}}
                   >
                     <Shield className="h-5 w-5 inline mr-2" />
@@ -125,11 +158,12 @@ export default function AdminPage() {
                     className={`flex-1 px-8 py-4 font-bold text-base transition-all duration-300 ${
                       activeTab === "admins"
                         ? "border-b-4 text-white"
-                        : "text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+                        : "text-gray-400 hover:text-gray-200"
                     }`}
                     style={activeTab === "admins" ? {
                       borderBottomColor: '#8E235D',
-                      background: 'linear-gradient(135deg, rgba(142, 35, 93, 0.1) 0%, rgba(217, 29, 92, 0.05) 100%)'
+                      background: 'linear-gradient(135deg, rgba(142, 35, 93, 0.3) 0%, rgba(217, 29, 92, 0.2) 100%)',
+                      boxShadow: '0 4px 20px rgba(142, 35, 93, 0.3)'
                     } : {}}
                   >
                     <UsersIcon className="h-5 w-5 inline mr-2" />
@@ -150,9 +184,9 @@ export default function AdminPage() {
                 )}
               </div>
 
-              {/* Footer minimalista */}
+              {/* Footer minimalista con estilo oscuro */}
               <div className="text-center pt-8 pb-4">
-                <p className="text-sm text-gray-500">© 2025 Integrate - Test de Nivel CUBO</p>
+                <p className="text-sm text-gray-400">© 2025 Integrate - Test de Nivel CUBO</p>
               </div>
             </div>
           </main>

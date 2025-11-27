@@ -63,26 +63,28 @@ export function CreateGroupForm({ onGroupCreated }: CreateGroupFormProps) {
   };
 
   return (
-    <Card className="border-2 shadow-lg hover:shadow-xl transition-shadow duration-300"
-          style={{ borderColor: '#2C248E' }}>
-      <CardHeader className="border-b-2 py-8 relative overflow-hidden"
-                  style={{
-                    borderBottomColor: '#2C248E',
-                    background: 'linear-gradient(135deg, rgba(44, 36, 142, 0.05) 0%, rgba(142, 35, 93, 0.03) 100%)'
-                  }}>
+    <Card className="border border-white/10 shadow-2xl hover:shadow-[0_0_30px_rgba(44,36,142,0.3)] transition-shadow duration-300"
+          style={{
+            background: 'linear-gradient(135deg, rgba(44, 36, 142, 0.15) 0%, rgba(142, 35, 93, 0.1) 100%)',
+            backdropFilter: 'blur(10px)'
+          }}>
+      <CardHeader className="border-b border-white/10 py-8 relative overflow-hidden">
         {/* Decoración de fondo */}
-        <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-[#2C248E]/10 to-transparent rounded-full blur-xl"></div>
+        <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-[#2C248E]/20 to-transparent rounded-full blur-xl"></div>
 
         <div className="flex items-center gap-4 relative z-10">
-          <div className="p-3 rounded-xl shadow-md transform hover:rotate-6 transition-transform duration-300"
-               style={{ background: 'linear-gradient(135deg, #2C248E 0%, #8E235D 100%)' }}>
+          <div className="p-3 rounded-xl shadow-lg transform hover:rotate-6 transition-transform duration-300"
+               style={{
+                 background: 'linear-gradient(135deg, #2C248E 0%, #8E235D 100%)',
+                 boxShadow: '0 4px 20px rgba(44, 36, 142, 0.4)'
+               }}>
             <Plus className="h-6 w-6 text-white" />
           </div>
           <div>
-            <CardTitle className="text-2xl font-bold text-gray-900">
+            <CardTitle className="text-2xl font-bold text-white">
               Crear Nuevo Grupo
             </CardTitle>
-            <CardDescription className="mt-2 text-base text-gray-700 font-medium">
+            <CardDescription className="mt-2 text-base text-gray-300 font-medium">
               Genera un código único para que los participantes realicen el test
             </CardDescription>
           </div>
@@ -91,7 +93,7 @@ export function CreateGroupForm({ onGroupCreated }: CreateGroupFormProps) {
       <CardContent className="p-8">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-3">
-            <Label htmlFor="groupName" className="text-base font-bold text-gray-800">
+            <Label htmlFor="groupName" className="text-base font-bold text-gray-200">
               Nombre del Grupo
             </Label>
             <Input
@@ -104,9 +106,10 @@ export function CreateGroupForm({ onGroupCreated }: CreateGroupFormProps) {
                 setError(null);
               }}
               disabled={isCreating}
-              className="h-12 border-2 border-gray-300 focus:border-[#2C248E] text-base"
+              className="h-12 border border-white/20 focus:border-[#2C248E] text-base bg-white/5 text-white placeholder:text-gray-400"
+              style={{ backdropFilter: 'blur(5px)' }}
             />
-            <p className="text-sm text-gray-600 font-medium">
+            <p className="text-sm text-gray-400 font-medium">
               💡 Este nombre te ayudará a identificar el grupo en el panel
             </p>
           </div>
@@ -114,7 +117,7 @@ export function CreateGroupForm({ onGroupCreated }: CreateGroupFormProps) {
           <Button
             type="submit"
             disabled={isCreating || !name.trim()}
-            className="w-full h-12 font-bold text-base shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:transform-none"
+            className="w-full h-12 font-bold text-base shadow-lg hover:shadow-[0_0_30px_rgba(44,36,142,0.5)] transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:transform-none text-white"
             style={{ background: 'linear-gradient(135deg, #2C248E 0%, #8E235D 100%)' }}
           >
             {isCreating ? (
@@ -131,32 +134,44 @@ export function CreateGroupForm({ onGroupCreated }: CreateGroupFormProps) {
           </Button>
 
           {error && (
-            <div className="bg-red-50 border-2 border-red-300 rounded-xl p-4 shadow-sm">
+            <div className="border border-red-400/30 rounded-xl p-4 shadow-lg"
+                 style={{
+                   background: 'rgba(229, 57, 53, 0.15)',
+                   backdropFilter: 'blur(10px)'
+                 }}>
               <div className="flex items-center gap-3">
-                <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0" />
-                <p className="text-sm text-red-800 font-semibold">{error}</p>
+                <AlertCircle className="h-5 w-5 text-red-400 flex-shrink-0" />
+                <p className="text-sm text-red-200 font-semibold">{error}</p>
               </div>
             </div>
           )}
 
           {success && (
-            <div className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-300 rounded-xl p-6 space-y-4 shadow-md">
+            <div className="border border-green-400/30 rounded-xl p-6 space-y-4 shadow-2xl"
+                 style={{
+                   background: 'linear-gradient(135deg, rgba(67, 160, 71, 0.2) 0%, rgba(56, 142, 60, 0.15) 100%)',
+                   backdropFilter: 'blur(10px)'
+                 }}>
               <div className="flex items-center gap-3">
-                <CheckCircle2 className="h-6 w-6 text-green-600" />
-                <p className="text-base text-green-900 font-bold">
+                <CheckCircle2 className="h-6 w-6 text-green-400" />
+                <p className="text-base text-green-200 font-bold">
                   ¡Grupo creado exitosamente!
                 </p>
               </div>
 
               <div className="space-y-3">
-                <p className="text-sm text-green-800 font-semibold">
+                <p className="text-sm text-green-300 font-semibold">
                   <strong>Nombre:</strong> {success.name}
                 </p>
                 <div className="flex items-center gap-3">
                   <div className="flex-1">
-                    <p className="text-sm text-green-700 font-bold mb-2">Código del grupo:</p>
-                    <div className="bg-white border-2 border-green-400 rounded-xl p-4 shadow-sm">
-                      <p className="text-3xl font-mono font-bold text-center text-gray-900">
+                    <p className="text-sm text-green-300 font-bold mb-2">Código del grupo:</p>
+                    <div className="border border-green-400/40 rounded-xl p-4 shadow-lg"
+                         style={{
+                           background: 'rgba(67, 160, 71, 0.1)',
+                           backdropFilter: 'blur(5px)'
+                         }}>
+                      <p className="text-3xl font-mono font-bold text-center text-white">
                         {success.code}
                       </p>
                     </div>
@@ -165,13 +180,13 @@ export function CreateGroupForm({ onGroupCreated }: CreateGroupFormProps) {
                     type="button"
                     onClick={handleCopyCode}
                     size="sm"
-                    className="h-12 px-5 bg-green-600 hover:bg-green-700 shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300"
+                    className="h-12 px-5 bg-green-600 hover:bg-green-700 shadow-lg hover:shadow-[0_0_20px_rgba(67,160,71,0.5)] transform hover:scale-105 transition-all duration-300 text-white"
                   >
                     <Copy className="h-5 w-5 mr-2" />
                     Copiar
                   </Button>
                 </div>
-                <p className="text-sm text-green-700 font-medium">
+                <p className="text-sm text-green-300 font-medium">
                   📋 Comparte este código con los participantes para que puedan acceder al test
                 </p>
               </div>
