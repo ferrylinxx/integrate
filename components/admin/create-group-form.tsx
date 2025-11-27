@@ -63,165 +63,132 @@ export function CreateGroupForm({ onGroupCreated }: CreateGroupFormProps) {
   };
 
   return (
-    <Card className="border border-white/20 shadow-2xl hover:shadow-[0_0_40px_rgba(44,36,142,0.5)] transition-all duration-500 group"
+    <Card className="border border-white/20 shadow-xl hover:shadow-[0_0_20px_rgba(44,36,142,0.3)] transition-all duration-300 group"
           style={{
-            background: 'linear-gradient(135deg, rgba(44, 36, 142, 0.25) 0%, rgba(142, 35, 93, 0.2) 50%, rgba(217, 29, 92, 0.15) 100%)',
-            backdropFilter: 'blur(20px)'
+            background: 'linear-gradient(135deg, rgba(44, 36, 142, 0.15) 0%, rgba(142, 35, 93, 0.1) 100%)',
+            backdropFilter: 'blur(10px)'
           }}>
-      <CardHeader className="border-b border-white/20 py-10 relative overflow-hidden">
-        {/* Decoraciones de fondo animadas */}
-        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#2C248E]/30 to-transparent rounded-full blur-2xl animate-pulse"></div>
-        <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-tr from-[#D91D5C]/20 to-transparent rounded-full blur-2xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+      <CardHeader className="border-b border-white/10 py-8 relative overflow-hidden">
+        {/* Decoración de fondo sutil */}
+        <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-[#2C248E]/20 to-transparent rounded-full blur-xl"></div>
 
-        {/* Líneas decorativas */}
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#2C248E] to-transparent opacity-50"></div>
-
-        <div className="flex items-center gap-5 relative z-10">
-          <div className="p-4 rounded-2xl shadow-2xl transform group-hover:rotate-12 group-hover:scale-110 transition-all duration-500"
+        <div className="flex items-center gap-4 relative z-10">
+          <div className="p-3 rounded-xl shadow-lg transform group-hover:rotate-6 transition-transform duration-300"
                style={{
-                 background: 'linear-gradient(135deg, #2C248E 0%, #8E235D 50%, #D91D5C 100%)',
-                 boxShadow: '0 8px 32px rgba(44, 36, 142, 0.6), 0 0 0 1px rgba(255,255,255,0.1) inset'
+                 background: 'linear-gradient(135deg, #2C248E 0%, #8E235D 100%)',
+                 boxShadow: '0 4px 20px rgba(44, 36, 142, 0.4)'
                }}>
-            <Plus className="h-8 w-8 text-white drop-shadow-lg" />
+            <Plus className="h-6 w-6 text-white" />
           </div>
           <div>
-            <CardTitle className="text-3xl font-black text-white drop-shadow-lg bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent">
+            <CardTitle className="text-2xl font-bold text-white">
               Crear Nuevo Grupo
             </CardTitle>
-            <CardDescription className="mt-2 text-lg text-gray-200 font-semibold drop-shadow">
+            <CardDescription className="mt-2 text-base text-gray-300 font-medium">
               Genera un código único para que los participantes realicen el test
             </CardDescription>
           </div>
         </div>
       </CardHeader>
-      <CardContent className="p-10">
-        <form onSubmit={handleSubmit} className="space-y-8">
-          <div className="space-y-4">
-            <Label htmlFor="groupName" className="text-lg font-black text-white flex items-center gap-2">
-              <Sparkles className="h-5 w-5 text-purple-400" />
+      <CardContent className="p-8">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="space-y-3">
+            <Label htmlFor="groupName" className="text-base font-bold text-gray-200">
               Nombre del Grupo
             </Label>
-            <div className="relative group">
-              <Input
-                id="groupName"
-                type="text"
-                placeholder="Ej: Equipo Marketing 2024"
-                value={name}
-                onChange={(e) => {
-                  setName(e.target.value);
-                  setError(null);
-                }}
-                disabled={isCreating}
-                className="h-16 border-2 border-white/30 focus:border-purple-400 text-lg font-semibold bg-white/10 text-white placeholder:text-gray-400 rounded-xl transition-all duration-300 group-hover:border-white/50 shadow-lg"
-                style={{ backdropFilter: 'blur(10px)' }}
-              />
-              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-purple-500/0 via-purple-500/5 to-pink-500/0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
-            </div>
-            <div className="flex items-center gap-2 px-4 py-3 rounded-lg border border-blue-400/30"
-                 style={{ background: 'rgba(33, 150, 243, 0.1)', backdropFilter: 'blur(5px)' }}>
-              <span className="text-2xl">💡</span>
-              <p className="text-sm text-blue-200 font-semibold">
-                Este nombre te ayudará a identificar el grupo en el panel
-              </p>
-            </div>
+            <Input
+              id="groupName"
+              type="text"
+              placeholder="Ej: Equipo Marketing 2024"
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+                setError(null);
+              }}
+              disabled={isCreating}
+              className="h-12 border border-white/20 focus:border-[#2C248E] text-base bg-white/5 text-white placeholder:text-gray-400"
+              style={{ backdropFilter: 'blur(5px)' }}
+            />
+            <p className="text-sm text-gray-400 font-medium">
+              💡 Este nombre te ayudará a identificar el grupo en el panel
+            </p>
           </div>
 
           <Button
             type="submit"
             disabled={isCreating || !name.trim()}
-            className="w-full h-16 font-black text-lg shadow-2xl hover:shadow-[0_0_40px_rgba(44,36,142,0.7)] transform hover:scale-[1.02] active:scale-95 transition-all duration-300 disabled:opacity-50 disabled:transform-none text-white relative overflow-hidden group"
-            style={{ background: 'linear-gradient(135deg, #2C248E 0%, #8E235D 50%, #D91D5C 100%)' }}
+            className="w-full h-12 font-bold text-base shadow-lg hover:shadow-[0_0_20px_rgba(44,36,142,0.4)] transform hover:scale-[1.01] transition-all duration-300 disabled:opacity-50 disabled:transform-none text-white"
+            style={{ background: 'linear-gradient(135deg, #2C248E 0%, #8E235D 100%)' }}
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
             {isCreating ? (
               <>
-                <Loader2 className="mr-3 h-6 w-6 animate-spin" />
+                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
                 Creando grupo...
               </>
             ) : (
               <>
-                <Plus className="mr-3 h-6 w-6" />
+                <Plus className="mr-2 h-5 w-5" />
                 Crear Grupo
               </>
             )}
           </Button>
 
           {error && (
-            <div className="border-2 border-red-400/40 rounded-2xl p-5 shadow-2xl animate-shake"
+            <div className="border border-red-400/30 rounded-xl p-4 shadow-lg"
                  style={{
-                   background: 'linear-gradient(135deg, rgba(229, 57, 53, 0.25) 0%, rgba(211, 47, 47, 0.2) 100%)',
-                   backdropFilter: 'blur(15px)'
+                   background: 'rgba(229, 57, 53, 0.15)',
+                   backdropFilter: 'blur(10px)'
                  }}>
-              <div className="flex items-center gap-4">
-                <div className="p-3 rounded-xl bg-red-500/30">
-                  <AlertCircle className="h-6 w-6 text-red-300 flex-shrink-0" />
-                </div>
-                <p className="text-base text-red-100 font-bold">{error}</p>
+              <div className="flex items-center gap-3">
+                <AlertCircle className="h-5 w-5 text-red-400 flex-shrink-0" />
+                <p className="text-sm text-red-200 font-semibold">{error}</p>
               </div>
             </div>
           )}
 
           {success && (
-            <div className="border-2 border-green-400/40 rounded-2xl p-8 space-y-6 shadow-2xl animate-slide-in relative overflow-hidden"
+            <div className="border border-green-400/30 rounded-xl p-6 space-y-4 shadow-lg"
                  style={{
-                   background: 'linear-gradient(135deg, rgba(67, 160, 71, 0.3) 0%, rgba(56, 142, 60, 0.25) 100%)',
-                   backdropFilter: 'blur(15px)'
+                   background: 'linear-gradient(135deg, rgba(67, 160, 71, 0.2) 0%, rgba(56, 142, 60, 0.15) 100%)',
+                   backdropFilter: 'blur(10px)'
                  }}>
-              {/* Decoración de fondo */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-green-400/20 rounded-full blur-3xl"></div>
-
-              <div className="flex items-center gap-4 relative z-10">
-                <div className="p-3 rounded-xl bg-green-500/40 shadow-lg">
-                  <CheckCircle2 className="h-8 w-8 text-green-200" />
-                </div>
-                <p className="text-xl text-green-100 font-black">
+              <div className="flex items-center gap-3">
+                <CheckCircle2 className="h-6 w-6 text-green-400" />
+                <p className="text-base text-green-200 font-bold">
                   ¡Grupo creado exitosamente!
                 </p>
               </div>
 
-              <div className="space-y-5 relative z-10">
-                <div className="flex items-center gap-2 px-4 py-3 rounded-lg border border-green-400/30"
-                     style={{ background: 'rgba(67, 160, 71, 0.15)' }}>
-                  <Sparkles className="h-5 w-5 text-green-300" />
-                  <p className="text-base text-green-100 font-bold">
-                    <strong className="text-green-200">Nombre:</strong> {success.name}
-                  </p>
-                </div>
-
-                <div className="space-y-3">
-                  <p className="text-base text-green-200 font-black flex items-center gap-2">
-                    <Copy className="h-5 w-5" />
-                    Código del grupo:
-                  </p>
-                  <div className="border-2 border-green-400/50 rounded-2xl p-6 shadow-2xl relative overflow-hidden"
-                       style={{
-                         background: 'linear-gradient(135deg, rgba(67, 160, 71, 0.2) 0%, rgba(46, 125, 50, 0.15) 100%)',
-                         backdropFilter: 'blur(10px)'
-                       }}>
-                    <div className="absolute inset-0 bg-gradient-to-r from-green-400/0 via-green-400/10 to-green-400/0"></div>
-                    <p className="text-5xl font-mono font-black text-center text-white drop-shadow-lg tracking-wider relative z-10">
-                      {success.code}
-                    </p>
+              <div className="space-y-3">
+                <p className="text-sm text-green-300 font-semibold">
+                  <strong>Nombre:</strong> {success.name}
+                </p>
+                <div className="flex items-center gap-3">
+                  <div className="flex-1">
+                    <p className="text-sm text-green-300 font-bold mb-2">Código del grupo:</p>
+                    <div className="border border-green-400/40 rounded-xl p-4 shadow-lg"
+                         style={{
+                           background: 'rgba(67, 160, 71, 0.1)',
+                           backdropFilter: 'blur(5px)'
+                         }}>
+                      <p className="text-3xl font-mono font-bold text-center text-white">
+                        {success.code}
+                      </p>
+                    </div>
                   </div>
-
                   <Button
                     type="button"
                     onClick={handleCopyCode}
-                    className="w-full h-14 font-black text-base shadow-xl hover:shadow-[0_0_30px_rgba(67,160,71,0.6)] transform hover:scale-105 transition-all duration-300 text-white"
-                    style={{ background: 'linear-gradient(135deg, #43A047 0%, #2E7D32 100%)' }}
+                    size="sm"
+                    className="h-12 px-5 bg-green-600 hover:bg-green-700 shadow-lg hover:shadow-[0_0_15px_rgba(67,160,71,0.4)] transform hover:scale-105 transition-all duration-300 text-white"
                   >
-                    <Copy className="h-6 w-6 mr-3" />
-                    Copiar Código
+                    <Copy className="h-5 w-5 mr-2" />
+                    Copiar
                   </Button>
                 </div>
-
-                <div className="flex items-start gap-3 px-5 py-4 rounded-xl border border-blue-400/30"
-                     style={{ background: 'rgba(33, 150, 243, 0.15)', backdropFilter: 'blur(5px)' }}>
-                  <span className="text-3xl">📋</span>
-                  <p className="text-sm text-blue-100 font-semibold leading-relaxed">
-                    Comparte este código con los participantes para que puedan acceder al test
-                  </p>
-                </div>
+                <p className="text-sm text-green-300 font-medium">
+                  📋 Comparte este código con los participantes para que puedan acceder al test
+                </p>
               </div>
             </div>
           )}
