@@ -48,7 +48,10 @@ export default function RootLayout({
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'G-RR1LKGLVVM');
+            gtag('config', 'G-RR1LKGLVVM', {
+              page_path: window.location.pathname,
+              send_page_view: true
+            });
           `}
         </Script>
       </head>
