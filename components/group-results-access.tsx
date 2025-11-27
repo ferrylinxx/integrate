@@ -135,7 +135,7 @@ export function GroupResultsAccess() {
   return (
     <>
       <motion.div
-        className="mt-6 w-full max-w-xs mx-auto"
+        className="mt-6 w-full max-w-[200px] mx-auto"
         initial={{ opacity: 0, y: 10 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
@@ -157,12 +157,12 @@ export function GroupResultsAccess() {
             {/* Texto de sugerencia (ghost text) detrás del input */}
             {suggestion && (
               <div
-                className="absolute inset-0 px-3 py-2 pr-9 rounded-full pointer-events-none flex items-center text-xs"
+                className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none flex items-center text-xs font-mono"
                 style={{
-                  color: "rgba(255, 255, 255, 0.2)",
+                  color: "rgba(255, 255, 255, 0.25)",
                 }}
               >
-                <span className="invisible">{groupCode}</span>
+                <span style={{ visibility: "hidden" }}>{groupCode}</span>
                 <span>{suggestion.slice(groupCode.length)}</span>
               </div>
             )}
@@ -170,11 +170,11 @@ export function GroupResultsAccess() {
             <input
               type="text"
               value={groupCode}
-              onChange={(e) => setGroupCode(e.target.value)}
+              onChange={(e) => setGroupCode(e.target.value.toUpperCase())}
               onFocus={handleInputFocus}
               onKeyDown={handleKeyDown}
-              placeholder={isAuthenticated ? "Código de grupo" : "Ver resultados"}
-              className="relative w-full px-3 py-2 pr-9 rounded-full backdrop-blur-md border border-white/10 focus:border-white/30 outline-none text-white placeholder-white/30 text-xs transition-all duration-300 bg-transparent"
+              placeholder={isAuthenticated ? "Código" : "Resultados"}
+              className="relative w-full px-3 py-2 pr-9 rounded-full backdrop-blur-md border border-white/10 focus:border-white/30 outline-none text-white placeholder-white/30 text-xs transition-all duration-300 font-mono"
               style={{
                 background: "rgba(255, 255, 255, 0.05)",
               }}
@@ -205,12 +205,12 @@ export function GroupResultsAccess() {
           {/* Hint de Tab para autocompletar */}
           {suggestion && !navigating && (
             <motion.p
-              className="absolute -bottom-5 left-0 right-0 text-center text-[9px] text-white/20"
+              className="absolute -bottom-4 left-0 right-0 text-center text-[8px] text-white/20"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
             >
-              Tab para autocompletar
+              Tab ↹
             </motion.p>
           )}
 
