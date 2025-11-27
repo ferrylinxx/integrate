@@ -127,23 +127,23 @@ export function GroupResultsAccess() {
   return (
     <>
       <motion.div
-        className="mt-8 w-full max-w-md mx-auto"
-        initial={{ opacity: 0, y: 20 }}
+        className="mt-6 w-full max-w-xs mx-auto"
+        initial={{ opacity: 0, y: 10 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{
-          duration: 0.8,
+          duration: 0.6,
           delay: 0.8,
           ease: [0.25, 0.46, 0.45, 0.94],
         }}
       >
-        {/* Formulario siempre visible - optimizado */}
+        {/* Formulario siempre visible - más pequeño y sutil */}
         <motion.form
           onSubmit={handleSubmit}
           className="relative"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.4 }}
         >
           <div className="relative">
             <input
@@ -151,22 +151,22 @@ export function GroupResultsAccess() {
               value={groupCode}
               onChange={(e) => setGroupCode(e.target.value)}
               onFocus={handleInputFocus}
-              placeholder={isAuthenticated ? "Código de grupo o participante" : "Acceder a resultados (requiere login)"}
-              className="w-full px-4 py-3 pr-12 rounded-full backdrop-blur-md border border-white/20 focus:border-white/40 outline-none text-white placeholder-white/40 text-sm transition-all duration-300"
+              placeholder={isAuthenticated ? "Código de grupo" : "Ver resultados"}
+              className="w-full px-3 py-2 pr-9 rounded-full backdrop-blur-md border border-white/10 focus:border-white/30 outline-none text-white placeholder-white/30 text-xs transition-all duration-300"
               style={{
-                background: "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%)",
+                background: "rgba(255, 255, 255, 0.05)",
               }}
               disabled={!isAuthenticated}
             />
 
-            {/* Icono de búsqueda o loading */}
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
+            {/* Icono de búsqueda o loading - más pequeño */}
+            <div className="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center gap-2">
               {loading ? (
-                <Loader2 className="w-4 h-4 text-white/40 animate-spin" />
+                <Loader2 className="w-3.5 h-3.5 text-white/30 animate-spin" />
               ) : !isAuthenticated ? (
-                <Lock className="w-4 h-4 text-white/40" />
+                <Lock className="w-3.5 h-3.5 text-white/30" />
               ) : (
-                <Search className="w-4 h-4 text-white/40" />
+                <Search className="w-3.5 h-3.5 text-white/30" />
               )}
             </div>
 
@@ -179,56 +179,56 @@ export function GroupResultsAccess() {
             />
           </div>
 
-          {/* Indicador de navegación */}
+          {/* Indicador de navegación - más sutil */}
           {navigating && (
             <motion.div
-              className="absolute -bottom-8 left-0 right-0 text-center"
-              initial={{ opacity: 0, y: -10 }}
+              className="absolute -bottom-6 left-0 right-0 text-center"
+              initial={{ opacity: 0, y: -5 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <p className="text-xs text-white/60 flex items-center justify-center gap-2">
-                <Loader2 className="w-3 h-3 animate-spin" />
-                Cargando resultados...
+              <p className="text-[10px] text-white/40 flex items-center justify-center gap-1.5">
+                <Loader2 className="w-2.5 h-2.5 animate-spin" />
+                Cargando...
               </p>
             </motion.div>
           )}
         </motion.form>
 
-        {/* Sugerencias filtradas en tiempo real */}
+        {/* Sugerencias filtradas en tiempo real - más pequeñas y sutiles */}
         <AnimatePresence>
           {showSuggestions && !navigating && (
             <motion.div
-              className="mt-4 space-y-2"
-              initial={{ opacity: 0, y: -10 }}
+              className="mt-2 space-y-1"
+              initial={{ opacity: 0, y: -5 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
+              exit={{ opacity: 0, y: -5 }}
+              transition={{ duration: 0.15 }}
             >
-              <p className="text-xs text-white/40 text-center mb-2">
-                {filteredGroups.length === 1 ? "Grupo encontrado:" : `${filteredGroups.length} grupos encontrados:`}
+              <p className="text-[10px] text-white/25 text-center mb-1">
+                {filteredGroups.length === 1 ? "1 grupo" : `${filteredGroups.length} grupos`}
               </p>
-              <div className="flex flex-wrap gap-2 justify-center max-w-md mx-auto max-h-40 overflow-y-auto">
-                {filteredGroups.slice(0, 10).map((group, index) => (
+              <div className="flex flex-wrap gap-1.5 justify-center max-w-xs mx-auto max-h-24 overflow-y-auto">
+                {filteredGroups.slice(0, 6).map((group, index) => (
                   <motion.button
                     key={group.id}
                     onClick={(e) => handleGroupClick(e, group.code)}
                     type="button"
-                    className="group flex items-center gap-2 px-3 py-1.5 rounded-full backdrop-blur-md border border-white/10 hover:border-[#2C248E] transition-all duration-200 cursor-pointer"
+                    className="group flex items-center gap-1.5 px-2 py-1 rounded-full backdrop-blur-md border border-white/5 hover:border-white/20 transition-all duration-200 cursor-pointer"
                     style={{
-                      background: "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%)",
+                      background: "rgba(255, 255, 255, 0.03)",
                     }}
-                    whileHover={{ scale: 1.05, background: "linear-gradient(135deg, rgba(44, 36, 142, 0.2) 0%, rgba(142, 35, 93, 0.2) 100%)" }}
-                    whileTap={{ scale: 0.95 }}
-                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: index * 0.03 }}
+                    transition={{ delay: index * 0.02 }}
                   >
-                    <Users className="w-3 h-3 text-white/40 group-hover:text-white/70 transition-colors" />
-                    <span className="text-xs text-white/60 group-hover:text-white/90 transition-colors font-medium">
+                    <Users className="w-2.5 h-2.5 text-white/30 group-hover:text-white/50 transition-colors" />
+                    <span className="text-[10px] text-white/50 group-hover:text-white/80 transition-colors font-medium">
                       {group.code}
                     </span>
                     {group.name && (
-                      <span className="text-xs text-white/30 group-hover:text-white/50 transition-colors">
+                      <span className="text-[10px] text-white/20 group-hover:text-white/40 transition-colors max-w-[80px] truncate">
                         {group.name}
                       </span>
                     )}
@@ -239,27 +239,27 @@ export function GroupResultsAccess() {
           )}
         </AnimatePresence>
 
-        {/* Texto de ayuda cuando no hay sugerencias */}
+        {/* Texto de ayuda cuando no hay sugerencias - más sutil */}
         {isAuthenticated && !showSuggestions && !loading && groupCode.trim().length > 0 && (
           <motion.p
-            className="text-xs text-white/30 text-center mt-3"
+            className="text-[10px] text-white/20 text-center mt-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.15 }}
+          >
+            Presiona Enter para buscar
+          </motion.p>
+        )}
+
+        {/* Hint de uso - más sutil */}
+        {isAuthenticated && !groupCode.trim() && groups.length > 0 && (
+          <motion.p
+            className="text-[10px] text-white/20 text-center mt-2"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
           >
-            No se encontraron grupos. Presiona Enter para buscar.
-          </motion.p>
-        )}
-
-        {/* Hint de uso */}
-        {isAuthenticated && !groupCode.trim() && groups.length > 0 && (
-          <motion.p
-            className="text-xs text-white/30 text-center mt-3"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-          >
-            {groups.length} {groups.length === 1 ? "grupo disponible" : "grupos disponibles"}
+            {groups.length} {groups.length === 1 ? "grupo" : "grupos"}
           </motion.p>
         )}
       </motion.div>
