@@ -55,6 +55,7 @@ export function GroupResultsAccess() {
   }, [loading]);
 
   // Encontrar la mejor sugerencia basada en lo que escribe el usuario
+  // Busca tanto por código como por nombre de grupo
   useEffect(() => {
     if (!groupCode.trim() || !isAuthenticated) {
       setSuggestion("");
@@ -63,14 +64,29 @@ export function GroupResultsAccess() {
 
     const searchTerm = groupCode.trim().toUpperCase();
 
-    // Buscar el primer grupo que coincida con el inicio del código
-    const match = groups.find((group) =>
+    // Primero buscar por código (prioridad)
+    let match = groups.find((group) =>
       group.code.toUpperCase().startsWith(searchTerm)
     );
 
-    if (match && match.code.toUpperCase() !== searchTerm) {
-      // Mostrar solo la parte que falta completar
-      setSuggestion(match.code);
+    // Si no encuentra por código, buscar por nombre
+    if (!match) {
+      match = groups.find((group) =>
+        group.name?.toUpperCase().startsWith(searchTerm)
+      );
+    }
+
+    if (match) {
+      // Si coincide con el código, mostrar el código
+      if (match.code.toUpperCase().startsWith(searchTerm) && match.code.toUpperCase() !== searchTerm) {
+        setSuggestion(match.code);
+      }
+      // Si coincide con el nombre, mostrar el código del grupo encontrado
+      else if (match.name?.toUpperCase().startsWith(searchTerm) && match.name.toUpperCase() !== searchTerm) {
+        setSuggestion(match.name);
+      } else {
+        setSuggestion("");
+      }
     } else {
       setSuggestion("");
     }
@@ -94,9 +110,22 @@ export function GroupResultsAccess() {
     e.stopPropagation();
 
     if (groupCode.trim()) {
-      navigateToResult(groupCode.trim());
+      const searchTerm = groupCode.trim().toUpperCase();
+
+      // Buscar si el texto ingresado coincide con un nombre de grupo
+      const matchByName = groups.find((group) =>
+        group.name?.toUpperCase() === searchTerm
+      );
+
+      // Si encuentra por nombre, navegar con el código del grupo
+      if (matchByName) {
+        navigateToResult(matchByName.code);
+      } else {
+        // Si no, asumir que es un código y navegar directamente
+        navigateToResult(groupCode.trim());
+      }
     }
-  }, [groupCode, navigateToResult]);
+  }, [groupCode, groups, navigateToResult]);
 
   const handleInputFocus = useCallback(() => {
     // Si no está autenticado, mostrar modal de login
@@ -115,10 +144,30 @@ export function GroupResultsAccess() {
   const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Tab" && suggestion) {
       e.preventDefault();
-      setGroupCode(suggestion);
+
+      const searchTerm = groupCode.trim().toUpperCase();
+
+      // Buscar el grupo que coincide
+      const match = groups.find((group) =>
+        group.code.toUpperCase().startsWith(searchTerm) ||
+        group.name?.toUpperCase().startsWith(searchTerm)
+      );
+
+      if (match) {
+        // Si autocompletó por nombre, poner el nombre completo
+        // Si autocompletó por código, poner el código completo
+        if (match.name?.toUpperCase().startsWith(searchTerm)) {
+          setGroupCode(match.name);
+        } else {
+          setGroupCode(match.code);
+        }
+      } else {
+        setGroupCode(suggestion);
+      }
+
       setSuggestion("");
     }
-  }, [suggestion]);
+  }, [suggestion, groupCode, groups]);
 
   const handleLoginSuccess = useCallback(() => {
     setShowLoginModal(false);
@@ -181,11 +230,11 @@ export function GroupResultsAccess() {
             <input
               type="text"
               value={groupCode}
-              onChange={(e) => setGroupCode(e.target.value.toUpperCase())}
+              onChange={(e) => setGroupCode(e.target.value)}
               onFocus={handleInputFocus}
               onKeyDown={handleKeyDown}
-              placeholder={isAuthenticated ? "Código" : "Resultados"}
-              className="relative w-full px-3 py-2 pr-9 rounded-full border border-white/10 focus:border-white/30 outline-none text-white placeholder-white/30 text-xs transition-all duration-300 font-mono bg-transparent"
+              placeholder={isAuthenticated ? "Código o nombre" : "Resultados"}
+              className="relative w-full px-3 py-2 pr-9 rounded-full border border-white/10 focus:border-white/30 outline-none text-white placeholder-white/30 text-xs transition-all duration-300 bg-transparent"
               style={{
                 zIndex: 2,
               }}
