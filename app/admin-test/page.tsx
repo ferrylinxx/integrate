@@ -72,7 +72,7 @@ export default function AdminTestPage() {
   const exportReport = () => {
     const report = {
       timestamp: new Date().toISOString(),
-      version: "4.8.0",
+      version: "4.9.0",
       overallStatus: getOverallStatus(),
       uptime: getAverageUptime(),
       services,
@@ -296,7 +296,7 @@ export default function AdminTestPage() {
                 overallStatus={getOverallStatus()}
                 uptime={getAverageUptime()}
                 lastUpdate={lastUpdate}
-                version="4.8.0"
+                version="4.9.0"
               />
 
               {/* Grid de métricas rápidas */}
@@ -419,7 +419,7 @@ export default function AdminTestPage() {
         {/* Footer minimalista con estilo oscuro */}
         <div className="text-center pt-8 pb-4">
           <p className="text-sm text-gray-400">© 2025 Integrate - Sistema de Evaluación de Áreas Sensibles</p>
-          <p className="text-xs text-gray-500 mt-1">v4.8.0 - Status Page</p>
+          <p className="text-xs text-gray-500 mt-1">v4.9.0 - Status Page</p>
         </div>
       </div>
     </main>

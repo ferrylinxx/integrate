@@ -1,20 +1,20 @@
 {
-  "version": "4.6.0",
-  "releaseDate": "2025-01-26",
+  "version": "4.9.0",
+  "releaseDate": "2025-01-27",
   "releaseNotes": {
     "es": {
-      "title": "Nueva versión disponible (v4.6.0)",
+      "title": "Nueva versión disponible (v4.9.0)",
       "message": "Actualiza para las últimas características y mejoras.",
       "features": [
-        "🔐 Autenticación de administrador para acceso a resultados",
-        "🔒 Protección de ruta /resultado/[code] con login obligatorio",
-        "💬 Modal de login en landing page para acceso a resultados",
-        "🛡️ Mejora de seguridad: sin autenticación no se pueden ver resultados",
-        "📋 Análisis completo del sistema con recomendaciones de seguridad"
+        "🎨 Rediseño completo de Status Page con estilo Liquid Glass",
+        "📊 Sistema de tabs mejorado (Resumen, Servicios, Base de Datos, Tests)",
+        "📥 Exportar reporte del sistema en formato JSON",
+        "📈 Dashboard de resumen con métricas rápidas",
+        "🔄 Auto-refresh mejorado con control de pausa/reanudar"
       ]
     }
   },
-  "minVersion": "4.6.0",
+  "minVersion": "4.9.0",
   "updateUrl": "https://github.com/ferrylinxx/integrate/releases/latest"
 }
 

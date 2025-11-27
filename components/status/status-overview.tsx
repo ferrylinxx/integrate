@@ -10,11 +10,11 @@ interface StatusOverviewProps {
   version?: string;
 }
 
-export function StatusOverview({ 
-  overallStatus, 
-  uptime, 
+export function StatusOverview({
+  overallStatus,
+  uptime,
   lastUpdate,
-  version = "4.8.0"
+  version = "4.9.0"
 }: StatusOverviewProps) {
   const config = STATUS_CONFIG[overallStatus];
   
