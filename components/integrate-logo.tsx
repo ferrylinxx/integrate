@@ -16,17 +16,17 @@ const sizeMap = {
   "2xl": { width: 400, height: 107 }, // Para hero principal
 };
 
-export function IntegrateLogo({ 
-  size = "md", 
+export function IntegrateLogo({
+  size = "md",
   className,
-  priority = false 
+  priority = false
 }: IntegrateLogoProps) {
   const dimensions = sizeMap[size];
 
   return (
     <div className={cn("relative", className)}>
       <Image
-        src="/logo/Integrate_logo gris + color.png"
+        src="/logo/integrate-logo.png"
         alt="Integrate Logo"
         width={dimensions.width}
         height={dimensions.height}

@@ -165,7 +165,8 @@ git remote add origin https://github.com/ferrylinxx/integrate.git
 ### El logo no se muestra en Docker Hub
 - Verifica que la ruta en README.md sea correcta
 - Espera unos minutos para que Docker Hub sincronice
-- Asegúrate de que el archivo existe en: `public/logo/Integrate_logo gris + color.png`
+- Asegúrate de que el archivo existe en: `public/logo/integrate-logo.png`
+- **IMPORTANTE**: El nombre del archivo NO debe tener espacios (causa problemas en Docker/Linux)
 
 ---
 
