@@ -68,8 +68,8 @@ export default function LandingPage() {
                 transition: 'opacity 0.8s ease-out',
               }}
             >
-              <div className="w-full max-w-2xl h-[350px] md:h-[450px]">
-                <InteractiveCubeHero scale={0.8} />
+              <div className="w-full max-w-2xl h-[380px] md:h-[480px]">
+                <InteractiveCubeHero scale={0.88} />
               </div>
             </div>
 
@@ -213,89 +213,63 @@ export default function LandingPage() {
             </section>
           </div>
 
-          {/* Indicador de scroll mejorado con Framer Motion */}
+          {/* Indicador de scroll - Botón Liquid Glass simple */}
           <motion.div
-            className="fixed bottom-12 left-1/2 z-30"
+            className="fixed bottom-10 left-1/2 z-30"
             style={{
               x: "-50%",
               pointerEvents: scrolled ? 'none' : 'auto',
             }}
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{
               opacity: scrolled ? 0 : 1,
-              y: scrolled ? 50 : 0,
+              y: scrolled ? 30 : 0,
             }}
             transition={{ duration: 0.5 }}
           >
+            {/* Botón circular liquid glass */}
             <motion.div
-              className="flex flex-col items-center gap-3"
+              className="rounded-full p-5 cursor-pointer"
+              style={{
+                background: 'rgba(255,255,255,0.08)',
+                backdropFilter: 'blur(12px)',
+                WebkitBackdropFilter: 'blur(12px)',
+                border: '1px solid rgba(255,255,255,0.15)',
+              }}
               animate={{
-                y: [0, -10, 0],
+                y: [0, -6, 0],
               }}
               transition={{
                 duration: 2,
                 repeat: Infinity,
                 ease: "easeInOut"
               }}
+              whileHover={{
+                scale: 1.1,
+                background: 'rgba(255,255,255,0.12)',
+                border: '1px solid rgba(255,255,255,0.25)',
+              }}
+              whileTap={{ scale: 0.95 }}
             >
-              {/* Texto con efecto de brillo */}
-              <motion.p
-                className="text-white/90 text-base font-bold tracking-wide"
+              <motion.svg
+                className="w-6 h-6 text-white/80"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
                 animate={{
-                  opacity: [0.7, 1, 0.7],
+                  y: [0, 3, 0],
                 }}
                 transition={{
-                  duration: 2,
+                  duration: 1.5,
                   repeat: Infinity,
                   ease: "easeInOut"
                 }}
               >
-                Desliza para descubrir
-              </motion.p>
-
-              {/* Icono de flecha animado con círculo */}
-              <div className="relative">
-                {/* Círculo pulsante de fondo */}
-                <motion.div
-                  className="absolute inset-0 bg-white/10 rounded-full"
-                  animate={{
-                    scale: [1, 1.5, 1],
-                    opacity: [0.5, 0, 0.5],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeOut"
-                  }}
-                />
-
-                {/* Círculo sólido */}
-                <motion.div
-                  className="relative bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-sm rounded-full p-4 border-2 border-white/30"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <motion.svg
-                    className="w-8 h-8 text-white"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="3"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    animate={{
-                      y: [0, 5, 0],
-                    }}
-                    transition={{
-                      duration: 1.5,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
-                  >
-                    <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-                  </motion.svg>
-                </motion.div>
-              </div>
+                <path d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+              </motion.svg>
             </motion.div>
           </motion.div>
 

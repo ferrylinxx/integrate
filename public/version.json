@@ -1,15 +1,17 @@
 {
-  "version": "5.0.0",
-  "releaseDate": "2025-12-03",
+  "version": "5.1.0",
+  "releaseDate": "2025-12-04",
   "releaseNotes": {
     "es": {
-      "title": "Nueva versión disponible (v5.0.0)",
-      "message": "Actualiza para las últimas características y mejoras.",
+      "title": "Nueva versión disponible (v5.1.0)",
+      "message": "Cubo landing page completamente renovado con efectos premium.",
       "features": [
-        "🔧 Corregido acceso a resultados en landing page (input ahora es clicable)",
-        "🖱️ Mejorada interacción del indicador de scroll (no bloquea clics)",
-        "✨ Placeholder descriptivo 'Acceder a resultados' cuando no autenticado",
-        "🎯 Mejor experiencia de usuario en la página principal"
+        "⚡ Iluminación optimizada: 75% menos luces, mejor rendimiento",
+        "🎬 Animación de entrada con efecto cristalización",
+        "💫 Glass morphism mejorado con colores INTEGRATE",
+        "🔲 Sombra proyectada dinámica bajo el cubo",
+        "💎 150 partículas que convergen formando el cubo",
+        "🎨 Colores oficiales en las 6 caras del cubo"
       ]
     }
   },

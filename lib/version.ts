@@ -9,14 +9,26 @@
  * IMPORTANTE: Actualizar esta versión antes de hacer build de Docker
  */
 
-export const APP_VERSION = "5.0.0";
-export const APP_VERSION_LABEL = "v5.0.0";
+export const APP_VERSION = "5.1.0";
+export const APP_VERSION_LABEL = "v5.1.0";
 export const APP_BUILD_DATE = new Date().toISOString();
 
 /**
  * Historial de versiones
  */
 export const VERSION_HISTORY = [
+  {
+    version: "5.1.0",
+    date: "2025-12-04",
+    changes: [
+      "⚡ Iluminación optimizada: de 15+ luces a 4 estratégicas + Environment Map",
+      "🎬 Animación de entrada: efecto cristalización con 150 partículas",
+      "💫 Glass morphism mejorado con colores INTEGRATE aplicados",
+      "🔲 Sombra proyectada dinámica (ContactShadows)",
+      "💎 Partículas con colores de cada área que convergen en 2 segundos",
+      "🎨 Colores oficiales INTEGRATE en las 6 caras del cubo",
+    ],
+  },
   {
     version: "5.0.0",
     date: "2025-12-03",
