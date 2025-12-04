@@ -230,15 +230,21 @@ export function GroupResultsAccess() {
             <input
               type="text"
               value={groupCode}
-              onChange={(e) => setGroupCode(e.target.value)}
+              onChange={(e) => {
+                // Solo permitir escritura si está autenticado
+                if (isAuthenticated) {
+                  setGroupCode(e.target.value);
+                }
+              }}
               onFocus={handleInputFocus}
+              onClick={handleInputFocus}
               onKeyDown={handleKeyDown}
-              placeholder={isAuthenticated ? "Código o nombre" : "Resultados"}
-              className="relative w-full px-3 py-2 pr-9 rounded-full border border-white/10 focus:border-white/30 outline-none text-white placeholder-white/30 text-xs transition-all duration-300 bg-transparent"
+              placeholder={isAuthenticated ? "Código o nombre" : "Acceder a resultados"}
+              className="relative w-full px-3 py-2 pr-9 rounded-full border border-white/10 focus:border-white/30 outline-none text-white placeholder-white/30 text-xs transition-all duration-300 bg-transparent cursor-pointer"
               style={{
                 zIndex: 2,
               }}
-              disabled={!isAuthenticated}
+              readOnly={!isAuthenticated}
               autoComplete="off"
             />
 

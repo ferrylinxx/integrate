@@ -218,6 +218,7 @@ export default function LandingPage() {
             className="fixed bottom-12 left-1/2 z-30"
             style={{
               x: "-50%",
+              pointerEvents: scrolled ? 'none' : 'auto',
             }}
             initial={{ opacity: 0, y: -20 }}
             animate={{

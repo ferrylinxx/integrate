@@ -9,14 +9,24 @@
  * IMPORTANTE: Actualizar esta versión antes de hacer build de Docker
  */
 
-export const APP_VERSION = "4.9.0";
-export const APP_VERSION_LABEL = "v4.9.0";
+export const APP_VERSION = "5.0.0";
+export const APP_VERSION_LABEL = "v5.0.0";
 export const APP_BUILD_DATE = new Date().toISOString();
 
 /**
  * Historial de versiones
  */
 export const VERSION_HISTORY = [
+  {
+    version: "5.0.0",
+    date: "2025-12-03",
+    changes: [
+      "Corregido acceso a resultados en landing page (input ahora es clicable)",
+      "Mejorada interacción del indicador de scroll (no bloquea clics)",
+      "Placeholder descriptivo 'Acceder a resultados' cuando no autenticado",
+      "Mejor experiencia de usuario en la página principal",
+    ],
+  },
   {
     version: "2.7.0",
     date: "2025-01-19",
